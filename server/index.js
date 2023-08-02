@@ -1,10 +1,22 @@
 const express = require("express");
+const {connect} = require('mongoose');
+const cors = require('cors');
 const app = express();
 
-app.get("/", (req, res) => {
-  res.status(200).send("test");
-});
 
-app.listen(5000, () => {
-  console.log("Litening on port 5000");
-});
+const RegLog = require('./routes/RegisterLogRoute');
+
+app.use(cors({
+  credentials:true,
+  origin:'http://localhost:3000',
+}));
+app.use(express.json());
+app.use(express.urlencoded({extended:false}));
+
+//Uyzw8Ee5ADGHlESn
+connect("mongodb+srv://devXcrew:Uyzw8Ee5ADGHlESn@cluster0.du3wi1a.mongodb.net/?retryWrites=true&w=majority");
+
+app.use('/', RegLog);
+
+
+app.listen(5000)
