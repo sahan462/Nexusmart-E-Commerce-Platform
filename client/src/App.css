@@ -1,0 +1,11 @@
+#login-btn {
+  color: white;
+}
+
+#login-btn:hover {
+  background-color: #1173ea;
+}
+
+#register:hover {
+  color: #1173ea;
+}
