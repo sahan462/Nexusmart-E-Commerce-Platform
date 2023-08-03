@@ -6,6 +6,11 @@
   background-color: #1173ea;
 }
 
-#register:hover {
-  color: #1173ea;
+#user-register-btn:hover {
+  background-color: #1173ea;
+}
+
+#seller-register-btn:hover {
+  background-color: rgb(33, 33, 33);
+  color: white;
 }
