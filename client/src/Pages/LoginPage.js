@@ -37,7 +37,11 @@ function LoginPage() {
       <div className=" max-w-md mx-auto">
         Don't have an account yet?
         <br />
-        <Link to="/register" className="text-primary font-medium" id="register">
+        <Link
+          to="/register_user"
+          className="text-primary font-medium"
+          id="register"
+        >
           <span>Register</span>
         </Link>
       </div>
