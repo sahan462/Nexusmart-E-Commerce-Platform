@@ -4,7 +4,7 @@ const cors = require('cors');
 const app = express();
 
 
-const RegLog = require('./routes/RegisterLogRoute');
+const RegLog = require('./routes/UserRegisterLogRoute');
 
 app.use(cors({
   credentials:true,
