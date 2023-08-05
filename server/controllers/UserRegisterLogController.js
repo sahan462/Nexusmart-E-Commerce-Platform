@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const buyer = require('../models/BuyerModel');
-const seller = require('../models/SellerModel');
+const {seller} = require('../models/SellerModel');
 const jwt = require('jsonwebtoken');
 
 const bcryptSalt = bcrypt.genSaltSync(10);
