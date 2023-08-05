@@ -5,6 +5,8 @@ const app = express();
 
 
 const RegLog = require('./routes/UserRegisterLogRoute');
+const item = require('./routes/ItemRoute');
+const cart = require('./routes/CartRoute');
 
 app.use(cors({
   credentials:true,
@@ -14,9 +16,15 @@ app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 
 //Uyzw8Ee5ADGHlESn
-connect("mongodb+srv://devXcrew:Uyzw8Ee5ADGHlESn@cluster0.du3wi1a.mongodb.net/?retryWrites=true&w=majority");
+connect("mongodb+srv://devXcrew:Uyzw8Ee5ADGHlESn@cluster0.du3wi1a.mongodb.net/?retryWrites=true&w=majority")
+  .then(()=>console.log("connected to mongodb..."))
+  .catch(()=>console.log("Could not connect to mongodb..."));
 
-app.use('/', RegLog);
+app.use('/auth', RegLog);
+app.use('/items', item);
+app.use('/cart', cart);
 
-
-app.listen(5000)
+const port = 3000;
+app.listen(port, ()=>{
+  console.log(`listing on port ${port}...`);
+})
