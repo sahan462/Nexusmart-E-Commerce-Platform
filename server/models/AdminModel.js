@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const {isEmail} = require('validator');
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
-const buyerSchema = new mongoose.Schema({
+const adminSchema = new mongoose.Schema({
     name:{
         type : String,
         required : [true, "Please enter a valid name"]
@@ -16,16 +16,16 @@ const buyerSchema = new mongoose.Schema({
     },
     password: {
         type : String,
-        required : [true, "Please enter a valid password"],
-        minlength: [6, "Minimum length of the password is 6"]
-    },
+        required : [true, "Please enter valid password"],
+        minlength : [6, "Minimum length of the password is 6"]
+    }
 });
 
-buyerSchema.pre('save', async function (next){
+adminSchema.pre('save', async function (next){
     const createdSalt = await bcrypt.genSalt();
     this.password = await bcrypt.hash(this.password, createdSalt);
     next();
 })
 
-const buyerModel = mongoose.model('Buyer', buyerSchema);
-module.exports = buyerModel;
+const adminModel = mongoose.model('Admin', adminSchema);
+module.exports = adminModel;
