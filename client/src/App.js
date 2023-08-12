@@ -1,10 +1,10 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
-import IndexPage from "./Pages/IndexPage";
-import Layout from "./Pages/Layout";
-import LoginPage from "./Pages/LoginPage";
-import UserRegisterPage from "./Pages/UserRegisterPage";
-import SellerRegisterPage from "./Pages/SellerRegisterPage";
+import IndexPage from "./Pages/Buyer/IndexPage";
+import Layout from "./Pages/Layout/Layout";
+import LoginPage from "./Pages/Buyer/LoginPage";
+import UserRegisterPage from "./Pages/Buyer/UserRegisterPage";
+import SellerRegisterPage from "./Pages/Seller/SellerRegisterPage";
 
 function App() {
   return (

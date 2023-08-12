@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function HeaderFile() {
+function HeaderPage() {
   return (
     <header className="py-4 flex justify-between border-b border-gray-300">
       {/* Logo */}
@@ -58,4 +58,4 @@ function HeaderFile() {
   );
 }
 
-export default HeaderFile;
+export default HeaderPage;
