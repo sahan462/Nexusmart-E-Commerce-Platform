@@ -3,13 +3,12 @@ const buyer = require('../models/BuyerModel');
 const seller = require('../models/SellerModel');
 const jwt = require('jsonwebtoken');
 
-const bcryptSalt = bcrypt.genSaltSync(10);
-jwtSecret = "f6s5d4f6s54s6df5ds65f6s5f4684s6dfs6fs65fsd68f46f5s6f";
+jwtSecret = "f6s5d4f6s54s6df5ds65f6s5f4684s6dfs6fs65fsd68f46f5s6fsfds8fs8f9sf9sf9sf7e";
 
 
 //handle errors
 const handleErrors = (err) => {
-    console.log(err.message,err.code);
+
     let errors = {email: '', password: ''};
 
     //duplicate error code
@@ -39,7 +38,7 @@ const registerBuyer = async (req, res) => {
         const buyerDoc = await buyer.create({
             name: name,
             email: email,
-            password: bcrypt.hashSync(password, bcryptSalt),
+            password: password,
         });
         res.status(200).json(buyerDoc);
     }catch (err){
@@ -58,7 +57,7 @@ const registerSeller = async (req, res) => {
         const sellerDoc = await seller.create({
             name: name,
             email: email,
-            password: bcrypt.hashSync(password, bcryptSalt),
+            password: password,
         });
         res.status(200).json(sellerDoc);
     }catch (err){
@@ -88,10 +87,15 @@ const login = async (req, res) => {
 
         if (passOk) {
             const userData = { email: userDoc.email, id: userDoc.id, role: userDoc.role };
+
+            //creating jwt
             jwt.sign(userData, jwtSecret, {}, (err, token) => {
                 if (err) throw err;
-                res.cookie('token', token).json("pass ok");
+                res.cookie('token', token).json({httpOnly: true});
+                res.status(200).send("pass ok");
             });
+
+
         } else {
             res.status(422).json("pass not ok");
         }
