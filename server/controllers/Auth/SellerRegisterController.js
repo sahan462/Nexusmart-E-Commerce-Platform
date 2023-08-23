@@ -9,7 +9,7 @@ const  checkErrors = async (name, email, password) => {
 
     const exists = await seller.findOne({email});
 
-    if(exists){
+    if(exists && exists.role === "seller"){
         throw Error("Email is already registered")
     }
 
@@ -51,7 +51,7 @@ const registerSeller = async (req, res) => {
             email: email,
             password: password,
             role: "seller",
-            userData: sellerData
+            sellerData: sellerData
         })
         res.status(200).json({User:userDoc, Seller: sellerDoc});
 

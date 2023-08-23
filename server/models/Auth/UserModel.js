@@ -20,8 +20,13 @@ const userSchema = new mongoose.Schema({
         type : String,
         required : true
     },
-    userData: {
-        type : String
+    buyerData: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Buyer'
+    },
+    sellerData: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Seller'
     }
 });
 

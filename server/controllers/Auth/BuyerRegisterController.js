@@ -5,9 +5,9 @@ const validator = require('validator');
 //handle errors
 const  checkErrors = async (name, email, password) => {
 
-    const exists = await buyer.findOne({email});
+    const exists = await user.findOne({email});
 
-    if(exists){
+    if(exists && exists.role === "buyer"){
         throw Error("Email is already registered")
     }
 
@@ -45,6 +45,5 @@ const registerBuyer = async (req, res) => {
     }
 
 }
-
 
 module.exports = {registerBuyer};
