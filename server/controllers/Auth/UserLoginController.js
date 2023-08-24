@@ -21,7 +21,7 @@ const login = async (req, res) => {
             //creating jwt
             jwt.sign(userData, jwtSecret, {}, (err, token) => {
                 if (err) throw err;
-                res.cookie('token', token).json({validate:true ,httpOnly: true});
+                res.cookie('token', token).json({email: email, token: token ,httpOnly: true});
             });
 
 

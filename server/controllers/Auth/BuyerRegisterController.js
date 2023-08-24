@@ -39,7 +39,11 @@ const registerBuyer = async (req, res) => {
             password: password,
             role: "buyer"
         });
-        res.status(200).json(userDoc);
+        const baseData = userDoc._id;
+        const buyerDoc = await buyer.create({
+            baseData: baseData
+        })
+        res.status(200).json({userDoc: userDoc, buyerDoc:buyerDoc});
     }catch (err){
         res.status(400).json({error : err.message});
     }
