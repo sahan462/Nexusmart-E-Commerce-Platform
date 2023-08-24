@@ -21,3 +21,6 @@ const ImageSlider = () => {
 };
 
 export default ImageSlider;
+
+// to run
+// <div className="mt-3 mx-10 max-w-screen-md">{/* <ImageSlider /> */}</div>
