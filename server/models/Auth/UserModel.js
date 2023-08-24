@@ -19,14 +19,6 @@ const userSchema = new mongoose.Schema({
     role: {
         type : String,
         required : true
-    },
-    buyerData: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Buyer'
-    },
-    sellerData: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Seller'
     }
 });
 

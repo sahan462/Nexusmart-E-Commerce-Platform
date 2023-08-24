@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const sellerSchema = new mongoose.Schema({
+    baseData: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
     address: {
         street: String,
         city: String,

@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
+import {useContext} from "react";
+import {UserContext} from "../../AuthContext";
 
 function HeaderPage() {
+
+  const{user} = useContext(UserContext);
+
   return (
     <header className="py-4 flex justify-between border-b border-gray-300">
       {/* Logo */}
@@ -53,6 +58,11 @@ function HeaderPage() {
             />
           </svg>
         </Link>
+        {!!user && (
+            <div>
+              user.email
+            </div>
+        )}
       </div>
     </header>
   );
