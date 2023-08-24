@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
 function HeaderPage() {
+
   return (
     <header className="z-20 bg-white sticky top-0 py-4 flex justify-between border-b border-gray-300">
       {/* Logo */}
@@ -20,51 +21,54 @@ function HeaderPage() {
           />
         </svg>
 
-        <span className="font-bold">NexusMart</span>
-      </Link>
-      {/* Search Bar */}
-      <div className="px-4 flex justify-between items-center border-2 rounded-full border-gray-200 w-full mx-36">
-        <input
-          type="text"
-          placeholder="Search items here"
-          className="w-full mr-6 focus:outline-none"
-        />
-        <button>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="#127dff"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-            />
-          </svg>
-        </button>
-      </div>
-      {/* profile */}
-      <Link
-        to="login"
-        className="
-        flex 
-        items-center 
-        justify-center 
-        px-4 
+
+                <span className="font-bold">NexusMart</span>
+            </Link>
+            {/* Search Bar */}
+            <div className="px-4 flex justify-between items-center border-2 rounded-full border-gray-200 w-full mx-36">
+                <input
+                    type="text"
+                    placeholder="Search items here"
+                    className="w-full mr-6 focus:outline-none"
+                />
+                <button>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="#127dff"
+                        className="w-6 h-6"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                        />
+                    </svg>
+                </button>
+            </div>
+            {/* profile */}
+            <Link
+                to="login"
+                className="
+        flex
+        items-center
+        justify-center
+        px-4
         py-2
+
         ml-10
         bg-primary 
+
         text-white
         border rounded-lg
         hover:bg-primary_hover"
-      >
-        Login
-      </Link>
-    </header>
-  );
+            >
+                Login
+            </Link>
+        </header>
+    );
 }
 
 export default HeaderPage;
