@@ -13,6 +13,9 @@
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "gitignore": "^0.7.0",
-    "mongoose": "^7.4.1"
+    "jsonwebtoken": "^9.0.1",
+    "mongoose": "^7.4.2",
+    "package.json": "^2.0.1",
+    "validator": "^13.9.0"
   }
 }
