@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function HeaderPage() {
   return (
-    <header className="py-4 flex justify-between border-b border-gray-300">
+    <header className="z-20 bg-white sticky top-0 py-4 flex justify-between border-b border-gray-300">
       {/* Logo */}
       <Link to="/" className="flex items-center gap-2">
         <svg
@@ -55,6 +55,7 @@ function HeaderPage() {
         justify-center 
         px-4 
         py-2
+        ml-10
         bg-primary 
         text-white
         border rounded-lg
