@@ -3,7 +3,7 @@ export default function HotDealCard(props) {
   return (
     <Link
       to="/"
-      className=" h-20 my-4 flex border border-none rounded-md overflow-hidden bg-gray-200 hover:bg-gray-300"
+      className=" h-20 my-4 flex border border-none rounded-md overflow-hidden  bg-gray-200 hover:bg-gray-300"
     >
       <div className="">
         <img className="h-20 w-20 object-cover" src={props.imgURL} />
