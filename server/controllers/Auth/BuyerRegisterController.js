@@ -1,51 +1,46 @@
-const user = require('../../models/Auth/UserModel');
-const buyer = require('../../models/Auth/BuyerModel');
-const validator = require('validator');
+const user = require("../../models/Auth/UserModel");
+const buyer = require("../../models/Auth/BuyerModel");
+const validator = require("validator");
 
 //handle errors
-const  checkErrors = async (name, email, password) => {
+const checkErrors = async (name, email, password) => {
+  const exists = await user.findOne({ email });
 
-    const exists = await user.findOne({email});
+  if (exists && exists.role === "buyer") {
+    throw Error("Email is already registered");
+  }
 
-    if(exists && exists.role === "buyer"){
-        throw Error("Email is already registered")
-    }
+  if (!name || !email || !password) {
+    throw Error("All fields must be filled");
+  }
 
-    if(!name || !email || !password){
-        throw Error("All fields must be filled");
-    }
+  if (!validator.isEmail(email)) {
+    throw Error("Email is not valid");
+  }
 
-    if(!validator.isEmail(email)){
-        throw Error("Email is not valid");
-    }
-
-    if(!validator.isStrongPassword(password)){
-        throw Error("Password is not strong enough");
-    }
-
-}
-
+  if (!validator.isStrongPassword(password)) {
+    throw Error("Password is not strong enough");
+  }
+};
 
 //buyer registration
 const registerBuyer = async (req, res) => {
+  const { name, email, pwd } = req.body;
+  console.log(name, email, pwd);
+  try {
+    await checkErrors(name, email, pwd);
 
-    const {name,email,password} = req.body;
+    const userDoc = await user.create({
+      name: name,
+      email: email,
+      password: pwd,
+      role: "buyer",
+    });
 
-    try {
-        await checkErrors(name, email, password);
+    res.status(200).json({ userDoc: userDoc });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
 
-        const userDoc = await user.create({
-            name: name,
-            email: email,
-            password: password,
-            role: "buyer"
-        });
-        
-        res.status(200).json({userDoc: userDoc});
-    }catch (err){
-        res.status(400).json({error : err.message});
-    }
-
-}
-
-module.exports = {registerBuyer};
+module.exports = { registerBuyer };
