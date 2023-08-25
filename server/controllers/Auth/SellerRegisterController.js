@@ -49,7 +49,7 @@ const registerSeller = async (req, res) => {
             email: email,
             password: password,
             role: "seller",
-            sellerData: userDoc._id
+            sellerData: sellerDoc._id
         })
 
         res.status(200).json({User:userDoc, Seller: sellerDoc});
