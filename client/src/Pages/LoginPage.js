@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom/dist/umd/react-router-dom.development";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
 import { UserContext } from "../AuthContext";
@@ -8,6 +8,16 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
+  const [isLoginBtnDisable, setIsLoginButtonDiabled] = useState(true);
+
+  useEffect(() => {
+    if (email === "" || password === "") {
+      setIsLoginButtonDiabled(true);
+    } else {
+      setIsLoginButtonDiabled(false);
+    }
+  }, [email, password]);
+
   const { setUser } = useContext(UserContext);
   async function handleLogin(ev) {
     ev.preventDefault();
@@ -17,7 +27,7 @@ function LoginPage() {
       alert("Login Successful");
       setRedirect(true);
     } catch (e) {
-      alert("Login Failed");
+      alert("Login Failed" + e);
     }
   }
 
@@ -32,6 +42,7 @@ function LoginPage() {
       </span>
       <form className=" max-w-md mx-auto" onSubmit={handleLogin}>
         <div className="">
+          {/* Email here  */}
           <label htmlFor="email">Email</label>
           <br />
           <input
@@ -43,6 +54,7 @@ function LoginPage() {
             onChange={(ev) => setEmail(ev.target.value)}
           />
           <br />
+          {/* Pwd here  */}
           <label htmlFor="pwd">Password</label>
           <br />
           <input
@@ -54,14 +66,22 @@ function LoginPage() {
             onChange={(ev) => setPassword(ev.target.value)}
           />
           <br />
+          {/* Login Button here  */}
           <button
-            className="my-5 py-2 w-full border bg-primary rounded-full"
+            type="submit"
+            className={`my-5 py-2 w-full border rounded-full ${
+              isLoginBtnDisable
+                ? "bg-gray-400"
+                : "bg-primary hover:bg-primary_hover "
+            } `}
             id="login-btn"
+            disabled={isLoginBtnDisable}
           >
             Login
           </button>
         </div>
       </form>
+      {/* Registration Here  */}
       <div className=" max-w-md mx-auto">
         Don't have an account yet?
         <br />

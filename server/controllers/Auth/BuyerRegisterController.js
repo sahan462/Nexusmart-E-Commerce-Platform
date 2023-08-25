@@ -26,7 +26,6 @@ const checkErrors = async (name, email, password) => {
 //buyer registration
 const registerBuyer = async (req, res) => {
   const { name, email, pwd } = req.body;
-  console.log(name, email, pwd);
   try {
     await checkErrors(name, email, pwd);
 
