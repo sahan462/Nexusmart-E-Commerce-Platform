@@ -1,19 +1,26 @@
 const Item = require('../models/ItemModel');
-
 const addItem = async (req, res) => {
 
-    const {name, description, quantity, price, sellerId} = req.body;
+    const {title, description, imgURL, quantity, price, percentage, sellerId} = req.body;
 
     try {
-        let item = new Item({
-            name: name,
+        let newItem = new Item({
+            title: title,
             description: description,
+            imgURL: imgURL,
             quantity: quantity,
             price: price,
             seller: sellerId
-    })
-        item = await Item.create(item);
-        res.status(200).send(item);
+        })
+
+        if (percentage > 0) {
+            newItem.discount = {
+                percentage: percentage,
+                newPrice: price - (price * (percentage / 100))
+            };
+        }
+        newItem = await Item.create(newItem);
+        res.status(200).send(newItem);
     } catch (error) {
         res.status(400).send({
             error: error.message
@@ -23,12 +30,12 @@ const addItem = async (req, res) => {
 
 const viewItems = async (req, res) => {
 
-    const {name} = req.query;
+    const {title} = req.query;
 
     try {
         let items;
-        if(req.query.name) {
-            items = await Item.find({name: new RegExp(name, 'i')}).populate('seller', 'name -_id');
+        if(title) {
+            items = await Item.find({title: new RegExp(title, 'i')}).populate('seller', 'name -_id');
         } else {
             items = await Item.find().populate('seller', 'name -_id');
         }
