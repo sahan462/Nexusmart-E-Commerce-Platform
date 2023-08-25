@@ -1,12 +1,12 @@
 const express = require('express');
-
-//getting router instance
 const router = express.Router();
 
-const {login, registerBuyer, registerSeller} = require('../controllers/UserRegisterLogController')
+const {registerBuyer} = require('../controllers/Auth/BuyerRegisterController');
+const {registerSeller} = require('../controllers/Auth/SellerRegisterController');
+const {login} = require('../controllers/Auth/UserLoginController');
 
-router.post('/register_user',registerBuyer);
-router.post('/register_seller', registerSeller);
+router.post('/registerBuyer',registerBuyer);
+router.post('/registerSeller', registerSeller);
 router.post('/login',login);
 
 module.exports = router;

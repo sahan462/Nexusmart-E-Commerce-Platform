@@ -5,6 +5,8 @@ export default {
     extend: {
       colors: {
         primary: "#127dff",
+        primary_hover: "#1373e8",
+        category_lits: "#4f4f4f",
       },
     },
   },

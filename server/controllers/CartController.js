@@ -1,6 +1,5 @@
 const Cart = require('../models/CartModel');
-
-exports.addToCart = async (req, res) => {
+const addToCart = async (req, res) => {
     try {
         const { buyerId, itemId, quantity } = req.body;
         let cart = await Cart.findOne({ buyerId: buyerId });
@@ -27,7 +26,7 @@ exports.addToCart = async (req, res) => {
     }
 };
 
-exports.editCartItem = async (req, res) => {
+const editCartItem = async (req, res) => {
     try {
         const { buyerId, itemId, quantity } = req.body;
         const cart = await Cart.findOne({ buyerId: buyerId });
@@ -51,7 +50,7 @@ exports.editCartItem = async (req, res) => {
     }
 };
 
-exports.removeCartItem = async (req, res) => {
+const removeCartItem = async (req, res) => {
     try {
         const { buyerId, itemId } = req.body;
         const cart = await Cart.findOne({ buyerId: buyerId });
@@ -73,7 +72,7 @@ exports.removeCartItem = async (req, res) => {
     }
 };
 
-exports.viewCart = async (req, res) => {
+const viewCart = async (req, res) => {
     try {
         const { buyerId } = req.params;
         const cart = await Cart.findOne({ buyerId: buyerId }).populate('items.item', 'name price');
@@ -91,3 +90,10 @@ exports.viewCart = async (req, res) => {
         });
     }
 };
+
+module.exports = {
+    addToCart,
+    editCartItem,
+    removeCartItem,
+    viewCart
+}

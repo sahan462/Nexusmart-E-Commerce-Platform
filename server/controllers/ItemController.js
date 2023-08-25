@@ -1,16 +1,26 @@
 const Item = require('../models/ItemModel');
+const addItem = async (req, res) => {
 
-exports.addItem = async (req, res) => {
+    const {title, description, imgURL, quantity, price, percentage, sellerId} = req.body;
+
     try {
-        let item = new Item({
-            name: req.body.name,
-            description:req.body.description,
-            quantity: req.body.quantity,
-            price: req.body.price,
-            seller:req.body.sellerId
-    })
-        item = await Item.create(item);
-        res.status(200).send(item);
+        let newItem = new Item({
+            title: title,
+            description: description,
+            imgURL: imgURL,
+            quantity: quantity,
+            price: price,
+            seller: sellerId
+        })
+
+        if (percentage > 0) {
+            newItem.discount = {
+                percentage: percentage,
+                newPrice: price - (price * (percentage / 100))
+            };
+        }
+        newItem = await Item.create(newItem);
+        res.status(200).send(newItem);
     } catch (error) {
         res.status(400).send({
             error: error.message
@@ -18,11 +28,14 @@ exports.addItem = async (req, res) => {
     }
 };
 
-exports.viewItems = async (req, res) => {
+const viewItems = async (req, res) => {
+
+    const {title} = req.query;
+
     try {
         let items;
-        if(req.query.name) {
-            items = await Item.find({name: new RegExp(req.query.name, 'i')}).populate('seller', 'name -_id');
+        if(title) {
+            items = await Item.find({title: new RegExp(title, 'i')}).populate('seller', 'name -_id');
         } else {
             items = await Item.find().populate('seller', 'name -_id');
         }
@@ -36,12 +49,15 @@ exports.viewItems = async (req, res) => {
     }
 };
 
-exports.changeItemProp = async (req, res) => {
+const changeItemProp = async (req, res) => {
+
+    const {itemId, quantity, price} = req.body;
+
     try {
-        const item = await Item.findByIdAndUpdate(req.body.itemId, {
+        const item = await Item.findByIdAndUpdate(itemId, {
             $set: {
-                quantity: req.body.quantity,
-                price: req.body.price
+                quantity: quantity,
+                price: price
             }
         }, { new: true });
         if (!item) return res.status(404).send({error: 'The Item with the given ID was not found.'});
@@ -54,9 +70,12 @@ exports.changeItemProp = async (req, res) => {
     }
 };
 
-exports.deleteItem = async (req, res) => {
+const deleteItem = async (req, res) => {
+
+    const {itemId} = req.body;
+
     try {
-        const item = await Item.findByIdAndRemove(req.body.itemId);
+        const item = await Item.findByIdAndRemove(itemId);
         if (!item) return res.status(404).send({error: 'The Item with the given ID was not found.'});
         res.status(200).send(item)
 
@@ -66,3 +85,10 @@ exports.deleteItem = async (req, res) => {
         });
     }
 };
+
+module.exports = {
+    addItem,
+    viewItems,
+    changeItemProp,
+    deleteItem
+}
