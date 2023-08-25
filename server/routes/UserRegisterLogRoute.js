@@ -5,8 +5,8 @@ const {registerBuyer} = require('../controllers/Auth/BuyerRegisterController');
 const {registerSeller} = require('../controllers/Auth/SellerRegisterController');
 const {login} = require('../controllers/Auth/UserLoginController');
 
-router.post('/registerBuyer',registerBuyer);
-router.post('/registerSeller', registerSeller);
+router.post('/register_buyer',registerBuyer);
+router.post('/register_seller', registerSeller);
 router.post('/login',login);
 
 module.exports = router;

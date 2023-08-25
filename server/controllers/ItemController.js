@@ -1,7 +1,7 @@
 const Item = require('../models/ItemModel');
 const addItem = async (req, res) => {
 
-    const {title, description, imgURL, quantity, price, percentage, sellerId} = req.body;
+    const {title, description, imgURL, quantity, price, percentage, id} = req.body;
 
     try {
         let newItem = new Item({
@@ -10,7 +10,7 @@ const addItem = async (req, res) => {
             imgURL: imgURL,
             quantity: quantity,
             price: price,
-            seller: sellerId
+            seller: id
         })
 
         if (percentage > 0) {
@@ -52,7 +52,7 @@ const viewItems = async (req, res) => {
 const changeItemProp = async (req, res) => {
 
     const {itemId, quantity, price} = req.body;
-
+    //verify the seller of the item and req seller is same
     try {
         const item = await Item.findByIdAndUpdate(itemId, {
             $set: {
@@ -73,7 +73,7 @@ const changeItemProp = async (req, res) => {
 const deleteItem = async (req, res) => {
 
     const {itemId} = req.body;
-
+    //verify the seller of the item and req seller is same
     try {
         const item = await Item.findByIdAndRemove(itemId);
         if (!item) return res.status(404).send({error: 'The Item with the given ID was not found.'});
