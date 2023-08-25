@@ -1,11 +1,11 @@
 const Cart = require('../models/CartModel');
 const addToCart = async (req, res) => {
     try {
-        const { buyerId, itemId, quantity } = req.body;
-        let cart = await Cart.findOne({ buyerId: buyerId });
+        const { id, itemId, quantity } = req.body;
+        let cart = await Cart.findOne({ buyerId: id });
 
         if (!cart) {
-            cart = await Cart.create({ buyerId: buyerId, items: [{ item: itemId, quantity: quantity}] });
+            cart = await Cart.create({ buyerId: id, items: [{ item: itemId, quantity: quantity}] });
         } else {
             let itemIndex = cart.items.findIndex(p => p.item.toString() === itemId);
             if (itemIndex > -1) {
@@ -28,8 +28,8 @@ const addToCart = async (req, res) => {
 
 const editCartItem = async (req, res) => {
     try {
-        const { buyerId, itemId, quantity } = req.body;
-        const cart = await Cart.findOne({ buyerId: buyerId });
+        const { id, itemId, quantity } = req.body;
+        const cart = await Cart.findOne({ buyerId: id });
 
         let itemIndex = cart.items.findIndex(p => p.item.toString() === itemId);
         
@@ -52,8 +52,8 @@ const editCartItem = async (req, res) => {
 
 const removeCartItem = async (req, res) => {
     try {
-        const { buyerId, itemId } = req.body;
-        const cart = await Cart.findOne({ buyerId: buyerId });
+        const { id, itemId } = req.body;
+        const cart = await Cart.findOne({ buyerId: id });
 
         let itemIndex = cart.items.findIndex(p => p.item.toString() === itemId);
         
@@ -74,8 +74,8 @@ const removeCartItem = async (req, res) => {
 
 const viewCart = async (req, res) => {
     try {
-        const { buyerId } = req.params;
-        const cart = await Cart.findOne({ buyerId: buyerId }).populate('items.item', 'name price');
+        const { id } = req.params;
+        const cart = await Cart.findOne({ buyerId: id }).populate('items.item', 'name price');
 
         if (!cart) {
             return res.status(400).send({
