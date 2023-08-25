@@ -1,11 +1,14 @@
 const jwt = require('jsonwebtoken');
+const User = require('../models/Auth/UserModel');
+const Seller = require('../models/Auth/SellerModel');
+require('dotenv').config();
 
-function verifySignin(req, res, next) {
+async function verifySignin(req, res, next) {
     const token = req.header('x-auth-token');
     if (!token) return res.status(401).send('Access denied. No token provided');
 
     try {
-        const decoded = jwt.verify(token, 'f6s5d4f6s54s6df5ds65f6s5f4684s6dfs6fs65fsd68f46f5s6f');
+        const decoded = jwt.verify(token, jwtSecret = process.env.JWT_SECRET);
         req.body.id=decoded.id;
         req.body.role=decoded.role;
         next();

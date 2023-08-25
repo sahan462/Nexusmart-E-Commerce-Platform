@@ -1,8 +1,9 @@
 const bcrypt = require('bcryptjs');
 const user = require('../../models/Auth/UserModel');
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
-jwtSecret = "f6s5d4f6s54s6df5ds65f6s5f4684s6dfs6fs65fsd68f46f5s6fsfds8fs8f9sf9sf9sf7e";
+jwtSecret = process.env.JWT_SECRET;
 
 
 //login
@@ -16,7 +17,7 @@ const login = async (req, res) => {
         const passOk = bcrypt.compareSync(password, userDoc.password);
 
         if (passOk) {
-            const userData = {email: userDoc.email, id: userDoc.id, role: userDoc.role, data: userDoc.userData};
+            const userData = {email: userDoc.email, id: userDoc.id, role: userDoc.role};
 
             //creating jwt
             jwt.sign(userData, jwtSecret, {}, (err, token) => {

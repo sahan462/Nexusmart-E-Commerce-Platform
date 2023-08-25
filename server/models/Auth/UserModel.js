@@ -18,7 +18,19 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type : String,
-        required : true
+        required : true,
+        enum: ['seller', 'buyer']
+    },
+    buyerData: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Buyer'
+    },
+    sellerData: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: function() {
+            return this.role === 'seller';
+        },
+        ref: 'Seller'
     }
 });
 
