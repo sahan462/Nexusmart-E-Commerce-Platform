@@ -10,6 +10,8 @@ import VerificationPage from "./Pages/Seller/Verification";
 import AddProductPage from "./Pages/Seller/AddNewProducts";
 import ProductsPage from "./Pages/Seller/Manage_products";
 import Layout from "./Pages/Layout/Layout";
+import ManageOrder from "./Pages/Seller/Oder_Management";
+import ReviewList from "./Pages/Seller/ReviewList";
 
 function App() {
   return (
@@ -22,7 +24,9 @@ function App() {
         <Route path="/sellerreg" element={<SellerRegPage/>} />
         <Route path="/Selladdress" element={<AddressInformation/>}/>
         <Route path="/Verification" element = {<VerificationPage/>}/>
-        <Route path="/productpage" element = {<ProductsPage/>}/>
+        <Route path="/productpage" element = {<SellerLayout><ProductsPage/></SellerLayout>}/>
+        <Route path="/manageorder" element = {<SellerLayout><ManageOrder/></SellerLayout>}/>
+        <Route path="/reviewlist" element = {<SellerLayout><ReviewList/></SellerLayout>}/>
       </Route>
     </Routes>
   );

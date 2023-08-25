@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; // For navigation
+import { Link } from 'react-router-dom';
 
 import { useState } from 'react';
 
