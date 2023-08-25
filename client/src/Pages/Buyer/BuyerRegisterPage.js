@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Navigate } from "react-router-dom";
 
 export default function BuyerRegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
   const [pwdConfirm, setPwdConfirm] = useState("");
+  const [redirect, setRedirect] = useState(false);
 
   // register button handling here
   const [isButtonDisabled, setIsButtonDiabled] = useState(false);
@@ -23,16 +25,21 @@ export default function BuyerRegisterPage() {
   async function handleBuyerRegistration(ev) {
     ev.preventDefault();
     try {
-      // TODO: change the path correctly
+      // TODO: change the path correctly - done
       await axios.post("/auth/register_buyer", {
         name,
         email,
         pwd,
       });
       alert("Registration Succefull");
+      setRedirect(true);
     } catch (e) {
       alert("registration Failed" + e);
     }
+  }
+
+  if (redirect) {
+    return <Navigate to={"/login"}></Navigate>;
   }
 
   return (
