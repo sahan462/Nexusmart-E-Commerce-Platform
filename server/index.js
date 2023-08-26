@@ -8,7 +8,9 @@ require('dotenv').config();
 const regLog = require('./routes/UserRegisterLogRoute');
 const item = require('./routes/ItemRoute');
 const cart = require('./routes/CartRoute');
+const order = require('./routes/OrderRoute');
 const feedback = require('./routes/FeedbackRoute');
+const auth = require('./middleware/auth')
 
 app.use(cors({
   credentials:true,
@@ -25,8 +27,9 @@ connect(process.env.MONGO_URL)
 
 app.use('/auth', regLog);
 app.use('/items', item);
-app.use('/cart', cart);
+app.use('/cart', auth.verifySignin, cart);
 app.use('/feedback', feedback);
+app.use('/order', order);
 
 const port = 5000;
 app.listen(port, ()=>{
