@@ -30,6 +30,7 @@ const editCartItem = async (req, res) => {
     try {
         const { id, itemId, quantity } = req.body;
         const cart = await Cart.findOne({ buyerId: id });
+        if(!cart) throw Error('Cart is empty');
 
         let itemIndex = cart.items.findIndex(p => p.item.toString() === itemId);
         
@@ -74,8 +75,8 @@ const removeCartItem = async (req, res) => {
 
 const viewCart = async (req, res) => {
     try {
-        const { id } = req.params;
-        const cart = await Cart.findOne({ buyerId: id }).populate('items.item', 'name price');
+        const { id } = req.body;
+        const cart = await Cart.findOne({ buyerId: id }).populate('items.item', 'title price');
 
         if (!cart) {
             return res.status(400).send({

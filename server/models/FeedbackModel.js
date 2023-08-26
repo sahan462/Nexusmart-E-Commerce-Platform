@@ -8,7 +8,7 @@ const feedbackSchema = new mongoose.Schema({
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Buyer',
+        ref: 'User',
         required: true,
     },
     rating: {
