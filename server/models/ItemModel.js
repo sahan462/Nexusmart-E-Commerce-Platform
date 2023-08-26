@@ -5,8 +5,14 @@ const ItemSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    overview: {
+        type: String
+    },
     description: {
         type: String
+    },
+    category: {
+      type: String
     },
     imgURL: {
         type: String,
