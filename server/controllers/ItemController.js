@@ -39,7 +39,7 @@ const viewItems = async (req, res) => {
         } else {
             items = await Item.find().populate('seller', 'name -_id');
         }
-        
+
         res.status(200).send(items);
 
     } catch (error) {
