@@ -17,12 +17,12 @@ const login = async (req, res) => {
         const passOk = bcrypt.compareSync(password, userDoc.password);
 
         if (passOk) {
-            const userData = {name: userDoc.name, email: userDoc.email, id: userDoc.id, role: userDoc.role};
+            const userData = {email: userDoc.email, id: userDoc.id, role: userDoc.role};
 
             //creating jwt
             jwt.sign(userData, jwtSecret, {}, (err, token) => {
                 if (err) throw err;
-                res.cookie('token', token).json({email: email, token: token ,httpOnly: true});
+                res.cookie('token', token).json({name: userDoc.name, email: userDoc.email, role: userDoc.role, token: token ,httpOnly: true});
             });
 
 
