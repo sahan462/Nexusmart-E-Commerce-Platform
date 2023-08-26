@@ -18,12 +18,14 @@ function LoginPage() {
     }
   }, [email, password]);
 
-  const { setUser } = useContext(UserContext);
+  const { userData, setUserData } = useContext(UserContext);
   async function handleLogin(ev) {
     ev.preventDefault();
     try {
       const response = await axios.post("/auth/login", { email, password });
-      setUser(response.data);
+      const jsonString = JSON.stringify(response.data); // local storage only allow strings
+      localStorage.setItem("userDataStorage", jsonString); // store in localStorage
+      setUserData(JSON.parse(jsonString)); // add into user context
       alert("Login Successful");
       setRedirect(true);
     } catch (e) {
