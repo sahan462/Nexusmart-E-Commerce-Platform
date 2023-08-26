@@ -28,7 +28,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register_user" element={<BuyerRegisterPage />} />
           <Route path="/register_seller" element={<SellerRegisterPage />} />
-          <Route path="/sellerreg" element={<SellerRegPage />} />
+          // <Route path="/sellerreg" element={<SellerRegPage />} />
           <Route path="/Selladdress" element={<AddressInformation />} />
           <Route path="/Verification" element={<VerificationPage />} />
           <Route path="/productpage" element={<SellerLayout><ProductsPage /></SellerLayout>} />
