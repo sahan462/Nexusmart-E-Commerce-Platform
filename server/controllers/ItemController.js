@@ -1,12 +1,14 @@
 const Item = require('../models/ItemModel');
 const addItem = async (req, res) => {
 
-    const {title, description, imgURL, quantity, price, percentage, id} = req.body;
+    const {title, overview, description, category, imgURL, quantity, price, percentage, id} = req.body;
 
     try {
         let newItem = new Item({
             title: title,
+            overview: overview,
             description: description,
+            category: category,
             imgURL: imgURL,
             quantity: quantity,
             price: price,
