@@ -5,19 +5,19 @@ export default function Cards() {
     imageURL:
       "https://images.unsplash.com/reserve/EnF7DhHROS8OMEp2pCkx_Dufer%20food%20overhead%20hig%20res.jpg?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1178&q=80",
     title: "Kitchen Tools and Gadgets",
-    link: "/",
+    link: "/search",
   };
   const cardObj2 = {
     imageURL:
       "https://images.unsplash.com/flagged/photo-1551954810-43cd6aef5b1f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1332&q=80",
     title: "Computers and Accesories",
-    link: "/",
+    link: "/search",
   };
   const cardObj3 = {
     imageURL:
       "https://images.unsplash.com/photo-1552346154-21d32810aba3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
     title: "Sneakers",
-    link: "/",
+    link: "/search",
   };
   return (
     // props.title, props.imageURL, props.link

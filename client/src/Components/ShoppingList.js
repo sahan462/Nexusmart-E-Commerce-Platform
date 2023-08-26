@@ -15,7 +15,7 @@ export default function ShoppingList() {
       }
     }
     fetchData();
-  }, []);
+  }, [apiData]);
 
   return (
     <div className="h-screen  w-full grid grid-cols-12 gap-6">

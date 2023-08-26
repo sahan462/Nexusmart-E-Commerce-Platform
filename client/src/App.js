@@ -9,7 +9,6 @@ import SellerRegisterPage from "./Pages/Seller/SellerRegisterPage";
 import axios from "axios";
 import { UserContextProvider } from "./AuthContext";
 import SellerLayout from "./Pages/Layout/SellerLayout";
-import SellerRegPage from "./Pages/Seller/SellerRegPage";
 import AddressInformation from "./Pages/Seller/AddAddress";
 import VerificationPage from "./Pages/Seller/Verification";
 import AddProductPage from "./Pages/Seller/AddNewProducts";
@@ -17,6 +16,7 @@ import ProductsPage from "./Pages/Seller/Manage_products";
 import ManageOrder from "./Pages/Seller/Oder_Management";
 import ReviewList from "./Pages/Seller/ReviewList";
 import ProfilePage from "./Pages/ProfilePage";
+import ShoppingIndexPage from "./Pages/ShoppingIndexPage";
 
 axios.defaults.baseURL = "http://localhost:5000";
 axios.defaults.withCredentials = true;
@@ -34,7 +34,7 @@ function App() {
 
         <Route path="/" element={<Layout />}>
           <Route index element={<IndexPage />} />
-          {/* <Route path="/sellerreg" element={<SellerRegPage />} /> */}
+          <Route path="/search" element={<ShoppingIndexPage />} />
           <Route path="/Selladdress" element={<AddressInformation />} />
           <Route path="/Verification" element={<VerificationPage />} />
           <Route

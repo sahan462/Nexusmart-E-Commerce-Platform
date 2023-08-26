@@ -15,7 +15,7 @@ export default function HotDealsList() {
       }
     }
     fetchData();
-  }, []);
+  }, [apiData]);
 
   return (
     <div className="">
