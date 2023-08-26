@@ -1,17 +1,19 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import axios from "axios";
+import { Navigate } from "react-router-dom";
 
 export default function BuyerRegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
   const [pwdConfirm, setPwdConfirm] = useState("");
+  const [redirect, setRedirect] = useState(false);
 
   // register button handling here
   const [isButtonDisabled, setIsButtonDiabled] = useState(false);
 
   useEffect(() => {
-    console.log("called");
     if (email === "" || name === "" || pwd === "" || pwd !== pwdConfirm) {
       setIsButtonDiabled(true);
     } else {
@@ -20,9 +22,24 @@ export default function BuyerRegisterPage() {
   }, [name, email, pwd, pwdConfirm]);
 
   // submission handling here
-  function handleBuyerRegistration(ev) {
+  async function handleBuyerRegistration(ev) {
     ev.preventDefault();
-    alert("clicked");
+    try {
+      // TODO: change the path correctly - done
+      await axios.post("/auth/register_buyer", {
+        name,
+        email,
+        pwd,
+      });
+      alert("Registration Succefull");
+      setRedirect(true);
+    } catch (e) {
+      alert("registration Failed" + e);
+    }
+  }
+
+  if (redirect) {
+    return <Navigate to={"/login"}></Navigate>;
   }
 
   return (
@@ -85,7 +102,9 @@ export default function BuyerRegisterPage() {
           <button
             type="submit"
             className={`my-5 py-2 w-full border rounded-full ${
-              isButtonDisabled ? "bg-gray-400" : "bg-primary"
+              isButtonDisabled
+                ? "bg-gray-400"
+                : "bg-primary hover:bg-primary_hover"
             } text-white`}
             disabled={isButtonDisabled}
           >

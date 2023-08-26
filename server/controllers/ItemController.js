@@ -30,12 +30,15 @@ const addItem = async (req, res) => {
 
 const viewItems = async (req, res) => {
 
-    const {title} = req.query;
+    const {id, name} = req.query;
 
     try {
         let items;
-        if(title) {
-            items = await Item.find({title: new RegExp(title, 'i')}).populate('seller', 'name -_id');
+        if (id) {
+            items = await Item.findById(id).populate('seller', 'name -_id');
+        }
+        else if(name) {
+            items = await Item.find({title: new RegExp(name, 'i')}).populate('seller', 'name -_id');
         } else {
             items = await Item.find().populate('seller', 'name -_id');
         }
