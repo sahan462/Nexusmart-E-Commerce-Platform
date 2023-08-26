@@ -1,5 +1,28 @@
 import HotDealCard from "./HotDealCard";
+import axios from "axios";
+import { useState, useEffect } from "react";
+
 export default function HotDealsList() {
+  // const [apiData, setApiData] = useState("");
+
+  // useEffect(() => {
+  //   if (apiData === "") {
+  //     console.log("empty");
+  //     async function fetchData() {
+  //       try {
+  //         const response = await axios.get("/items/");
+  //         setApiData(response);
+  //         console.log(apiData);
+  //       } catch (error) {
+  //         console.log("API call failed:", error);
+  //       }
+  //     }
+  //     fetchData();
+  //   } else {
+  //     console.log("not empty");
+  //   }
+  // }, []);
+
   const hotDealCards = [
     {
       itemName: "Casio AX404",
