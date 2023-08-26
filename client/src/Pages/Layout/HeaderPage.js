@@ -1,12 +1,20 @@
 import { Link } from "react-router-dom";
 import { UserContext } from "../../AuthContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import logo from "./../../assets/logo.png";
 
 // import { logo } from "./../../assets/logo.png";
 
 function HeaderPage() {
+  const navigate = useNavigate();
   const { userData } = useContext(UserContext);
+  const [searchInput, setSearchInput] = useState("");
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      navigate(`/search?q=${searchInput}`);
+    }
+  };
 
   return (
     <header className="z-20 border-b border-gray-300 bg-white sticky top-0 w-full h-20 grid grid-cols-12">
@@ -25,8 +33,13 @@ function HeaderPage() {
             type="text"
             placeholder="Search items here"
             className="w-full mr-6 focus:outline-none"
+            value={searchInput}
+            onChange={(ev) => {
+              setSearchInput(ev.target.value);
+            }}
+            onKeyDown={handleKeyDown}
           />
-          <button>
+          <Link to={`/search?q=${searchInput}`}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -41,7 +54,7 @@ function HeaderPage() {
                 d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
               />
             </svg>
-          </button>
+          </Link>
         </div>
       </div>
       {/* Profile/ myselling/ login here  */}
