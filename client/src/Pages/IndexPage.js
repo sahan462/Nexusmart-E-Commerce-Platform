@@ -5,7 +5,7 @@ import HotDealsList from "../Components/HotDealsList";
 import ShoppingList from "../Components/ShoppingList";
 function IndexPage() {
   return (
-    <div className="mt-3 bg-white-400 grid grid-cols-12  gap-8 h-screen">
+    <div className="mt-3 bg-white-400 grid grid-cols-12  gap-8 h-full">
       <div className="bg-white-400 w-full h-full col-span-2">
         <Categories />
       </div>
