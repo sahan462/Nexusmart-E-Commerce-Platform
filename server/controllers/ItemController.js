@@ -31,28 +31,29 @@ const addItem = async (req, res) => {
 };
 
 const viewItems = async (req, res) => {
-
-    const {id, name} = req.query;
+    const { id, name, category } = req.query;
 
     try {
         let items;
+
         if (id) {
             items = await Item.findById(id).populate('seller', 'name -_id');
-        }
-        else if(name) {
-            items = await Item.find({title: new RegExp(name, 'i')}).populate('seller', 'name -_id');
+        } else if (name) {
+            items = await Item.find({ title: new RegExp(name, 'i') }).populate('seller', 'name -_id');
+        } else if (category) {
+            items = await Item.find({ category: category }).populate('seller', 'name -_id');
         } else {
             items = await Item.find().populate('seller', 'name -_id');
         }
 
         res.status(200).send(items);
-
     } catch (error) {
         res.status(400).send({
             error: error.message
         });
     }
 };
+
 
 const changeItemProp = async (req, res) => {
 
