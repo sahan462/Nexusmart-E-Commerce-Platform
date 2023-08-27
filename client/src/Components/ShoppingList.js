@@ -15,13 +15,14 @@ export default function ShoppingList() {
       }
     }
     fetchData();
-  }, [apiData]);
+  }, []);
 
   return (
     <div className="h-screen  w-full grid grid-cols-12 gap-6">
       {apiData.map((card) => (
         <div className="col-span-3">
           <ShoppingCard
+            itemID={card._id}
             title={card.title}
             imgURL={card.imgURL}
             noOfStars={card.noOfStars}

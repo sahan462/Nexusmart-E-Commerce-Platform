@@ -17,6 +17,7 @@ import ManageOrder from "./Pages/Seller/Oder_Management";
 import ReviewList from "./Pages/Seller/ReviewList";
 import ProfilePage from "./Pages/ProfilePage";
 import ShoppingIndexPage from "./Pages/ShoppingIndexPage";
+import ItemPage from "./Pages/ItemPage";
 
 axios.defaults.baseURL = "http://localhost:5000";
 axios.defaults.withCredentials = true;
@@ -37,6 +38,7 @@ function App() {
           <Route path="/search" element={<ShoppingIndexPage />} />
           <Route path="/Selladdress" element={<AddressInformation />} />
           <Route path="/Verification" element={<VerificationPage />} />
+          <Route path="/item" element={<ItemPage />} />
           <Route
             path="/productpage"
             element={
