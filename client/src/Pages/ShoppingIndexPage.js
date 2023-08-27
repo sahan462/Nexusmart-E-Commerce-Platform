@@ -12,6 +12,7 @@ export function RenderSearchItems(params) {
       {params.apiData.map((card) => (
         <div className="col-span-3">
           <ShoppingCard
+            itemID={card._id}
             title={card.title}
             imgURL={card.imgURL}
             noOfStars={card.noOfStars}
@@ -25,7 +26,7 @@ export function RenderSearchItems(params) {
   );
 }
 
-export function ItemNotFound(params) {
+export function ItemNotFound() {
   return (
     <div className=" mt-10">
       <div className="flex justify-center font-semibold text-xl mb-3">
