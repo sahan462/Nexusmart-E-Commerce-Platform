@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const itemController = require('../controllers/ItemController');
+const auth = require('../middleware/auth')
 
-router.post('/', itemController.addItem);
+router.post('/',[auth.verifySignin, auth.verifySeller], itemController.addItem);
 router.get('/', itemController.viewItems);
-router.put('/', itemController.changeItemProp);
-router.delete('/', itemController.deleteItem);
+router.put('/',[auth.verifySignin, auth.verifySeller], itemController.changeItemProp);
+router.delete('/',[auth.verifySignin, auth.verifySeller], itemController.deleteItem);
 
 module.exports = router;
