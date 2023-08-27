@@ -9,6 +9,7 @@ import {
   faCalendarDays,
   faShield,
 } from "@fortawesome/free-solid-svg-icons";
+import Loading from "../Components/Loading";
 
 export default function ItemPage() {
   const [apiData, setApiData] = useState([]);
@@ -28,13 +29,14 @@ export default function ItemPage() {
         setLoading(false);
       } catch (error) {
         console.log("API call failed:", error);
+        setLoading(false);
       }
     }
     fetchData();
   }, [searchInput]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
 
   console.log(apiData);
