@@ -17,6 +17,7 @@
     "gitignore": "^0.7.0",
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.4.2",
+    "package.json": "^2.0.1",
     "validator": "^13.9.0"
   }
 }

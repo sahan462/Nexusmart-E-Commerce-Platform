@@ -23,7 +23,7 @@ function HeaderPage() {
         <span className="font-bold">NexusMart</span>
       </Link>
 
-      {/* profile */}
+      {/* profile */} 
       <div className="flex items-center justify-center px-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
