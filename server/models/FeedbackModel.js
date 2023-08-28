@@ -11,27 +11,31 @@ const feedbackSchema = new mongoose.Schema({
         required: true,
         default: 0
     },
-    userRatings: [{
-        userId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
-            required: true,
-        },
-        starRating: {
-            type: Number,
-            min: 1,
-            max: 5,
-            required: true
-        },
-        comment: {
-            type: String,
-        },
-        date: {
-            type: Date,
-            default: Date.now,
-            required: true,
-        },
-    }],
+    oneStarCount: {
+        type: Number,
+        default: 0
+    },
+    twoStarCount: {
+        type: Number,
+        default: 0
+    },
+    threeStarCount: {
+        type: Number,
+        default: 0
+    },
+    fourStarCount: {
+        type: Number,
+        default: 0
+    },
+    fiveStarCount: {
+        type: Number,
+        default: 0
+    },
+    totalRatings: {
+        type: Number,
+        required: true,
+        default: 0
+    }
 });
 
 const Feedback = mongoose.model('Feedback', feedbackSchema);
