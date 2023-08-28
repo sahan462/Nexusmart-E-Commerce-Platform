@@ -6,26 +6,35 @@ const feedbackSchema = new mongoose.Schema({
         ref: 'Item',
         required: true,
     },
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true,
-    },
-    rating: {
+    averageStarRating: {
         type: Number,
-        min: 1,
-        max: 5,
+        required: true,
+        default: 0
     },
-    comment: {
-        type: String,
-    },
-    date: {
-        type: Date,
-        default: Date.now,
-        required: true
-    },
+    userRatings: [{
+        userId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: true,
+        },
+        starRating: {
+            type: Number,
+            min: 1,
+            max: 5,
+            required: true
+        },
+        comment: {
+            type: String,
+        },
+        date: {
+            type: Date,
+            default: Date.now,
+            required: true,
+        },
+    }],
 });
 
 const Feedback = mongoose.model('Feedback', feedbackSchema);
 
 module.exports = Feedback;
+
