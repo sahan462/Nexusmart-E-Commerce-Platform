@@ -12,10 +12,7 @@ const calcAverageRating = (feedback) => {
     return ((totalRatings/feedback.totalRatings).toFixed(2));
 
 }
-const reverseAverageRating = (userRatings) => {
-    const totalRatings = userRatings.reduce((sum, rating) => sum - rating.starRating, 0);
-    return ((totalRatings/userRatings.length).toFixed(2));
-}
+
 const storeSingleRateCount = async (feedback, starRating) => {
     if(starRating === 1){
         feedback.oneStarCount = feedback.oneStarCount + 1;
