@@ -26,7 +26,6 @@ function HeaderPage() {
         </Link>
       </div>
 
-
       {/* Search bar here  */}
       <div className=" h-full col-span-8 flex items-center px-1">
         <div className="w-full h-12 px-4 py-2 flex justify-between items-center border-2 rounded-full border-gray-200">

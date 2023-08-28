@@ -11,13 +11,23 @@ const ItemSchema = new mongoose.Schema({
     description: {
         type: String
     },
-    category: {
-      type: String
-    },
-    imgURL: {
-        type: String,
-        required: true,
-    },
+    categories: [
+        {
+            type: String,
+            required: true,
+        },
+    ],
+    images: [
+        {
+            url: {
+                type: String,
+                required: true,
+            },
+            description: {
+                type: String,
+            },
+        },
+    ],
     quantity: {
         type: Number,
         required: true
@@ -38,6 +48,18 @@ const ItemSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    availableColors: [
+        {
+            name: {
+                type: String,
+                required: true,
+            },
+            hexCode: {
+                type: String,
+                required: true,
+            },
+        },
+    ],
     seller: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

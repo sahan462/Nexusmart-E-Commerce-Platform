@@ -1,31 +1,45 @@
 const Item = require('../models/ItemModel');
 const addItem = async (req, res) => {
 
-    const {title, overview, description, category, imgURL, quantity, price, percentage, id} = req.body;
+    const {
+        title,
+        overview,
+        description,
+        categories,
+        images,
+        quantity,
+        price,
+        discountPercentage,
+        availableColors,
+        sellerId } = req.body;
 
     try {
-        let newItem = new Item({
+        const newItem = new Item({
             title: title,
             overview: overview,
             description: description,
-            category: category,
-            imgURL: imgURL,
+            categories: categories,
+            images: images,
             quantity: quantity,
             price: price,
-            seller: id
-        })
+            availableColors: availableColors,
+            seller: sellerId,
+        });
 
-        if (percentage > 0) {
+        if (discountPercentage > 0) {
             newItem.discount = {
-                percentage: percentage,
-                newPrice: price - (price * (percentage / 100))
+                percentage: discountPercentage,
+                newPrice: price - (price * (discountPercentage / 100)),
             };
         }
-        newItem = await Item.create(newItem);
+
+        newItem.availableColors = availableColors; // Assuming availableColors is an array of objects with name and hexCode
+
+        await newItem.save();
         res.status(200).send(newItem);
     } catch (error) {
         res.status(400).send({
-            error: error.message
+            error: error.message,
         });
     }
 };
@@ -57,13 +71,31 @@ const viewItems = async (req, res) => {
 
 const changeItemProp = async (req, res) => {
 
-    const {itemId, quantity, price} = req.body;
+    const {
+        itemId,
+        title,
+        overview,
+        description,
+        categories,
+        images,
+        quantity,
+        price,
+        availableColors,
+        sellerId } = req.body;
+
     //verify the seller of the item and req seller is same
     try {
         const item = await Item.findByIdAndUpdate(itemId, {
             $set: {
+                title: title,
+                overview: overview,
+                description: description,
+                categories: categories,
+                images: images,
                 quantity: quantity,
-                price: price
+                price: price,
+                availableColors: availableColors,
+                seller: sellerId,
             }
         }, { new: true });
         if (!item) return res.status(404).send({error: 'The Item with the given ID was not found.'});
