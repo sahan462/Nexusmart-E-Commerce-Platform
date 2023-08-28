@@ -8,7 +8,7 @@ export function UserContextProvider({ children }) {
     if (userData === null) {
       setUserData(JSON.parse(localStorage.getItem("userDataStorage")));
     }
-  }, []);
+  }, [userData]);
 
   return (
     <UserContext.Provider value={{ userData, setUserData }}>
