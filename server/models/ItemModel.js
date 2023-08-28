@@ -17,11 +17,14 @@ const ItemSchema = new mongoose.Schema({
             required: true,
         },
     ],
+    imgURL: {
+        type: String,
+        required: true
+    },
     images: [
         {
             url: {
                 type: String,
-                required: true,
             },
             description: {
                 type: String,
