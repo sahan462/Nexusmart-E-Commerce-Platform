@@ -78,31 +78,40 @@ const viewItems = async (req, res) => {
 
 const changeItemProp = async (req, res) => {
 
+    const {itemId} = req.params;
+
     const {
-        itemId,
         title,
         overview,
         description,
         categories,
+        imgURL,
         images,
         quantity,
         price,
         availableColors,
-        sellerId } = req.body;
+        warranty,
+        returnItem,
+        delivery,
+    } = req.body;
 
     //verify the seller of the item and req seller is same
     try {
+
         const item = await Item.findByIdAndUpdate(itemId, {
             $set: {
                 title: title,
                 overview: overview,
                 description: description,
                 categories: categories,
+                imgURL: imgURL,
                 images: images,
                 quantity: quantity,
                 price: price,
                 availableColors: availableColors,
-                seller: sellerId,
+                warranty: warranty,
+                returnItem: returnItem,
+                delivery: delivery
             }
         }, { new: true });
         if (!item) return res.status(404).send({error: 'The Item with the given ID was not found.'});
