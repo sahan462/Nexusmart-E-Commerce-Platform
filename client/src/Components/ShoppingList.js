@@ -18,7 +18,7 @@ export default function ShoppingList() {
   }, []);
 
   return (
-    <div className="h-screen  w-full grid grid-cols-12 gap-6">
+    <div className="w-full grid grid-cols-12 gap-6">
       {apiData.map((card) => (
         <div className="col-span-3">
           <ShoppingCard

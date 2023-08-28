@@ -20,11 +20,11 @@ export default function Footer() {
             <img
               src={logowhite}
               alt="logo"
-              className="h-24 w-1/2 object-cover "
+              className=" h-24 w-1/2 object-cover"
             />
           </div>
-          <div className="font-medium flex justify-center mb-2">Follow Us</div>
-          <div className="grid grid-cols-4 gap-3">
+          <div className="font-medium flex justify-center mb-4">Follow Us</div>
+          <div className="grid grid-cols-4 mx-16">
             <div className=" col-span-1 flex justify-center items-center">
               <Link to="#">
                 <FontAwesomeIcon
@@ -59,29 +59,38 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        <div className="col-span-3 h-full flex justify-center">
+        <div className="col-span-3 h-full flex justify-start">
           <img src={qr} alt="QR code" className="w-40 h-40"></img>
         </div>
 
-        <div className=" col-span-6 py-2 h-full">
-          <div className="font-medium flex justify-end">Customer Care</div>
-          <div className="ml-2">
-            <Link className="hover:text-primary">
-              <div className="text-end text-sm pt-1">Help Center</div>
-            </Link>
-            <Link className="hover:text-primary">
-              <div className="text-end text-sm pt-1">How to buy</div>
-            </Link>
-            <Link className="hover:text-primary">
-              <div className="text-end text-sm pt-1">Returns and Refunds</div>
-            </Link>
-            <Link className="hover:text-primary">
-              <div className="text-end text-sm pt-1">About Us</div>
-            </Link>
+        <div className=" col-span-6 h-full">
+          <div className="font-bold flex justify-end text-primary">
+            Customer Care
+          </div>
+          <div className="">
+            <div className="ml-2 text-gray-400 ">
+              <div className="text-end text-sm pt-1">
+                <Link className="hover:text-primary">How to buy</Link>
+              </div>
+              <div className="text-end text-sm pt-1">
+                <Link className="hover:text-primary">Help Center </Link>
+              </div>
+              <div className="text-end text-sm pt-1">
+                <Link className="hover:text-primary">Returns and Refunds</Link>
+              </div>
+              <div className="text-end text-sm pt-1">
+                <Link className="hover:text-primary">
+                  Corporate & Bulk Purchasing{" "}
+                </Link>
+              </div>
+              <div className="text-end text-sm pt-1">
+                <Link className="hover:text-primary">About Us</Link>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div className="bg-primary text-white flex justify-center items-center py-2">
+      <div className="bg-primary text-sm text-white flex justify-center items-center py-2">
         Copyright © {currentYear} NexusMart. All rights reserved.
       </div>
     </div>
