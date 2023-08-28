@@ -27,9 +27,6 @@ const userSchema = new mongoose.Schema({
     },
     sellerData: {
         type: mongoose.Schema.Types.ObjectId,
-        required: function() {
-            return this.role === 'seller';
-        },
         ref: 'Seller'
     }
 });
