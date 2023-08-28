@@ -6,12 +6,17 @@ const addItem = async (req, res) => {
         overview,
         description,
         categories,
+        imgURL,
         images,
         quantity,
         price,
         discountPercentage,
         availableColors,
-        sellerId } = req.body;
+        warranty,
+        returnItem,
+        delivery,
+        sellerId
+    } = req.body;
 
     try {
         const newItem = new Item({
@@ -19,10 +24,14 @@ const addItem = async (req, res) => {
             overview: overview,
             description: description,
             categories: categories,
+            imgURL: imgURL,
             images: images,
             quantity: quantity,
             price: price,
             availableColors: availableColors,
+            warranty: warranty,
+            returnItem: returnItem,
+            delivery: delivery,
             seller: sellerId,
         });
 
@@ -32,8 +41,6 @@ const addItem = async (req, res) => {
                 newPrice: price - (price * (discountPercentage / 100)),
             };
         }
-
-        newItem.availableColors = availableColors; // Assuming availableColors is an array of objects with name and hexCode
 
         await newItem.save();
         res.status(200).send(newItem);
