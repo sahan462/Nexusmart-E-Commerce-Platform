@@ -2,6 +2,7 @@ import Categories from "../Components/Categories";
 import HotDealsList from "../Components/HotDealsList";
 import ShoppingCard from "../Components/ShoppingCard";
 import ShoppingList from "../Components/ShoppingList";
+import Loading from "../Components/Loading";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -12,6 +13,7 @@ export function RenderSearchItems(params) {
       {params.apiData.map((card) => (
         <div className="col-span-3">
           <ShoppingCard
+            itemID={card._id}
             title={card.title}
             imgURL={card.imgURL}
             noOfStars={card.noOfStars}
@@ -25,7 +27,7 @@ export function RenderSearchItems(params) {
   );
 }
 
-export function ItemNotFound(params) {
+export function ItemNotFound() {
   return (
     <div className=" mt-10">
       <div className="flex justify-center font-semibold text-xl mb-3">
@@ -51,6 +53,7 @@ function ShoppingIndexPage() {
   const searchInput = searchParams.get("q");
 
   const [apiData, setApiData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
@@ -58,12 +61,18 @@ function ShoppingIndexPage() {
         const uri = "/items?name=" + searchInput;
         const response = await axios.get(uri);
         setApiData(response.data);
+        setLoading(false);
       } catch (error) {
         console.log("API call failed:", error);
+        setLoading(false);
       }
     }
     fetchData();
   }, [searchInput]);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className="mt-3 bg-white-400 grid grid-cols-12  gap-8 h-full">
