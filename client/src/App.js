@@ -19,6 +19,7 @@ import ProfilePage from "./Pages/ProfilePage";
 import ShoppingIndexPage from "./Pages/ShoppingIndexPage";
 import ItemPage from "./Pages/ItemPage";
 import OrderDetailsPage from './Pages/Seller/OrderDetailsPage';
+import Dashboard from "./Pages/Admin/Dashboard";
 
 axios.defaults.baseURL = "http://localhost:5000";
 axios.defaults.withCredentials = true;
@@ -32,6 +33,7 @@ function App() {
           <Route path="/register_user" element={<BuyerRegisterPage />} />
           <Route path="/register_seller" element={<SellerRegisterPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/dashboard" element={<Dashboard/>} />
         </Route>
 
         <Route path="/" element={<Layout />}>
