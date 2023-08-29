@@ -8,6 +8,7 @@ function ProductsPage() {
     const [showEditDialog, setShowEditDialog] = useState(false);
     const [productName, setProductName] = useState('');
     const [productDescription, setProductDescription] = useState('');
+    const [productPicURL, setproductPicURL] = useState('');
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
@@ -18,8 +19,12 @@ function ProductsPage() {
         try {
             const items = await fetch('')
             const dummyProducts = [
-                { id: 1, name: 'Product 1', description: 'Description for Product 1' },
-                { id: 2, name: 'Product 2', description: 'Description for Product 2' },
+                { id: 1, name: 'Product 1', description: 'Description for Product 1', url: 'https://images.unsplash.com/photo-1611078489935-0cb964de46d6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80'},
+                { id: 2, name: 'Product 2', description: 'Description for Product 2', url: 'https://images.unsplash.com/photo-1611078489935-0cb964de46d6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80' },
+                { id: 2, name: 'Product 2', description: 'Description for Product 2', url: 'https://images.unsplash.com/photo-1611078489935-0cb964de46d6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80' },
+                { id: 2, name: 'Product 2', description: 'Description for Product 2', url: 'https://images.unsplash.com/photo-1611078489935-0cb964de46d6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80' },
+                { id: 2, name: 'Product 2', description: 'Description for Product 2', url: 'https://images.unsplash.com/photo-1611078489935-0cb964de46d6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80' },
+                { id: 2, name: 'Product 2', description: 'Description for Product 2', url: 'https://images.unsplash.com/photo-1611078489935-0cb964de46d6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80' },
                 // Add more dummy products here...
             ];
 
@@ -29,8 +34,8 @@ function ProductsPage() {
             console.error('Error fetching products:', error);
         }
     };
-    if(loading === false){
-        return(<Loading/>);
+    if (loading === false) {
+        return (<Loading />);
     }
     console.log(products)
 
@@ -38,6 +43,7 @@ function ProductsPage() {
         setSelectedProduct(product);
         setProductName(product.name);
         setProductDescription(product.description);
+        setproductPicURL(product.url)
         setShowEditDialog(true);
     };
 
@@ -72,20 +78,27 @@ function ProductsPage() {
                         key={product.id}
                         className="p-4 border rounded-lg shadow-md"
                     >
-                        <h3 className="mb-2 text-lg font-semibold">{product.name}</h3>
-                        <p className="text-gray-700">{product.description}</p>
-                        <button
-                            className={`mt-4 px-2 py-1 font-semibold text-white bg-primary rounded hover:bg-opacity-80`}
-                            onClick={() => handleEditClick(product)}
-                        >
-                            Edit
-                        </button>
-                        <button
-                            className={`mt-2 ml-3 px-2 py-1 font-semibold text-white bg-primary rounded hover:bg-primary`}
-                            onClick={() => handleDeleteClick(product.id)}
-                        >
-                            Delete
-                        </button>
+                        <div className='flex flex-wrap'>
+                            <div className='flex flex-col flex-wrap w-2/3 '>
+                                <h3 className="mb-2 text-lg font-semibold">{product.name}</h3>
+                                <p className="ml-3 text-gray-700">{product.description}</p>
+                                <div className='flex'>
+                                <button
+                                    className={`mt-4 w-20 ml-6 px-2 py-1 font-semibold text-white bg-primary rounded hover:bg-opacity-80`}
+                                    onClick={() => handleEditClick(product)}
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    className={`mt-4 w-20 ml-6 px-2 py-1 font-semibold text-white bg-primary rounded hover:bg-opacity-80`}
+                                    onClick={() => handleDeleteClick(product.id)}
+                                >
+                                    Delete
+                                </button>
+                                </div>
+                            </div>
+                            <img className = "flex object-scale-down w-1/3 h-48 rounded-full w-96:" src= {product.url}></img>
+                        </div>
                     </div>
                 ))}
             </div>
@@ -103,6 +116,11 @@ function ProductsPage() {
                         <textarea
                             value={productDescription}
                             onChange={(e) => setProductDescription(e.target.value)}
+                            className="w-full px-3 py-2 mb-4 border rounded focus:outline-none focus:border-primary"
+                        />
+                        <textarea
+                            value={productPicURL}
+                            onChange={(e) => setproductPicURL(e.target.value)}
                             className="w-full px-3 py-2 mb-4 border rounded focus:outline-none focus:border-primary"
                         />
                         <button

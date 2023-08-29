@@ -4,7 +4,7 @@ function AddProductPage() {
     const [productName, setProductName] = useState('');
     const [productDescription, setProductDescription] = useState('');
     const [productPrice, setProductPrice] = useState('');
-    const [productImage, setProductImage] = useState(null);
+    const [productImage, setProductImage] = useState('');
 
     const handleProductNameChange = (event) => {
         setProductName(event.target.value);
@@ -19,7 +19,7 @@ function AddProductPage() {
     };
 
     const handleProductImageUpload = (event) => {
-        setProductImage(event.target.files[0]);
+        setProductImage(event.target.value);
     };
 
     const handleAddProduct = () => {
@@ -58,11 +58,10 @@ function AddProductPage() {
                 />
             </div>
             <div className="mb-4">
-                <label className="block font-semibold text-gray-700">Product Image</label>
-                <input
-                    type="file"
-                    accept="image/*"
-                    className="w-full py-2 focus:outline-none focus:border-primary"
+                <label className="block font-semibold text-gray-700">Product Image. Enter url</label>
+                <textarea
+                    className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
+                    value={productImage}
                     onChange={handleProductImageUpload}
                 />
             </div>
