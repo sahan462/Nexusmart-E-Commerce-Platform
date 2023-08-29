@@ -1,25 +1,25 @@
 import React from 'react';
-import OrderList from './OrderList';
-import OrderDetails from './OrderDetails';
+import { Link } from 'react-router-dom';
 
-const ManageOrder = () => {
-    const selectedOrder = { id: 1, customer: 'John Doe', total: 100 };
+const orders = [
+    { id: 1, customerUsername: 'user1', price: 100, quantity: 2 },
+];
+
+const PlacedOrdersPage = () => {
     return (
-        <div className="flex">
-            <div className="flex-1 bg-gray-100">
-                <div className="p-4">
-                    <div className="grid grid-cols-3 gap-4">
-                        <div className="col-span-2">
-                            <OrderList />
-                        </div>
-                        <div className="col-span-1">
-                            <OrderDetails order={selectedOrder} />
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div className="p-8">
+            <h1 className="mb-4 text-2xl font-semibold">Placed Orders</h1>
+            <ul className="space-y-4">
+                {orders.map((order, index) => (
+                    <li key={index} className="p-4 bg-white rounded-md shadow-md">
+                        <Link to={`/orders/${order.id}`} className="text-blue-500 hover:underline">
+                            Customer: {order.customerUsername}, Price: ${order.price}, Quantity: {order.quantity}
+                        </Link>
+                    </li>
+                ))}
+            </ul>
         </div>
-    )
+    );
 };
 
-export default ManageOrder;
+export default PlacedOrdersPage;
