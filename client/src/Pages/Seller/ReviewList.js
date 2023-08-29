@@ -12,20 +12,22 @@ const ReviewList = () => {
             <div className="p-8">
                 <div className="bg-gray-100 rounded-md shadow-md">
                     <div className="p-4">
-                        <h2 className="text-lg font-semibold mb-4 text-orange-600">Manage Reviews</h2>
-                        {reviews.map(review => (
-                            <div key={review.id} className="border-b py-4">
-                                <p className="font-semibold">{review.product}</p>
-                                <p>{review.review}</p>
-                                {review.reply && (
-                                    <div className="mt-2 bg-gray-100 p-2 rounded">
-                                        <p className="font-semibold">Seller's Reply:</p>
-                                        <p>{review.reply}</p>
-                                    </div>
-                                )}
-                                {!review.reply && <ReplyForm reviewId={review.id} />}
-                            </div>
-                        ))}
+                        <h2 className="mb-4 text-lg font-semibold text-primary">Manage Reviews</h2>
+                        <div className='ml-3'>
+                            {reviews.map(review => (
+                                <div key={review.id} className="py-4 border-b">
+                                    <p className="font-semibold">{review.product}</p>
+                                    <p>{review.review}</p>
+                                    {review.reply && (
+                                        <div className="p-2 mt-2 ml-3 bg-gray-100 rounded">
+                                            <p className="font-semibold">Seller's Reply:</p>
+                                            <p>{review.reply}</p>
+                                        </div>
+                                    )}
+                                    {!review.reply && <ReplyForm reviewId={review.id} />}
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

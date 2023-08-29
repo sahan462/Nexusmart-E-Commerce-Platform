@@ -18,6 +18,7 @@ import ReviewList from "./Pages/Seller/ReviewList";
 import ProfilePage from "./Pages/ProfilePage";
 import ShoppingIndexPage from "./Pages/ShoppingIndexPage";
 import ItemPage from "./Pages/ItemPage";
+import OrderDetailsPage from './Pages/Seller/OrderDetailsPage';
 import Dashboard from "./Pages/Admin/Dashboard";
 
 axios.defaults.baseURL = "http://localhost:5000";
@@ -73,6 +74,12 @@ function App() {
               </SellerLayout>
             }
           />
+          <Route path="/orders/:orderId"
+            element={
+              <SellerLayout>
+                <OrderDetailsPage/>
+              </SellerLayout>
+            }/>
         </Route>
       </Routes>
     </UserContextProvider>
