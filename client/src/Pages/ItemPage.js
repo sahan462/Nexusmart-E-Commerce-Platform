@@ -290,15 +290,27 @@ export default function ItemPage() {
             <div className="border-b border-gray-200 pb-2">
               <div>
                 <FontAwesomeIcon icon={faCalendarDays} />
-                <span className="ml-2">7 Days Returns</span>
+                <span className="ml-2">
+                  {apiData.returnItem.canBeReturned
+                    ? `${apiData.returnItem.returnDays} Days Returns`
+                    : "Return not Available for this Product"}
+                </span>
               </div>
-              <div className="text-sm">Change of mind is not applicable</div>
+              <div className="text-sm">
+                {apiData.returnItem.canBeReturned
+                  ? "Change of mind is not applicable"
+                  : ""}
+              </div>
             </div>
             {/* Warranty policy here  */}
             <div className="py-2">
               <div>
                 <FontAwesomeIcon icon={faShield} />
-                <span className="ml-2">6 Months Seller Warranty</span>
+                <span className="ml-2">
+                  {apiData.warranty.available
+                    ? `${apiData.warranty.duration} Months Seller Warranty`
+                    : `Warranty Not Available for this Product`}
+                </span>
               </div>
             </div>
           </div>

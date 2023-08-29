@@ -16,6 +16,7 @@ export default function HotDealsList() {
     }
     fetchData();
   }, []);
+  console.log(apiData);
 
   return (
     <div className="">
@@ -24,7 +25,7 @@ export default function HotDealsList() {
         {apiData.map((data) => (
           <HotDealCard
             itemName={data.title}
-            itemDesc={data.description.substring(0, 41)}
+            itemDesc={data.overview.substring(0, 20) + "..."}
             imgURL={data.imgURL}
             oldPrice={data.price}
             newPrice={data.discount ? data.discount.newPrice : data.price}
