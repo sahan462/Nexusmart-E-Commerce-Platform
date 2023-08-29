@@ -17,18 +17,19 @@ const CollapsibleList = ({ title, items }) => {
             <li key={index} className="flex">
                 <Link
                     to={items[index][1]}
-                    className="text-primary font-medium"
+                    className="text-primary font-medium ml-3"
                     id={`item-${index}`}
                 >
-                    <span className='text-orange-100'>{item}</span>
+                    <span className=''>{item}</span>
                 </Link>
             </li>
         );
     }
 
     return (
-        <div className="">
-            <h2 className="cursor-pointer bg-orange-500 p-2" onClick={toggleList}>
+        <div className={`fixed top-0 left-0 h-full w-64  text-white transition-transform transform ${isOpen ? 'translate-x-0' : '-translate-x-full'
+    }`}>
+            <h2 className="cursor-pointer text-black" onClick={toggleList}>
                 {title}
             </h2>
             <div

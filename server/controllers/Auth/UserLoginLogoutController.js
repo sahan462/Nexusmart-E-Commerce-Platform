@@ -20,9 +20,10 @@ const login = async (req, res) => {
             const userData = {email: userDoc.email, id: userDoc.id, role: userDoc.role};
 
             //creating jwt
-            jwt.sign(userData, jwtSecret, {}, (err, token) => {
+            jwt.sign(userData, jwtSecret, { expiresIn: '1h' }, (err, token) => {
                 if (err) throw err;
-                res.cookie('token', token).json({name: userDoc.name, email: userDoc.email, role: userDoc.role, token: token ,httpOnly: true});
+                res.header('x-auth-token', token);
+                res.cookie('token', token).json({name: userDoc.name, email: userDoc.email, role: userDoc.role ,httpOnly: true});
             });
 
 
@@ -34,4 +35,12 @@ const login = async (req, res) => {
     }
 }
 
-module.exports = {login};
+const logout = (req, res) => {
+        res.removeHeader('x-auth-token');
+        res.status(200).json({ loggedOut: true,message: 'Logged out successfully' });
+}
+
+module.exports = {
+    login,
+    logout
+};
