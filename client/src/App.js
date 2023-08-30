@@ -9,8 +9,6 @@ import SellerRegisterPage from "./Pages/Seller/SellerRegisterPage";
 import axios from "axios";
 import { UserContextProvider } from "./AuthContext";
 import SellerLayout from "./Pages/Layout/SellerLayout";
-import AddressInformation from "./Pages/Seller/AddAddress";
-import VerificationPage from "./Pages/Seller/Verification";
 import AddProductPage from "./Pages/Seller/AddNewProducts";
 import ProductsPage from "./Pages/Seller/Manage_products";
 import ManageOrder from "./Pages/Seller/Oder_Management";
@@ -39,8 +37,6 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<IndexPage />} />
           <Route path="/search" element={<ShoppingIndexPage />} />
-          <Route path="/Selladdress" element={<AddressInformation />} />
-          <Route path="/Verification" element={<VerificationPage />} />
           <Route path="/item" element={<ItemPage />} />
           <Route
             path="/productpage"
