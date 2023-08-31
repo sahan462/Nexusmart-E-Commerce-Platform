@@ -18,6 +18,7 @@ import ReviewList from "./Pages/Seller/ReviewList";
 import ProfilePage from "./Pages/ProfilePage";
 import ShoppingIndexPage from "./Pages/ShoppingIndexPage";
 import ItemPage from "./Pages/ItemPage";
+import CartPage from "./Pages/CartPage";
 
 axios.defaults.baseURL = "http://localhost:5000";
 axios.defaults.withCredentials = true;
@@ -39,6 +40,7 @@ function App() {
           <Route path="/Selladdress" element={<AddressInformation />} />
           <Route path="/Verification" element={<VerificationPage />} />
           <Route path="/item" element={<ItemPage />} />
+          <Route path="/cart" element={<CartPage />} />
           <Route
             path="/productpage"
             element={

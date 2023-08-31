@@ -317,9 +317,12 @@ export default function ItemPage() {
         </div>
       </div>
       {/* Item description here  */}
-      <div className="bg-green-400 py-10">Item Description here</div>
+      <div className="bg-white shadow-2xl py-5 px-2 border border-none rounded-lg">
+        <div className="font-medium mb-2 text-lg">Description</div>
+        <div>{apiData.description}</div>
+      </div>
       {/* Item reviews here  */}
-      <div className="bg-yellow-400 py-10">
+      <div className="bg-yellow-400 py-10 mt-4">
         <span className="">Item Review Here</span>
       </div>
     </div>
