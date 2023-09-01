@@ -126,7 +126,8 @@ const changeItemProp = async (req, res) => {
 
 const deleteItem = async (req, res) => {
 
-    const {itemId} = req.body;
+    //const {itemId} = req.body;
+    const itemId = req.params.itemId;
     //verify the seller of the item and req seller is same
     try {
         const item = await Item.findByIdAndRemove(itemId);
