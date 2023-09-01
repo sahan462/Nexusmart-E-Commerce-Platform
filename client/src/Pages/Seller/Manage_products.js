@@ -78,23 +78,23 @@ function ProductsPage() {
                         key={product.id}
                         className="p-4 border rounded-lg shadow-md"
                     >
-                        <div className='flex flex-wrap'>
+                        <div className='flex flex-wrap '>
                             <div className='flex flex-col flex-wrap w-2/3 '>
                                 <h3 className="mb-2 text-lg font-semibold">{product.name}</h3>
                                 <p className="ml-3 text-gray-700">{product.description}</p>
-                                <div className='flex'>
-                                <button
-                                    className={`mt-4 w-20 ml-6 px-2 py-1 font-semibold text-white bg-primary rounded hover:bg-opacity-80`}
-                                    onClick={() => handleEditClick(product)}
-                                >
-                                    Edit
-                                </button>
-                                <button
-                                    className={`mt-4 w-20 ml-6 px-2 py-1 font-semibold text-white bg-primary rounded hover:bg-opacity-80`}
-                                    onClick={() => handleDeleteClick(product.id)}
-                                >
-                                    Delete
-                                </button>
+                                <div className='flex w-full mt-auto'>
+                                    <button
+                                        className={`mt-4 w-20 ml-6 px-2 py-1 font-semibold text-white bg-primary rounded hover:bg-opacity-80`}
+                                        onClick={() => handleEditClick(product)}
+                                    >
+                                        Edit
+                                    </button>
+                                    <button
+                                        className={`mt-4 w-20 ml-6 px-2 py-1 font-semibold text-white bg-primary rounded hover:bg-opacity-80`}
+                                        onClick={() => handleDeleteClick(product.id)}
+                                    >
+                                        Delete
+                                    </button>
                                 </div>
                             </div>
                             <img className = "flex object-scale-down w-1/3 h-48 rounded-full w-96:" src= {product.url}></img>
