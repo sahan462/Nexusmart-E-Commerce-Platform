@@ -27,6 +27,7 @@ function verifyBuyer(req, res, next) {
     next()
 }
 
+
 module.exports = {
     verifySignin,
     verifySeller,

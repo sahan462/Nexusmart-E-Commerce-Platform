@@ -22,11 +22,16 @@ export default function ShoppingCard(props) {
       />
     );
   }
+  const uri = "/item?id=" + props.itemID;
   return (
-    <Link to="/">
+    <Link to={uri}>
       <div className="bg-gray-200 h-64 w-full border border-none rounded-xl overflow-hidden hover:shadow-xl hover:bg-gray-300 ">
         <div className=" h-32 w-full">
-          <img className="object-cover h-full w-full" src={props.imgURL} />
+          <img
+            className="object-cover h-full w-full"
+            src={props.imgURL}
+            alt="item"
+          />
         </div>
         <div className=" h-32 grid grid-rows-6 px-2 py-2">
           <div className=" w-full row-span-2 font-medium flex items-center">
