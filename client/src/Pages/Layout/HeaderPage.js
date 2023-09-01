@@ -3,6 +3,8 @@ import { UserContext } from "../../AuthContext";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "./../../assets/logo.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 
 // import { logo } from "./../../assets/logo.png";
 
@@ -59,6 +61,37 @@ function HeaderPage() {
       </div>
       {/* Profile/ myselling/ login here  */}
       <div className=" h-full col-span-2 flex justify-end items-center">
+        {/* cart here  */}
+        <div className=" mx-5 h-14 relative">
+          <Link className="flex  h-14 items-center justify-center" to="/cart">
+            <FontAwesomeIcon
+              icon={faCartShopping}
+              className="h-6 w-6 px-2 hover:text-primary"
+            />
+          </Link>
+          <div className="bg-primary text-white flex items-center text-sm justify-center absolute top-1 right-0 h-5 w-5 border border-none rounded-full">
+            5
+          </div>
+        </div>
+
+        {/* Seller Dashboard  */}
+        {!!userData && userData.role === "seller" && (
+          <Link to="/productpage">
+            <div className="h-10 px-5 mr-5 bg-primary text-white text-sm font-semibold  border border-none rounded-lg flex justify-center items-center hover:bg-primary_hover">
+              My Selling
+            </div>
+          </Link>
+        )}
+
+        {/* Profile  */}
+        {!!userData && (
+          <Link to="/profile">
+            <div className=" h-10 w-10 font-bold text-lg text-primary border border-primary rounded-full flex justify-center items-center hover:bg-primary_hover hover:text-white">
+              {userData.name[0].toUpperCase()}
+            </div>
+          </Link>
+        )}
+
         {/* Login Button */}
         {!userData && (
           <Link
@@ -75,22 +108,6 @@ function HeaderPage() {
           hover:bg-primary_hover"
           >
             Login
-          </Link>
-        )}
-        {/* Seller Dashboard  */}
-        {!!userData && userData.role === "seller" && (
-          <Link to="/productpage">
-            <div className="h-10 px-10 bg-primary text-white text-sm font-semibold  border border-none rounded-lg flex justify-center items-center hover:bg-primary_hover">
-              My Selling
-            </div>
-          </Link>
-        )}
-        {/* Profile  */}
-        {!!userData && (
-          <Link to="/profile">
-            <div className="ml-4 h-10 w-10 font-bold text-lg text-primary border border-primary rounded-full flex justify-center items-center hover:bg-primary_hover hover:text-white">
-              {userData.name[0].toUpperCase()}
-            </div>
           </Link>
         )}
       </div>
