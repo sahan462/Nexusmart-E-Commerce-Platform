@@ -22,11 +22,11 @@ const login = async (req, res) => {
             //creating jwt
             jwt.sign(userData, jwtSecret, { expiresIn: '1h' }, (err, token) => {
                 if (err) throw err;
-                res.header('x-auth-token', token);
-                res.cookie('token', token).json({name: userDoc.name, email: userDoc.email, role: userDoc.role ,httpOnly: true});
+                res
+                    .header('x-auth-token', token)
+                    .cookie('token', token, { httpOnly: true, maxAge: 3600000 })
+                    .json({ name: userDoc.name, email: userDoc.email, role: userDoc.role });
             });
-
-
         } else {
             res.status(422).json("Access Denied");
         }
