@@ -4,6 +4,7 @@ import { Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Alert from "../Components/Alert";
 import CartItem from "../Components/CartItem";
+import OrderSummery from "../Components/OrderSummery";
 
 export default function CartPage() {
   const [showContent, setShowContent] = useState(false);
@@ -25,9 +26,18 @@ export default function CartPage() {
     );
   }
   return (
-    <div className="bg-yellow-300">
-      Cart here
-      <CartItem />
+    <div className="py-4">
+      <div className="grid grid-cols-12 gap-6">
+        <div className="col-span-8">
+          {/* Cart Items here  */}
+          <CartItem />
+          <CartItem />
+        </div>
+        <div className="col-span-4">
+          {/* Shipping Details  */}
+          <OrderSummery />
+        </div>
+      </div>
     </div>
   );
 }

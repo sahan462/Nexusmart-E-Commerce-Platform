@@ -1,25 +1,9 @@
 import ShoppingCard from "./ShoppingCard";
-import { useState, useEffect } from "react";
-import axios from "axios";
 
-export default function ShoppingList() {
-  const [apiData, setApiData] = useState([]);
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await axios.get("/items/");
-        setApiData(response.data);
-      } catch (error) {
-        console.log("API call failed:", error);
-      }
-    }
-    fetchData();
-  }, []);
-
+export default function ShoppingList(props) {
   return (
     <div className="w-full grid grid-cols-12 gap-6">
-      {apiData.map((card) => (
+      {props.data.map((card) => (
         <div className="col-span-3">
           <ShoppingCard
             itemID={card._id}

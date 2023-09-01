@@ -24,6 +24,7 @@ function LoginPage() {
     try {
       const response = await axios.post("/auth/login", { email, password });
       const jsonString = JSON.stringify(response.data); // local storage only allow strings
+      console.log("responseeeeeeee", jsonString);
       localStorage.setItem("userDataStorage", jsonString); // store in localStorage
       setUserData(JSON.parse(jsonString)); // add into user context
       alert("Login Successful");
