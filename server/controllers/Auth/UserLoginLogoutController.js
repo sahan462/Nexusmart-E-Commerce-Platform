@@ -22,10 +22,11 @@ const login = async (req, res) => {
             //creating jwt
             jwt.sign(userData, jwtSecret, { expiresIn: '1h' }, (err, token) => {
                 if (err) throw err;
-                res.header('x-auth-token', token).send();
+                res
+                    .header('x-auth-token', token)
+                    .cookie('token', token, { httpOnly: true, maxAge: 3600000 })
+                    .json({ name: userDoc.name, email: userDoc.email, role: userDoc.role });
             });
-
-
         } else {
             res.status(422).json("Access Denied");
         }
@@ -35,8 +36,8 @@ const login = async (req, res) => {
 }
 
 const logout = (req, res) => {
-        res.removeHeader('x-auth-token');
-        res.status(200).json({ loggedOut: true,message: 'Logged out successfully' });
+    res.status(200).json({ loggedOut: true, message: 'Logged out successfully' });
+    res.cookie('token', '', { expires: new Date(0), httpOnly: true }).send();
 }
 
 module.exports = {
