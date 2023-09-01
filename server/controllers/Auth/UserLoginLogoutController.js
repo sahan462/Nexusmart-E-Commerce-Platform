@@ -36,8 +36,8 @@ const login = async (req, res) => {
 }
 
 const logout = (req, res) => {
-        res.removeHeader('x-auth-token');
-        res.status(200).json({ loggedOut: true,message: 'Logged out successfully' });
+    res.status(200).json({ loggedOut: true, message: 'Logged out successfully' });
+    res.cookie('token', '', { expires: new Date(0), httpOnly: true }).send();
 }
 
 module.exports = {
