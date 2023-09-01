@@ -11,7 +11,7 @@ export default function CartPage() {
   const { userData } = useContext(UserContext);
   console.log(userData);
   if (userData === null) {
-    const delay = 1000;
+    const delay = 1500;
 
     setTimeout(() => {
       setShowContent(true);
