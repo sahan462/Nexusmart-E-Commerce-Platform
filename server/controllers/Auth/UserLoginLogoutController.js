@@ -22,8 +22,7 @@ const login = async (req, res) => {
             //creating jwt
             jwt.sign(userData, jwtSecret, { expiresIn: '1h' }, (err, token) => {
                 if (err) throw err;
-                res.header('x-auth-token', token);
-                res.cookie('token', token).json({name: userDoc.name, email: userDoc.email, role: userDoc.role ,httpOnly: true});
+                res.header('x-auth-token', token).send();
             });
 
 
