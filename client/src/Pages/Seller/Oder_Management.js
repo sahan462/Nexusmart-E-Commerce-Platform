@@ -1,25 +1,45 @@
 import React from 'react';
-import OrderList from './OrderList';
-import OrderDetails from './OrderDetails';
+import { Link } from 'react-router-dom';
 
-const ManageOrder = () => {
-    const selectedOrder = { id: 1, customer: 'John Doe', total: 100 };
-    return (
-        <div className="flex">
-            <div className="flex-1 bg-gray-100">
-                <div className="p-4">
-                    <div className="grid grid-cols-3 gap-4">
-                        <div className="col-span-2">
-                            <OrderList />
-                        </div>
-                        <div className="col-span-1">
-                            <OrderDetails order={selectedOrder} />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
+const orders = [
+    { id: 1, customerUsername: 'user1', price: 100, quantity: 2 },
+    { id: 2, customerUsername: 'user2', price: 150, quantity: 3 },
+    { id: 1, customerUsername: 'user3', price: 120, quantity: 1 },
+];
+
+const groupOrdersByProductId = (orders) => {
+    const groupedOrders = {};
+    orders.forEach((order) => {
+        if (!groupedOrders[order.id]) {
+            groupedOrders[order.id] = [];
+        }
+        groupedOrders[order.id].push(order);
+    });
+    return groupedOrders;
 };
 
-export default ManageOrder;
+const PlacedOrdersPage = () => {
+    const groupedOrders = groupOrdersByProductId(orders);
+
+    return (
+        <div className="p-8">
+            <h1 className="mb-4 text-2xl font-semibold">Placed Orders</h1>
+            {Object.keys(groupedOrders).map((productId) => (
+                <div key={productId} className="mb-4">
+                    <h2 className="text-lg font-semibold">Product ID: {productId}</h2>
+                    <ul className="space-y-4">
+                        {groupedOrders[productId].map((order, index) => (
+                            <li key={index} className="p-4 bg-white rounded-md shadow-md">
+                                <Link to={`/orders/${order.id}`} className="text-blue-500 hover:underline">
+                                    Customer: {order.customerUsername}, Price: ${order.price}, Quantity: {order.quantity}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            ))}
+        </div>
+    );
+};
+
+export default PlacedOrdersPage;

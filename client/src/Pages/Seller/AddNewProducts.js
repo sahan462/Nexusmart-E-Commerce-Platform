@@ -1,10 +1,24 @@
 import React, { useState } from 'react';
 
+const predefinedOptions = [
+    "Option 1",
+    "Option 2",
+    "Option 3"
+    // Add more options as needed
+];
+
 function AddProductPage() {
     const [productName, setProductName] = useState('');
     const [productDescription, setProductDescription] = useState('');
     const [productPrice, setProductPrice] = useState('');
-    const [productImage, setProductImage] = useState(null);
+    const [productImage, setProductImage] = useState('');
+    const [productOverview, setProductOverview] = useState('');
+    const [ProductCategory, setProductCategory] = useState('');
+    const [productQuantity, setProductQuantity] = useState('');
+    const [isFreeDelivery, setFreeDelivery] = useState(false);
+    const [isCashOnDelivery, setCashOnDelivery] = useState(false);
+    const [isReturnAble, setReturnAble] = useState(false);
+    const [isWarrantyAvailable, setWarrantyAvailable] = useState(false);
 
     const handleProductNameChange = (event) => {
         setProductName(event.target.value);
@@ -19,8 +33,36 @@ function AddProductPage() {
     };
 
     const handleProductImageUpload = (event) => {
-        setProductImage(event.target.files[0]);
+        setProductImage(event.target.value);
     };
+
+    const handleProductOverview = (event) => {
+        setProductOverview(event.target.value);
+    }
+
+    const handleProductCategory = (event) => {
+        setProductCategory(event.target.value);
+    }
+
+    const handleProductQuantity = (event) => {
+        setProductQuantity(event.target.value);
+    }
+
+    const handleisFreeDeliveryChange = () => {
+        setFreeDelivery(!isFreeDelivery);
+    };
+
+    const handleCashOnDeliveryChange = () => {
+        setCashOnDelivery(!isCashOnDelivery);
+    };
+
+    const handleReturnAbleChange = () => {
+        setReturnAble(!isReturnAble);
+    }
+
+    const handleWarrantyChange = () => {
+        setWarrantyAvailable(!isWarrantyAvailable);
+    }
 
     const handleAddProduct = () => {
         // Here you can perform the product addition logic
@@ -30,44 +72,113 @@ function AddProductPage() {
 
     return (
         <div className="p-4 bg-white rounded-lg shadow-md">
-            <h2 className="mb-4 text-2xl font-bold text-center text-orange-500">Add Product</h2>
+            <h2 className="mb-4 text-2xl font-bold text-center text-primary">Add Product</h2>
             <div className="mb-4">
                 <label className="block font-semibold text-gray-700">Product Name</label>
                 <input
                     type="text"
-                    className="w-full px-3 py-2 border rounded focus:outline-none focus:border-orange-500"
+                    className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
                     value={productName}
                     onChange={handleProductNameChange}
                 />
             </div>
             <div className="mb-4">
+                <label className="block font-semibold text-gray-700">Product Overview</label>
+                <textarea
+                    className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
+                    value={productOverview}
+                    onChange={handleProductOverview}
+                />
+            </div>
+            <div className="mb-4">
                 <label className="block font-semibold text-gray-700">Product Description</label>
                 <textarea
-                    className="w-full px-3 py-2 border rounded focus:outline-none focus:border-orange-500"
+                    className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
                     value={productDescription}
                     onChange={handleProductDescriptionChange}
                 />
             </div>
             <div className="mb-4">
+                <label className="block font-semibold text-gray-700">Product Category</label>
+                <select
+                    className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
+                    value={ProductCategory}
+                    onChange={handleProductCategory}
+                >
+                    <option value="">Select an option</option>
+                    {predefinedOptions.map((option, index) => (
+                        <option key={index} value={option}>
+                            {option}
+                        </option>
+                    ))}
+                </select>
+            </div>
+            <div className="mb-4">
                 <label className="block font-semibold text-gray-700">Product Price</label>
                 <input
                     type="number"
-                    className="w-full px-3 py-2 border rounded focus:outline-none focus:border-orange-500"
+                    className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
                     value={productPrice}
                     onChange={handleProductPriceChange}
                 />
             </div>
             <div className="mb-4">
-                <label className="block font-semibold text-gray-700">Product Image</label>
+                <label className="block font-semibold text-gray-700">Product Quantity</label>
                 <input
-                    type="file"
-                    accept="image/*"
-                    className="w-full py-2 focus:outline-none focus:border-orange-500"
+                    type="number"
+                    className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
+                    value={productQuantity}
+                    onChange={handleProductQuantity}
+                />
+            </div>
+            <div className="mb-4">
+                <label className="block font-semibold text-gray-700">Product Image. Enter url</label>
+                <textarea
+                    className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
+                    value={productImage}
                     onChange={handleProductImageUpload}
                 />
             </div>
+            <div className="flex mb-4">
+                <div className="flex mb-4">
+                    <input
+                        type="checkbox"
+                        className="mr-2 border-primary"
+                        checked={isFreeDelivery}
+                        onChange={handleisFreeDeliveryChange}
+                    />
+                    <label className="block font-semibold text-gray-700">Free Delivery</label>
+                </div>
+                <div className="ml-6 mb-4 flex">
+                    <input
+                        type="checkbox"
+                        className="mr-2"
+                        checked={isCashOnDelivery}
+                        onChange={handleCashOnDeliveryChange}
+                    />
+                    <label className="block font-semibold text-gray-700">Cash On Delivery</label>
+                </div>
+                <div className="ml-6 mb-4 flex">
+                    <input
+                        type="checkbox"
+                        className="mr-2"
+                        checked={isReturnAble}
+                        onChange={handleReturnAbleChange}
+                    />
+                    <label className="block font-semibold text-gray-700">Can Be Returned</label>
+                </div>
+                <div className="ml-6 mb-4 flex">
+                    <input
+                        type="checkbox"
+                        className="mr-2"
+                        checked={isWarrantyAvailable}
+                        onChange={handleWarrantyChange}
+                    />
+                    <label className="block font-semibold text-gray-700">Warranty</label>
+                </div>
+            </div>
             <button
-                className="w-full px-4 py-2 font-semibold text-white bg-orange-500 rounded hover:bg-orange-600"
+                className="w-full px-4 py-2 font-semibold text-white rounded bg-primary hover:bg-primary"
                 onClick={handleAddProduct}
             >
                 Add Product

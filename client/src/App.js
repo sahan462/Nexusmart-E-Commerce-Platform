@@ -9,8 +9,6 @@ import SellerRegisterPage from "./Pages/Seller/SellerRegisterPage";
 import axios from "axios";
 import { UserContextProvider } from "./AuthContext";
 import SellerLayout from "./Pages/Layout/SellerLayout";
-import AddressInformation from "./Pages/Seller/AddAddress";
-import VerificationPage from "./Pages/Seller/Verification";
 import AddProductPage from "./Pages/Seller/AddNewProducts";
 import ProductsPage from "./Pages/Seller/Manage_products";
 import ManageOrder from "./Pages/Seller/Oder_Management";
@@ -19,6 +17,9 @@ import ProfilePage from "./Pages/ProfilePage";
 import ShoppingIndexPage from "./Pages/ShoppingIndexPage";
 import ItemPage from "./Pages/ItemPage";
 import CartPage from "./Pages/CartPage";
+import OrderDetailsPage from './Pages/Seller/OrderDetailsPage';
+import Dashboard from "./Pages/Admin/Dashboard";
+
 
 axios.defaults.baseURL = "http://localhost:5000";
 axios.defaults.withCredentials = true;
@@ -32,13 +33,12 @@ function App() {
           <Route path="/register_user" element={<BuyerRegisterPage />} />
           <Route path="/register_seller" element={<SellerRegisterPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/dashboard" element={<Dashboard/>} />
         </Route>
 
         <Route path="/" element={<Layout />}>
           <Route index element={<IndexPage />} />
           <Route path="/search" element={<ShoppingIndexPage />} />
-          <Route path="/Selladdress" element={<AddressInformation />} />
-          <Route path="/Verification" element={<VerificationPage />} />
           <Route path="/item" element={<ItemPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route
@@ -73,6 +73,12 @@ function App() {
               </SellerLayout>
             }
           />
+          <Route path="/orders/:orderId"
+            element={
+              <SellerLayout>
+                <OrderDetailsPage/>
+              </SellerLayout>
+            }/>
         </Route>
       </Routes>
     </UserContextProvider>

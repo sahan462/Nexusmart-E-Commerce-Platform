@@ -27,8 +27,7 @@ const CollapsibleList = ({ title, items }) => {
     }
 
     return (
-        <div className={`fixed top-0 left-0 h-full w-64  text-white transition-transform transform ${isOpen ? 'translate-x-0' : '-translate-x-full'
-    }`}>
+        <div className="">
             <h2 className="cursor-pointer text-black" onClick={toggleList}>
                 {title}
             </h2>
