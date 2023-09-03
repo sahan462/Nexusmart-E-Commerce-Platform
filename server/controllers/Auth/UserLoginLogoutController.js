@@ -25,7 +25,7 @@ const login = async (req, res) => {
                 res
                     .header('x-auth-token', token)
                     .cookie('token', token, { httpOnly: true, maxAge: 3600000 })
-                    .json({ name: userDoc.name, email: userDoc.email, role: userDoc.role });
+                    .json({ name: userDoc.name, email: userDoc.email, role: userDoc.role, Auth_token: token});
             });
         } else {
             res.status(422).json("Access Denied");

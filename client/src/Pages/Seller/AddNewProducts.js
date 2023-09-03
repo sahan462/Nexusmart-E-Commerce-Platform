@@ -40,6 +40,7 @@ function AddProductPage() {
         delivery: isFreeDelivery,
         returnItem: isReturnAble,
         warranty: isWarrantyAvailable,
+
     };
 
     useEffect(() => {
@@ -69,10 +70,10 @@ function AddProductPage() {
     console.log("rendered");
 
     if (ItemId) {
-            if (loading === false) {
+        if (loading === false) {
             return (<Loading />);
         }
-        
+
     }
 
     const handleProductNameChange = (event) => {
@@ -119,8 +120,18 @@ function AddProductPage() {
         setWarrantyAvailable(!isWarrantyAvailable);
     }
 
-    const handleAddProduct = () => {
-        axios.post("/items/", product)
+    const handleAddProduct = async () => {
+        try {
+            const userData = JSON.parse(localStorage.getItem("userDataStorage"));
+            const response = await axios.post("/items/", product, {
+                headers: {
+                    'x-auth-token': userData.token
+                }
+            });
+            console.log(response);
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (
