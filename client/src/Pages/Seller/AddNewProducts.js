@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from "react-router-dom";
+import axios from 'axios';
+import Loading from "./../../Components/Loading"
 
 const predefinedOptions = [
     "Option 1",
@@ -8,6 +11,11 @@ const predefinedOptions = [
 ];
 
 function AddProductPage() {
+
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const ItemId = searchParams.get("id");
+
     const [productName, setProductName] = useState('');
     const [productDescription, setProductDescription] = useState('');
     const [productPrice, setProductPrice] = useState('');
@@ -19,6 +27,54 @@ function AddProductPage() {
     const [isCashOnDelivery, setCashOnDelivery] = useState(false);
     const [isReturnAble, setReturnAble] = useState(false);
     const [isWarrantyAvailable, setWarrantyAvailable] = useState(false);
+    const [loading, setLoading] = useState(false)
+
+    const product = {
+        title: productName,
+        overview: productOverview,
+        description: productDescription,
+        categories: ProductCategory,
+        price: productPrice,
+        quantity: productQuantity,
+        imgURL: productImage,
+        delivery: isFreeDelivery,
+        returnItem: isReturnAble,
+        warranty: isWarrantyAvailable,
+
+    };
+
+    useEffect(() => {
+        fetchProducts();
+    }, []);
+
+    const fetchProducts = async () => {
+        try {
+            const response = await axios.get(`/items?id=${ItemId}`);
+            setProductName(response.data.title);
+            setProductDescription(response.data.description)
+            setProductPrice(response.data.price)
+            setProductImage(response.data.imgURL)
+            setProductOverview(response.data.overview)
+            setProductCategory(response.data.categories)
+            setProductQuantity(response.data.quantity)
+            setFreeDelivery(response.data.delivery)
+            setCashOnDelivery(response.data.delivery)
+            setReturnAble(response.data.returnItem)
+            setWarrantyAvailable(response.data.warranty)
+            setLoading(true);
+
+        } catch (error) {
+            console.error('Error fetching products:', error);
+        }
+    };
+    console.log("rendered");
+
+    if (ItemId) {
+        if (loading === false) {
+            return (<Loading />);
+        }
+
+    }
 
     const handleProductNameChange = (event) => {
         setProductName(event.target.value);
@@ -64,10 +120,18 @@ function AddProductPage() {
         setWarrantyAvailable(!isWarrantyAvailable);
     }
 
-    const handleAddProduct = () => {
-        // Here you can perform the product addition logic
-        // Upload product data and image to your backend
-        // Reset form fields after successful addition
+    const handleAddProduct = async () => {
+        try {
+            const userData = JSON.parse(localStorage.getItem("userDataStorage"));
+            const response = await axios.post("/items/", product, {
+                headers: {
+                    'x-auth-token': userData.token
+                }
+            });
+            console.log(response);
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (

@@ -5,6 +5,9 @@ const deliveryPartnerSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    logo: {
+        type: String,
+    },
     ratePerKM: {
         type: Number,
         required: true
@@ -39,6 +42,10 @@ const deliveryPartnerSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    adminID: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Admin'
+    }
 });
 
 const DeliveryPartner = mongoose.model('DeliveryPartner', deliveryPartnerSchema);

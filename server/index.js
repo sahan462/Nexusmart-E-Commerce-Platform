@@ -12,6 +12,7 @@ const cart = require('./routes/CartRoute');
 const order = require('./routes/OrderRoute');
 const feedback = require('./routes/FeedbackRoute');
 const auth = require('./middleware/auth')
+const deliveryPartner = require('./routes/DeliveryPathnerRoute');
 
 app.use(
   cors({
@@ -33,6 +34,7 @@ app.use('/items', item);
 app.use('/cart', auth.verifySignin, cart);
 app.use('/feedback', feedback);
 app.use('/order', order);
+app.use('/deliveryPartner', deliveryPartner);
 
 // for testing - TODO :: remove after
 app.get("/test", (req, res) => {

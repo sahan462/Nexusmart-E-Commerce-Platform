@@ -6,6 +6,6 @@ const {verifySeller, verifySignin} = require('../middleware/auth')
 router.post('/',[verifySignin, verifySeller], itemController.addItem);
 router.get('/', itemController.viewItems);
 router.put('/:itemId',[verifySignin, verifySeller], itemController.changeItemProp);
-router.delete('/',[verifySignin, verifySeller], itemController.deleteItem);
+router.delete('/:itemId',[verifySignin, verifySeller], itemController.deleteItem);
 
 module.exports = router;

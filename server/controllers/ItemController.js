@@ -52,7 +52,7 @@ const addItem = async (req, res) => {
 };
 
 const viewItems = async (req, res) => {
-    const { id, name, category } = req.query;
+    const { id, name, category, sellerId } = req.query;
 
     try {
         let items;
@@ -63,7 +63,9 @@ const viewItems = async (req, res) => {
             items = await Item.find({ title: new RegExp(name, 'i') }).populate('seller', 'name -_id');
         } else if (category) {
             items = await Item.find({ category: category }).populate('seller', 'name -_id');
-        } else {
+        } else if(sellerId) {
+            items = await Item.find({seller: sellerId});
+        }else{
             items = await Item.find().populate('seller', 'name -_id');
         }
 
@@ -93,6 +95,7 @@ const changeItemProp = async (req, res) => {
         warranty,
         returnItem,
         delivery,
+        sellerId
     } = req.body;
 
     //verify the seller of the item and req seller is same
@@ -111,7 +114,8 @@ const changeItemProp = async (req, res) => {
                 availableColors: availableColors,
                 warranty: warranty,
                 returnItem: returnItem,
-                delivery: delivery
+                delivery: delivery,
+                seller: sellerId
             }
         }, { new: true });
         if (!item) return res.status(404).send({error: 'The Item with the given ID was not found.'});
@@ -126,7 +130,9 @@ const changeItemProp = async (req, res) => {
 
 const deleteItem = async (req, res) => {
 
-    const {itemId} = req.body;
+    const {itemId} = req.query;
+    //const {itemId} = req.body;
+    //const itemId = req.params.itemId;
     //verify the seller of the item and req seller is same
     try {
         const item = await Item.findByIdAndRemove(itemId);
