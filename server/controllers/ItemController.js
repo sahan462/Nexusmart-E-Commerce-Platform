@@ -15,7 +15,7 @@ const addItem = async (req, res) => {
         warranty,
         returnItem,
         delivery,
-        sellerId
+        id
     } = req.body;
 
     try {
@@ -32,7 +32,7 @@ const addItem = async (req, res) => {
             warranty: warranty,
             returnItem: returnItem,
             delivery: delivery,
-            seller: sellerId,
+            seller: id,
         });
 
         if (discountPercentage > 0) {
