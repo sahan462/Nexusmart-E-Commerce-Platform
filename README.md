@@ -48,7 +48,7 @@ NexusMart aims to revolutionize online shopping by providing a feature-rich and 
 Follow these steps to set up and run NexusMart on your local machine:
 
 1. Clone the repository:
-   git clone https://github.com/your-username/nexusmart.git
+   git clone https://github.com/sahan462/nexusmart-e-commerce-platform.git
 
 2. Navigate to the project directory:
    cd nexusmart
