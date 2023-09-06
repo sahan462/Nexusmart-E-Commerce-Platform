@@ -23,6 +23,7 @@ function LoginPage() {
     ev.preventDefault();
     try {
       const response = await axios.post("/auth/login", { email, password });
+      console.log(response.data)
       const jsonString = JSON.stringify(response.data); // local storage only allow strings
       console.log("responseeeeeeee", jsonString);
       localStorage.setItem("userDataStorage", jsonString); // store in localStorage

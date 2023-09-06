@@ -5,6 +5,7 @@ const app = express();
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
 
+
 const regLog = require("./routes/UserRegisterLogRoute");
 const item = require("./routes/ItemRoute");
 const cart = require("./routes/CartRoute");
@@ -12,6 +13,8 @@ const order = require("./routes/OrderRoute");
 const feedback = require("./routes/FeedbackRoute");
 const auth = require("./middleware/auth");
 const issue = require("./routes/CustomerIssueRoute");
+const deliveryPartner = require('./routes/DeliveryPathnerRoute');
+
 
 app.use(
   cors({
@@ -27,12 +30,15 @@ connect(process.env.MONGO_URL)
   .then(() => console.log("connected to mongodb..."))
   .catch(() => console.log("Could not connect to mongodb..."));
 
+
 app.use("/auth", regLog);
 app.use("/items", item);
 app.use("/cart", auth.verifySignin, cart);
 app.use("/feedback", feedback);
 app.use("/order", order);
 app.use("/issue", issue);
+app.use('/deliveryPartner', deliveryPartner);
+
 
 // for testing - TODO :: remove after
 app.get("/test", (req, res) => {
