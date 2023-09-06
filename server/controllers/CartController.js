@@ -76,7 +76,15 @@ const removeCartItem = async (req, res) => {
 const viewCart = async (req, res) => {
     try {
         const { id } = req.body;
-        const cart = await Cart.findOne({ buyerId: id }).populate('items.item', 'title price');
+        const cart = await Cart.findOne({ buyerId: id })
+        .populate({
+            path: 'items.item',
+            select: 'title price seller imgURL discount.percentage',
+            populate: {
+                path: 'seller',
+                select: 'name'
+            }
+        });
 
         if (!cart) {
             return res.status(400).send({
