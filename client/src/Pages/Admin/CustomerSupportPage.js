@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const CustomerSupport = () => {
+const CustomerSupportPage = () => {
   const [issues, setIssues] = useState([]);
   const [selectedIssue, setSelectedIssue] = useState(null);
   const [reply, setReply] = useState("");
@@ -81,4 +81,4 @@ const CustomerSupport = () => {
   );
 };
 
-export default CustomerSupport;
+export default CustomerSupportPage;
