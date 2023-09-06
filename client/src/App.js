@@ -19,6 +19,8 @@ import ItemPage from "./Pages/ItemPage";
 import CartPage from "./Pages/CartPage";
 import OrderDetailsPage from "./Pages/Seller/OrderDetailsPage";
 import Dashboard from "./Pages/Admin/Dashboard";
+import TechnicalIssuePage from "./Pages/TechnicalIssuePage";
+import CustomerSupportPage from "./Pages/Admin/CustomerSupportPage";
 
 axios.defaults.baseURL = "http://localhost:5000";
 axios.defaults.withCredentials = true;
@@ -79,6 +81,11 @@ function App() {
                 <OrderDetailsPage />
               </SellerLayout>
             }
+          />
+          <Route path="/helpcenter" element={<TechnicalIssuePage />} />
+          <Route
+            path="dashboard/customersupport"
+            element={<CustomerSupportPage />}
           />
         </Route>
       </Routes>

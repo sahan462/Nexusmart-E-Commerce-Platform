@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const TechnicalIssue = () => {
+const TechnicalIssuePage = () => {
   const [subject, setSubject] = useState("");
   const [description, setDescription] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -69,4 +69,4 @@ const TechnicalIssue = () => {
   );
 };
 
-export default TechnicalIssue;
+export default TechnicalIssuePage;
