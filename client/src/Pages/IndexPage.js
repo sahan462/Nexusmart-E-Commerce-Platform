@@ -25,7 +25,7 @@ function IndexPage() {
     fetchData();
   }, []);
 
-  if (loading == true) {
+  if (loading === true) {
     return <Loading />;
   }
   return (
