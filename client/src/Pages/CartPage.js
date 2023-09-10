@@ -14,6 +14,7 @@ export default function CartPage() {
   const [apiData, setApiData] = useState([]);
   const [loading, setLoading] = useState(true);
   const { userData } = useContext(UserContext);
+  const [invalidToken, setInvalidToken] = useState(false);
   let buyerID = null;
 
   useEffect(() => {
@@ -37,13 +38,17 @@ export default function CartPage() {
           setLoading(false);
         } catch (error) {
           console.log("API call failed:", error);
-          <Navigate to={"/login"}></Navigate>;
           setLoading(false);
+          setInvalidToken(true);
         }
       }
       fetchData();
     }
   }, [userData]);
+
+  if (invalidToken) {
+    return <Navigate to={"/login"} />;
+  }
 
   if (showContent && userData === null) {
     return (
@@ -84,15 +89,35 @@ export default function CartPage() {
         setLoading(false);
       } catch (error) {
         console.log("API call failed:", error);
-        // <Navigate to={"/login"}></Navigate>;
+        setInvalidToken(true);
         setLoading(false);
       }
     }
   }
 
-  // Item data restructuring
-  // console.log(apiData);
+  // Delete Handler
+  async function deleteItemHandler(iID) {
+    console.log(iID);
+    setLoading(true);
+    const token = userData.token;
+    const headers = {
+      "x-auth-token": token,
+    };
+    try {
+      const uri = "/cart" + "?itemId=" + iID;
+      await axios.delete(uri, { headers });
 
+      const response = await axios.get(uri, { headers });
+      setApiData(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.log("API call failed:", error);
+      // setInvalidToken(true);
+      setLoading(false);
+    }
+  }
+
+  // Item data restructuring
   buyerID = apiData.buyerId;
   let itemsData = apiData.items;
   itemsData = itemsData.map((ele) => ({
@@ -105,7 +130,8 @@ export default function CartPage() {
     oldPrice: ele.item.price,
     percentage: ele.item.discount ? ele.item.discount.percentage : "0",
     newPrice: ele.item.discount ? ele.item.price : ele.item.price,
-    handler: quantityHandler,
+    quantityHandler: quantityHandler,
+    deleteItemHandler: deleteItemHandler,
   }));
 
   // Update

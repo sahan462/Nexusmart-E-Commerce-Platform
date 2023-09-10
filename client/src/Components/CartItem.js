@@ -37,7 +37,11 @@ export default function CartItem(props) {
               </div>
               <div className="mb-2">{props.percentage}%</div>
               <div>
-                <button>
+                <button
+                  onClick={() => {
+                    props.deleteItemHandler(props.itemID);
+                  }}
+                >
                   <FontAwesomeIcon
                     icon={faTrash}
                     className="text-gray-400 hover:text-primary"
@@ -49,7 +53,7 @@ export default function CartItem(props) {
               <div className="flex justify-center items-center">
                 <button
                   onClick={() => {
-                    props.handler("m", props.itemID, props.quantity);
+                    props.quantityHandler("m", props.itemID, props.quantity);
                   }}
                 >
                   <FontAwesomeIcon
@@ -62,7 +66,7 @@ export default function CartItem(props) {
                 </span>
                 <button
                   onClick={() => {
-                    props.handler("p", props.itemID, props.quantity);
+                    props.quantityHandler("p", props.itemID, props.quantity);
                   }}
                 >
                   <FontAwesomeIcon

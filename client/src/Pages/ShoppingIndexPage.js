@@ -79,8 +79,8 @@ function ShoppingIndexPage() {
       <div className="bg-white-400 w-full h-full col-span-2">
         <Categories />
       </div>
-      <div className=" w-full h-full col-span-8">
-        {searchInput ? (
+      <div className=" w-full h-full col-span-10">
+        {searchInput !== "" ? (
           apiData.length === 0 ? (
             <ItemNotFound />
           ) : (
@@ -89,9 +89,6 @@ function ShoppingIndexPage() {
         ) : (
           <ShoppingList />
         )}
-      </div>
-      <div className=" w-full h-full col-span-2">
-        <HotDealsList />
       </div>
     </div>
   );
