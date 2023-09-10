@@ -39,7 +39,7 @@ export default function ItemPage() {
     return <Loading />;
   }
 
-  console.log(apiData);
+  // console.log(apiData);
 
   const noOfStars = apiData.noOfStars;
   const starComponents = [];

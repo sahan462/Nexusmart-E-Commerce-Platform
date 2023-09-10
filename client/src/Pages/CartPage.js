@@ -14,6 +14,7 @@ export default function CartPage() {
   const [apiData, setApiData] = useState([]);
   const [loading, setLoading] = useState(true);
   const { userData } = useContext(UserContext);
+  const [invalidToken, setInvalidToken] = useState(false);
   let buyerID = null;
 
   useEffect(() => {
@@ -37,13 +38,17 @@ export default function CartPage() {
           setLoading(false);
         } catch (error) {
           console.log("API call failed:", error);
-          <Navigate to={"/login"}></Navigate>;
           setLoading(false);
+          setInvalidToken(true);
         }
       }
       fetchData();
     }
   }, [userData]);
+
+  if (invalidToken) {
+    return <Navigate to={"/login"} />;
+  }
 
   if (showContent && userData === null) {
     return (
