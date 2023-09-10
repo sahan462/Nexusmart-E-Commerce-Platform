@@ -20,6 +20,7 @@ export default function ItemPage() {
   const [loading, setLoading] = useState(true);
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedQuantity, setSelectedQuantity] = useState(1);
+  const [invalidToken, setInvalidToken] = useState(false);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const searchInput = searchParams.get("id");
@@ -43,13 +44,11 @@ export default function ItemPage() {
     return <Loading />;
   }
 
-  console.log(apiData);
-
   async function addTocartHandler() {
     setLoading(true);
     if (userData == null) {
       setLoading(false);
-      return <Navigate to={"/login"} />;
+      setInvalidToken(true);
     } else {
       const token = userData.token;
       const headers = {
@@ -68,10 +67,14 @@ export default function ItemPage() {
         setLoading(false);
       } catch (error) {
         console.log("API call failed:", error);
-        <Navigate to={"/login"}></Navigate>;
         setLoading(false);
+        setInvalidToken(true);
       }
     }
+  }
+
+  if (invalidToken) {
+    return <Navigate to={"/login"} />;
   }
 
   const noOfStars = apiData.noOfStars;
