@@ -1,11 +1,39 @@
 const DeliveryPartner = require('../models/DeliveryPathnerModel');
+const mongoose = require("mongoose");
 
 // Create a new delivery partner
-const createDeliveryPartner = async (req, res) => {
+const addDeliveryPartner = async (req, res) => {
+
+    const {
+        name,
+        logo,
+        ratePerKM,
+        contactPerson,
+        email,
+        phone,
+        address,
+        servicesOffered,
+        active,
+        registrationDate,
+        id
+    }=req.body;
+
     try {
-        const newPartner = new DeliveryPartner(req.body);
-        const savedPartner = await newPartner.save();
-        res.status(201).json(savedPartner);
+        const newPartner = DeliveryPartner.create({
+            name: name,
+            logo: logo,
+            ratePerKM: ratePerKM,
+            contactPerson: contactPerson,
+            email: email,
+            phone: phone,
+            address: address,
+            servicesOffered: servicesOffered,
+            active: active,
+            registrationDate: registrationDate,
+            adminID: id
+        });
+        res.status(201).json(newPartner);
+
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
@@ -65,7 +93,7 @@ const deleteDeliveryPartnerById = async (req, res) => {
 };
 
 module.exports = {
-    createDeliveryPartner,
+    addDeliveryPartner,
     getAllDeliveryPartners,
     getDeliveryPartnerById,
     updateDeliveryPartnerById,

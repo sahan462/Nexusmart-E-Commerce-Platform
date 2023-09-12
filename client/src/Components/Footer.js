@@ -73,7 +73,9 @@ export default function Footer() {
                 <Link className="hover:text-primary">How to buy</Link>
               </div>
               <div className="text-end text-sm pt-1">
-                <Link className="hover:text-primary">Help Center </Link>
+                <Link to="/helpcenter" className="hover:text-primary">
+                  Help Center
+                </Link>
               </div>
               <div className="text-end text-sm pt-1">
                 <Link className="hover:text-primary">Returns and Refunds</Link>
