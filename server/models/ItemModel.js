@@ -39,6 +39,9 @@ const ItemSchema = new mongoose.Schema({
       type: Number,
       required: true
     },
+    //TODO
+    //when percentage is added new price must be calculated in backend
+    //Check wether the presentage is lessthan 100%
     discount: {
         percentage: {
             type: Number,
@@ -47,6 +50,7 @@ const ItemSchema = new mongoose.Schema({
             type: Number,
         }
     },
+    
     noOfStars: {
         type: Number,
         default: 0
@@ -55,11 +59,9 @@ const ItemSchema = new mongoose.Schema({
         {
             name: {
                 type: String,
-                required: true,
             },
             hexCode: {
                 type: String,
-                required: true,
             },
         },
     ],
