@@ -1,5 +1,13 @@
 const Item = require('../models/ItemModel');
 
+const formatCurrencyInput = (amount) => {
+    const parsedValue = parseFloat(amount);
+    if (!isNaN(parsedValue)) {
+        return parsedValue.toFixed(2);
+    }
+    return '';
+}
+
 const getEstimatedDeliveryDate = (estimateDeliveryDuration) => {
     const currentDatetime = new Date();
 
@@ -44,7 +52,7 @@ const addItem = async (req, res) => {
     } = req.body;
 
     try {
-
+        console.log(formatCurrencyInput(price))
         const newItem = new Item({
             title: title,
             overview: overview,
@@ -54,7 +62,7 @@ const addItem = async (req, res) => {
             imgURL: imgURL,
             images: images,
             quantity: quantity,
-            price: price,
+            price: formatCurrencyInput(price).toString(),
             availableColors: availableColors,
             warranty: warranty,
             returnItem: returnItem,
@@ -64,7 +72,7 @@ const addItem = async (req, res) => {
         if (discountPercentage > 0) {
             newItem.discount = {
                 percentage: discountPercentage,
-                newPrice: price - (price * (discountPercentage / 100)),
+                newPrice: formatCurrencyInput(price - (price * (discountPercentage / 100))).toString(),
             };
         }
 
@@ -72,7 +80,7 @@ const addItem = async (req, res) => {
             available: delivery.available,
             warehouse: delivery.warehouse,
             freeDelivery: delivery.freeDelivery,
-            cost: delivery.cost,
+            cost: formatCurrencyInput(delivery.cost).toString(),
             cashOnDelivery: delivery.cashOnDelivery,
             estimateDeliveryDuration: delivery.estimateDeliveryDuration,
             estimateDeliveryDate: getEstimatedDeliveryDate(delivery.estimateDeliveryDuration)

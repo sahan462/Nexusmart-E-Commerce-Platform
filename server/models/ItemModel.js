@@ -45,17 +45,15 @@ const ItemSchema = new mongoose.Schema({
         required: true
     },
     price: {
-      type: Number,
-      required: true,
-      set: roundToTwoDecimal
+        type: String,
+        required: true,
     },
     discount: {
         percentage: {
             type: Number,
         },
         newPrice: {
-            type: Number,
-            set: roundToTwoDecimal
+            type: String,
         }
     },
     noOfStars: {
@@ -121,11 +119,10 @@ const ItemSchema = new mongoose.Schema({
             default: false,
         },
         cost: {
-            type: Number,
+            type: String,
             required: function (){
                 return (this.delivery.freeDelivery === false);
             },
-            set: roundToTwoDecimal
         },
         cashOnDelivery: {
             type: Boolean,
