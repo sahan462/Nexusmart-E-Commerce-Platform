@@ -1,5 +1,9 @@
 const mongoose = require('mongoose');
 
+const roundToTwoDecimal = (value) => {
+    return Math.round(value * 100) / 100;
+};
+
 const ItemSchema = new mongoose.Schema({
     title:{
         type: String,
@@ -105,7 +109,7 @@ const ItemSchema = new mongoose.Schema({
         warehouse: {
             type: String,
             default: "Colombo",
-            required: true
+            // required: true
         },
         freeDelivery:{
             type: Boolean,
@@ -137,10 +141,6 @@ const ItemSchema = new mongoose.Schema({
         required: true
     }
 });
-
-const roundToTwoDecimal = (value) => {
-    return Math.round(value * 100) / 100;
-  };
 
 const ItemModel = mongoose.model('Item', ItemSchema);
 
