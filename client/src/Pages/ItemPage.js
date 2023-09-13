@@ -13,12 +13,14 @@ import { useContext } from "react";
 import { UserContext } from "../AuthContext";
 import Loading from "../Components/Loading";
 import { Navigate } from "react-router-dom";
+import ItemColorButton from "../Components/ItemColorButton";
 
 export default function ItemPage() {
   const { userData, setUserData } = useContext(UserContext);
   const [apiData, setApiData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedColor, setSelectedColor] = useState(null);
+  const [selectedColorID, setselectedColorID] = useState();
+  const [selectedColorName, setselectedColorName] = useState();
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [invalidToken, setInvalidToken] = useState(false);
   const location = useLocation();
@@ -82,7 +84,7 @@ export default function ItemPage() {
     setUserData("");
     return <Navigate to={"/login"} />;
   }
-
+  console.log("item page", apiData);
   const noOfStars = apiData.noOfStars;
   const starComponents = [];
   for (let i = 0; i < noOfStars; i++) {
@@ -104,10 +106,18 @@ export default function ItemPage() {
     );
   }
 
-  const colors = {
-    red: "#ff0000",
-    green: "#00ff00",
-  };
+  // color handeling
+  function colorHandler(colorID, colorName) {
+    setselectedColorID(colorID);
+    setselectedColorName(colorName);
+  }
+
+  const availableColors = apiData.availableColors;
+  if (availableColors.length == 1) {
+    setselectedColorID(availableColors[0]._id);
+    setselectedColorName(availableColors[0].name);
+  }
+  console.log(availableColors);
 
   const isFreeDeliveryAvailable = true;
   const isCODAvailable = true;
@@ -184,35 +194,43 @@ export default function ItemPage() {
                 apiData.discount ? apiData.discount.percentage : "0"
               }%`}</span>
             </div>
-            {/* Colors here  */}
+            {/* Color Panel Here  */}
             <div className="my-4">
               <div className="flex items-center">
                 <span className="mr-1 text-gray-500">Color Family:</span>
                 <span
                   className={`${
-                    selectedColor ? "text-black" : "text-gray-500"
+                    selectedColorID ? "text-black" : "text-gray-500"
                   }`}
                 >
-                  {selectedColor ? selectedColor : "Please select a color"}
+                  {selectedColorID
+                    ? selectedColorName
+                    : availableColors.length > 0
+                    ? "Please select a color"
+                    : "Color options not available for this product"}
                 </span>
               </div>
               <div className="my-2 flex items-center">
-                <button
-                  className={`h-7 w-7 mr-2 border-2 border-red-500 rounded-full ${
-                    selectedColor === "red" ? "bg-red-500" : "bg-white"
-                  }`}
-                  onClick={() => {
-                    setSelectedColor("red");
-                  }}
-                ></button>
-                <button
-                  className={`h-7 w-7 mr-2  border-2 border-green-500 rounded-full ${
-                    selectedColor === "green" ? "bg-green-500" : "bg-white"
-                  }`}
-                  onClick={() => {
-                    setSelectedColor("green");
-                  }}
-                ></button>
+                {availableColors.length > 0 &&
+                  availableColors.map((colorItem) =>
+                    colorItem._id === selectedColorID ? (
+                      <ItemColorButton
+                        colorCode={colorItem.hexCode}
+                        colorName={colorItem.name}
+                        colorID={colorItem._id}
+                        colorHandler={colorHandler}
+                        isFill={true}
+                      />
+                    ) : (
+                      <ItemColorButton
+                        colorCode={colorItem.hexCode}
+                        colorName={colorItem.name}
+                        colorID={colorItem._id}
+                        colorHandler={colorHandler}
+                        isFill={false}
+                      />
+                    )
+                  )}
               </div>
             </div>
             {/* Quantity Here */}
