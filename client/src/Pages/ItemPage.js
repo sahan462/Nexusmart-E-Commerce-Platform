@@ -15,7 +15,7 @@ import Loading from "../Components/Loading";
 import { Navigate } from "react-router-dom";
 
 export default function ItemPage() {
-  const { userData } = useContext(UserContext);
+  const { userData, setUserData } = useContext(UserContext);
   const [apiData, setApiData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedColor, setSelectedColor] = useState(null);
@@ -74,6 +74,12 @@ export default function ItemPage() {
   }
 
   if (invalidToken) {
+    console.log("token invalid ");
+    const clearStorage = async () => {
+      await localStorage.removeItem("userDataStorage");
+    };
+    clearStorage();
+    setUserData("");
     return <Navigate to={"/login"} />;
   }
 
