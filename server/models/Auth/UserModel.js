@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
     role: {
         type: String,
         required: true,
-        enum: ['seller', 'buyer']
+        enum: ['seller', 'buyer', 'admin']
     },
     buyerData: {
         type: mongoose.Schema.Types.ObjectId,
