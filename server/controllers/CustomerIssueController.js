@@ -49,7 +49,9 @@ const addReply = async (req, res) => {
 
   try {
     let issue = await CustomerIssue.findById(issueId);
-
+    if (!issue) {
+      throw Error("Issue not found");
+    }
     issue.replie.text = reply;
     issue.status = "closed"
 
@@ -66,6 +68,9 @@ const deleteIssue = async (req, res) => {
   const {issueId} = req.params;
   try {
     const issue = await CustomerIssue.findByIdAndRemove(issueId);
+    if (!issue) {
+      throw Error("Issue not found");
+    }
     res.status(200).send(issue)
   } catch (error) {
     res.status(400).send({
