@@ -23,6 +23,9 @@ const ItemSchema = new mongoose.Schema({
             type: String,
         }
     },
+    brand: {
+        type: String
+    },
     imgURL: {
         type: String,
         required: true
@@ -43,7 +46,8 @@ const ItemSchema = new mongoose.Schema({
     },
     price: {
       type: Number,
-      required: true
+      required: true,
+      set: roundToTwoDecimal
     },
     discount: {
         percentage: {
@@ -51,6 +55,7 @@ const ItemSchema = new mongoose.Schema({
         },
         newPrice: {
             type: Number,
+            set: roundToTwoDecimal
         }
     },
     
