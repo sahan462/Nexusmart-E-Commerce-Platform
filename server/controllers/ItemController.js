@@ -42,8 +42,15 @@ const addItem = async (req, res) => {
             };
         }
 
+        //calculate estimate delivery date
+        const currentDatetime = new Date();
+        const minDaysToDeliver = 7;
+        const maxDaysToDeliver =
+        currentDatetime.setDate(currentDatetime.getDate() + daysToAdd);
+        const futureDay = currentDatetime.getDate();
+
         await newItem.save();
-        res.status(200).send(newItem);
+        res.status(200).json({ addItem: true});
     } catch (error) {
         res.status(400).send({
             error: error.message,

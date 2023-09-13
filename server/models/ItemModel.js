@@ -11,15 +11,14 @@ const ItemSchema = new mongoose.Schema({
     description: {
         type: String
     },
-    brand:{
-        type: String
-    },
-    categories: [
-        {
+    categories: {
+        mainCategory: {
             type: String,
-            required: true,
         },
-    ],
+        subCategory: {
+            type: String,
+        }
+    },
     imgURL: {
         type: String,
         required: true
@@ -42,9 +41,6 @@ const ItemSchema = new mongoose.Schema({
       type: Number,
       required: true
     },
-    //TODO
-    //when percentage is added new price must be calculated in backend
-    //Check wether the presentage is lessthan 100%
     discount: {
         percentage: {
             type: Number,
@@ -78,7 +74,13 @@ const ItemSchema = new mongoose.Schema({
             required: function (){
                 return this.warranty.available === true
             }
-        }
+        },
+        durationCategory:{
+            type: String,
+            required: function (){
+                return this.warranty.available === true
+            }
+        },
     },
     returnItem: {
         canBeReturned: {
@@ -124,7 +126,9 @@ const ItemSchema = new mongoose.Schema({
         },
         estimateDeliveryDate: {
             type: Date,
-            required: true
+        },
+        estimateDeliveryDutarion: {
+            type: Number,
         }
     },
     seller: {
