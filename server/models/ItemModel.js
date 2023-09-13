@@ -11,6 +11,9 @@ const ItemSchema = new mongoose.Schema({
     description: {
         type: String
     },
+    brand:{
+        type: String
+    },
     categories: [
         {
             type: String,
@@ -111,7 +114,8 @@ const ItemSchema = new mongoose.Schema({
             type: Number,
             required: function (){
                 return (this.delivery.freeDelivery === false);
-            }
+            },
+            set: roundToTwoDecimal
         },
         cashOnDelivery: {
             type: Boolean,
@@ -129,6 +133,10 @@ const ItemSchema = new mongoose.Schema({
         required: true
     }
 });
+
+const roundToTwoDecimal = (value) => {
+    return Math.round(value * 100) / 100;
+  };
 
 const ItemModel = mongoose.model('Item', ItemSchema);
 
