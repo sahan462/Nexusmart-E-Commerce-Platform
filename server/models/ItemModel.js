@@ -74,7 +74,13 @@ const ItemSchema = new mongoose.Schema({
             required: function (){
                 return this.warranty.available === true
             }
-        }
+        },
+        durationCategory:{
+            type: String,
+            required: function (){
+                return this.warranty.available === true
+            }
+        },
     },
     returnItem: {
         canBeReturned: {
