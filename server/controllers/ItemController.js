@@ -43,11 +43,11 @@ const addItem = async (req, res) => {
         }
 
         //calculate estimate delivery date
-        const currentDatetime = new Date();
-        const minDaysToDeliver = 7;
-        const maxDaysToDeliver =
-        currentDatetime.setDate(currentDatetime.getDate() + daysToAdd);
-        const futureDay = currentDatetime.getDate();
+        // const currentDatetime = new Date();
+        // const minDaysToDeliver = 7;
+        // const maxDaysToDeliver =
+        // currentDatetime.setDate(currentDatetime.getDate() + daysToAdd);
+        // const futureDay = currentDatetime.getDate();
 
         await newItem.save();
         res.status(200).json({ addItem: true});

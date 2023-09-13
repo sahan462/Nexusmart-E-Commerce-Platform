@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const customerIssueController = require("../controllers/CustomerIssueController");
-const { verifySignin } = require("../middleware/auth");
+const { verifySignin, verifyAdmin } = require("../middleware/auth");
 
 // Route to add a new issue
 router.post("/", [verifySignin], customerIssueController.addIssue);
@@ -10,6 +10,8 @@ router.post("/", [verifySignin], customerIssueController.addIssue);
 router.get("/", customerIssueController.viewIssues);
 
 // Route to add a reply to an issue
-router.post("/reply", customerIssueController.addReply);
+router.post("/reply/:issueId",[verifySignin, verifyAdmin], customerIssueController.addReply);
+
+router.post("/delete/:issueId",[verifySignin, verifyAdmin], customerIssueController.deleteIssue);
 
 module.exports = router;
