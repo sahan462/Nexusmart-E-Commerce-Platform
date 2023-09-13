@@ -1,4 +1,28 @@
 const Item = require('../models/ItemModel');
+
+const getEstimatedDeliveryDate = (estimateDeliveryDuration) => {
+    const currentDatetime = new Date();
+
+    const monthNames = ["Jan", "Feb", "March", "Apr", "May", "June",
+        "July", "Aug", "Sept", "Oct", "Nov", "Dec"
+    ];
+    const minDaysToDeliver = estimateDeliveryDuration;
+    const maxDaysToDeliver = estimateDeliveryDuration + 2;
+
+    const minDeliveryDate = new Date(currentDatetime);
+    minDeliveryDate.setDate(currentDatetime.getDate() + minDaysToDeliver);
+
+    const maxDeliveryDate = new Date(currentDatetime);
+    maxDeliveryDate.setDate(currentDatetime.getDate() + maxDaysToDeliver);
+
+    const minDeliveryDay = minDeliveryDate.getDate() + " "+monthNames[minDeliveryDate.getMonth()];
+    const maxDeliveryDay = maxDeliveryDate.getDate() + " " + monthNames[maxDeliveryDate.getMonth()];
+
+    return (minDeliveryDay + " - " +maxDeliveryDay)
+
+}
+
+
 const addItem = async (req, res) => {
 
     const {
@@ -19,6 +43,7 @@ const addItem = async (req, res) => {
     } = req.body;
 
     try {
+
         const newItem = new Item({
             title: title,
             overview: overview,
@@ -31,7 +56,6 @@ const addItem = async (req, res) => {
             availableColors: availableColors,
             warranty: warranty,
             returnItem: returnItem,
-            delivery: delivery,
             seller: id,
         });
 
@@ -42,12 +66,15 @@ const addItem = async (req, res) => {
             };
         }
 
-        //calculate estimate delivery date
-        const currentDatetime = new Date();
-        const minDaysToDeliver = 7;
-        const maxDaysToDeliver =
-        currentDatetime.setDate(currentDatetime.getDate() + daysToAdd);
-        const futureDay = currentDatetime.getDate();
+        newItem.delivery = {
+            available: delivery.available,
+            warehouse: delivery.warehouse,
+            freeDelivery: delivery.freeDelivery,
+            cost: delivery.cost,
+            cashOnDelivery: delivery.cashOnDelivery,
+            estimateDeliveryDuration: delivery.estimateDeliveryDuration,
+            estimateDeliveryDate: getEstimatedDeliveryDate(delivery.estimateDeliveryDuration)
+        }
 
         await newItem.save();
         res.status(200).json({ addItem: true});
@@ -107,7 +134,6 @@ const changeItemProp = async (req, res) => {
 
     //verify the seller of the item and req seller is same
     try {
-
         const item = await Item.findByIdAndUpdate(itemId, {
             $set: {
                 title: title,

@@ -49,7 +49,6 @@ const ItemSchema = new mongoose.Schema({
             type: Number,
         }
     },
-    
     noOfStars: {
         type: Number,
         default: 0
@@ -93,18 +92,18 @@ const ItemSchema = new mongoose.Schema({
     delivery: {
         available: {
             type: Boolean,
+            required: true,
             default: false,
-            required: true
         },
         warehouse: {
             type: String,
+            required: true,
             default: "Colombo",
-            required: true
         },
         freeDelivery:{
             type: Boolean,
+            required: true,
             default: false,
-            required: true
         },
         cost: {
             type: Number,
@@ -114,13 +113,13 @@ const ItemSchema = new mongoose.Schema({
         },
         cashOnDelivery: {
             type: Boolean,
+            required: true,
             default: true,
-            required: true
         },
         estimateDeliveryDate: {
-            type: Date,
+            type: String,
         },
-        estimateDeliveryDutarion: {
+        estimateDeliveryDuration: {
             type: Number,
         }
     },
