@@ -7,6 +7,7 @@ export default function HotDealsList(props) {
       <div>
         {props.data.map((data) => (
           <HotDealCard
+            itemID={data._id}
             itemName={data.title}
             itemDesc={data.overview.substring(0, 20) + "..."}
             imgURL={data.imgURL}

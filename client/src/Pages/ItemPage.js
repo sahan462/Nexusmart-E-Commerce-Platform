@@ -9,13 +9,18 @@ import {
   faCalendarDays,
   faShield,
 } from "@fortawesome/free-solid-svg-icons";
+import { useContext } from "react";
+import { UserContext } from "../AuthContext";
 import Loading from "../Components/Loading";
+import { Navigate } from "react-router-dom";
 
 export default function ItemPage() {
+  const { userData } = useContext(UserContext);
   const [apiData, setApiData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedQuantity, setSelectedQuantity] = useState(1);
+  const [invalidToken, setInvalidToken] = useState(false);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const searchInput = searchParams.get("id");
@@ -39,7 +44,38 @@ export default function ItemPage() {
     return <Loading />;
   }
 
-  console.log(apiData);
+  async function addTocartHandler() {
+    setLoading(true);
+    if (userData == null) {
+      setLoading(false);
+      setInvalidToken(true);
+    } else {
+      const token = userData.token;
+      const headers = {
+        "x-auth-token": token,
+      };
+      try {
+        const uri = "/cart";
+        await axios.post(
+          uri,
+          {
+            itemId: apiData._id,
+            quantity: selectedQuantity,
+          },
+          { headers }
+        );
+        setLoading(false);
+      } catch (error) {
+        console.log("API call failed:", error);
+        setLoading(false);
+        setInvalidToken(true);
+      }
+    }
+  }
+
+  if (invalidToken) {
+    return <Navigate to={"/login"} />;
+  }
 
   const noOfStars = apiData.noOfStars;
   const starComponents = [];
@@ -202,7 +238,10 @@ export default function ItemPage() {
             <button className="bg-primary hover:bg-primary_hover font-semibold text-white col-span-3 h-12 border border-none rounded-lg">
               Buy Now
             </button>
-            <button className="bg-addToCart hover:bg-addToCartHover font-semibold text-white col-span-3 h-12 border border-none rounded-lg">
+            <button
+              className="bg-addToCart hover:bg-addToCartHover font-semibold text-white col-span-3 h-12 border border-none rounded-lg"
+              onClick={addTocartHandler}
+            >
               Add to Cart
             </button>
           </div>

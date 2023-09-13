@@ -69,9 +69,6 @@ function HeaderPage() {
               className="h-6 w-6 px-2 hover:text-primary"
             />
           </Link>
-          <div className="bg-primary text-white flex items-center text-sm justify-center absolute top-1 right-0 h-5 w-5 border border-none rounded-full">
-            5
-          </div>
         </div>
 
         {/* Seller Dashboard  */}

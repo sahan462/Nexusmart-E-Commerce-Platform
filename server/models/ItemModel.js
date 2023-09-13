@@ -11,12 +11,14 @@ const ItemSchema = new mongoose.Schema({
     description: {
         type: String
     },
-    categories: [
-        {
+    categories: {
+        mainCategory: {
             type: String,
-            required: true,
         },
-    ],
+        subCategory: {
+            type: String,
+        }
+    },
     imgURL: {
         type: String,
         required: true
@@ -47,6 +49,7 @@ const ItemSchema = new mongoose.Schema({
             type: Number,
         }
     },
+    
     noOfStars: {
         type: Number,
         default: 0
@@ -55,11 +58,9 @@ const ItemSchema = new mongoose.Schema({
         {
             name: {
                 type: String,
-                required: true,
             },
             hexCode: {
                 type: String,
-                required: true,
             },
         },
     ],
@@ -118,7 +119,9 @@ const ItemSchema = new mongoose.Schema({
         },
         estimateDeliveryDate: {
             type: Date,
-            required: true
+        },
+        estimateDeliveryDutarion: {
+            type: Number,
         }
     },
     seller: {
