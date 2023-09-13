@@ -29,6 +29,7 @@ const addItem = async (req, res) => {
         title,
         overview,
         description,
+        brand,
         categories,
         imgURL,
         images,
@@ -48,6 +49,7 @@ const addItem = async (req, res) => {
             title: title,
             overview: overview,
             description: description,
+            brand: brand,
             categories: categories,
             imgURL: imgURL,
             images: images,
@@ -77,7 +79,7 @@ const addItem = async (req, res) => {
         }
 
         await newItem.save();
-        res.status(200).json({ addItem: true});
+        res.status(200).json({ addItem: true, item: newItem});
     } catch (error) {
         res.status(400).send({
             error: error.message,
@@ -121,6 +123,7 @@ const changeItemProp = async (req, res) => {
         overview,
         description,
         categories,
+        brand,
         imgURL,
         images,
         quantity,
@@ -141,6 +144,7 @@ const changeItemProp = async (req, res) => {
                 description: description,
                 categories: categories,
                 imgURL: imgURL,
+                brand: brand,
                 images: images,
                 quantity: quantity,
                 price: price,
