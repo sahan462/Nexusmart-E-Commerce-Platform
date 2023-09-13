@@ -11,12 +11,14 @@ const ItemSchema = new mongoose.Schema({
     description: {
         type: String
     },
-    categories: [
-        {
+    categories: {
+        mainCategory: {
             type: String,
-            required: true,
         },
-    ],
+        subCategory: {
+            type: String,
+        }
+    },
     imgURL: {
         type: String,
         required: true
@@ -117,6 +119,9 @@ const ItemSchema = new mongoose.Schema({
         },
         estimateDeliveryDate: {
             type: Date,
+        },
+        estimateDeliveryDutarion: {
+            type: Number,
         }
     },
     seller: {
