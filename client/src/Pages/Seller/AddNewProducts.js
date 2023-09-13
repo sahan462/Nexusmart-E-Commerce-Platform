@@ -7,8 +7,18 @@ const predefinedOptions = [
     "Option 1",
     "Option 2",
     "Option 3"
-    // Add more options as needed
 ];
+
+const warrantyDuratin = [
+    "Days",
+    "Months",
+    "Years"
+]
+
+const locations = [
+    "Colombo",
+    "Kaluthera"
+]
 
 function AddProductPage() {
 
@@ -28,6 +38,10 @@ function AddProductPage() {
     const [isReturnAble, setReturnAble] = useState(false);
     const [isWarrantyAvailable, setWarrantyAvailable] = useState(false);
     const [loading, setLoading] = useState(false)
+    const [discount, setDiscount] = useState('');
+    const [delivery, setDelivery] = useState('');
+    const [warrantyDuration, setWarrantyDuration] = useState('');
+    const [showErrorDialog, setShowErrorDialog] = useState(false);
 
     const product = {
         title: productName,
@@ -40,7 +54,6 @@ function AddProductPage() {
         delivery: isFreeDelivery,
         returnItem: isReturnAble,
         warranty: isWarrantyAvailable,
-
     };
 
     useEffect(() => {
@@ -49,7 +62,9 @@ function AddProductPage() {
 
     const fetchProducts = async () => {
         try {
+            console.log(ItemId)
             const response = await axios.get(`/items?id=${ItemId}`);
+            console.log(response)
             setProductName(response.data.title);
             setProductDescription(response.data.description)
             setProductPrice(response.data.price)
@@ -57,10 +72,14 @@ function AddProductPage() {
             setProductOverview(response.data.overview)
             setProductCategory(response.data.categories)
             setProductQuantity(response.data.quantity)
-            setFreeDelivery(response.data.delivery)
-            setCashOnDelivery(response.data.delivery)
-            setReturnAble(response.data.returnItem)
-            setWarrantyAvailable(response.data.warranty)
+            console.log(response)
+            setFreeDelivery(response.data.delivery.freeDelivery)
+            setCashOnDelivery(response.data.delivery.cashOnDelivery)
+            setReturnAble(response.data.returnItem.canBeReturned)
+            setWarrantyAvailable(response.data.warranty.available)
+            if(response.data.discount) setDiscount(response.data.discount.percentage)
+            // setDelivery(response.data.delivery.duration)
+            setWarrantyDuration(response.data.warranty.duration)
             setLoading(true);
 
         } catch (error) {
@@ -120,12 +139,27 @@ function AddProductPage() {
         setWarrantyAvailable(!isWarrantyAvailable);
     }
 
+    const handleWarrantyDuration = (event) => {
+        setWarrantyDuration(event.target.value)
+    }
+
+    const handleDeliveryDuration = (event) => {
+        setDelivery(event.target.value)
+    }
+
+    const handleSetDiscount = (event) => {
+        setDiscount(event.target.value)
+        if (discount > 100) {
+            setShowErrorDialog(true);
+        }
+    }
+
     const handleAddProduct = async () => {
         try {
             const userData = JSON.parse(localStorage.getItem("userDataStorage"));
             const response = await axios.post("/items/", product, {
                 headers: {
-                    'x-auth-token': userData.token
+                    'x-auth-token': userData.Auth_token
                 }
             });
             console.log(response);
@@ -203,6 +237,50 @@ function AddProductPage() {
                     onChange={handleProductImageUpload}
                 />
             </div>
+            <div className="mb-4">
+                <label className="block font-semibold text-gray-700">Discount(%)</label>
+                <input
+                    type="number"
+                    className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
+                    value={discount}
+                    onChange={handleSetDiscount}
+                />
+            </div>
+            <div className='flex gap-10'>
+                <div className="mb-4">
+                    <label className="block font-semibold text-gray-700">Delivery Duration(Days): </label>
+                    <input
+                        type="number"
+                        className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
+                        value={delivery}
+                        onChange={handleDeliveryDuration}
+                    />
+                </div>
+                <div className="mb-4">
+                    <label className="block font-semibold text-gray-700">Delivery Cost </label>
+                    <input
+                        type="number"
+                        className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
+                        value={delivery}
+                        onChange={handleDeliveryDuration}
+                    />
+                </div>
+                <div className="mb-4">
+                    <label className="block font-semibold text-gray-700">Location </label>
+                    <select
+                            className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
+                            value={ProductCategory}
+                            onChange={handleProductCategory}
+                        >
+                            <option value="">Select an option</option>
+                            {locations.map((option, index) => (
+                                <option key={index} value={option}>
+                                    {option}
+                                </option>
+                            ))}
+                        </select>
+                </div>
+            </div>
             <div className="flex mb-4">
                 <div className="flex mb-4">
                     <input
@@ -213,7 +291,7 @@ function AddProductPage() {
                     />
                     <label className="block font-semibold text-gray-700">Free Delivery</label>
                 </div>
-                <div className="ml-6 mb-4 flex">
+                <div className="flex mb-4 ml-6">
                     <input
                         type="checkbox"
                         className="mr-2"
@@ -222,7 +300,7 @@ function AddProductPage() {
                     />
                     <label className="block font-semibold text-gray-700">Cash On Delivery</label>
                 </div>
-                <div className="ml-6 mb-4 flex">
+                <div className="flex mb-4 ml-6">
                     <input
                         type="checkbox"
                         className="mr-2"
@@ -231,7 +309,7 @@ function AddProductPage() {
                     />
                     <label className="block font-semibold text-gray-700">Can Be Returned</label>
                 </div>
-                <div className="ml-6 mb-4 flex">
+                <div className="flex mb-4 ml-6">
                     <input
                         type="checkbox"
                         className="mr-2"
@@ -241,12 +319,65 @@ function AddProductPage() {
                     <label className="block font-semibold text-gray-700">Warranty</label>
                 </div>
             </div>
+            <div className="flex gap-10 mb-4">
+                <div>
+                    <label className="block font-semibold text-gray-700">Warranty Duration</label>
+                    <div className='flex gap-3'>
+                        <input
+                            type="number"
+                            className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
+                            value={warrantyDuration}
+                            onChange={handleWarrantyDuration}
+                        />
+                        <select
+                            className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
+                            value={ProductCategory}
+                            onChange={handleProductCategory}
+                        >
+                            <option value="">Select an option</option>
+                            {warrantyDuratin.map((option, index) => (
+                                <option key={index} value={option}>
+                                    {option}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label className="block font-semibold text-gray-700">Return Duration</label>
+                    <div className='flex gap-3'>
+                        <input
+                            type="number"
+                            className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
+                            value={warrantyDuration}
+                            onChange={handleWarrantyDuration}
+                        />
+                        <select
+                            className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
+                            value={ProductCategory}
+                            onChange={handleProductCategory}
+                        >
+                            <option value="">Select an option</option>
+                            {warrantyDuratin.map((option, index) => (
+                                <option key={index} value={option}>
+                                    {option}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+            </div>
             <button
                 className="w-full px-4 py-2 font-semibold text-white rounded bg-primary hover:bg-primary"
                 onClick={handleAddProduct}
             >
                 Add Product
             </button>
+            {/* {showErrorDialog && (
+                <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+                    
+                </div>
+            )} */}
         </div>
     );
 }
