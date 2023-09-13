@@ -120,7 +120,9 @@ const ItemSchema = new mongoose.Schema({
         },
         estimateDeliveryDate: {
             type: Date,
-            required: true
+        },
+        estimateDeliveryDutarion: {
+            type: Number,
         }
     },
     seller: {

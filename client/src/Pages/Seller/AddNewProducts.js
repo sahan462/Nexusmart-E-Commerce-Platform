@@ -31,7 +31,7 @@ function AddProductPage() {
     const [productPrice, setProductPrice] = useState('');
     const [productImage, setProductImage] = useState('');
     const [productOverview, setProductOverview] = useState('');
-    const [ProductCategory, setProductCategory] = useState('');
+    const [ProductCategory, setProductCategory] = useState([]);
     const [productQuantity, setProductQuantity] = useState('');
     const [isFreeDelivery, setFreeDelivery] = useState(false);
     const [isCashOnDelivery, setCashOnDelivery] = useState(false);
@@ -39,6 +39,7 @@ function AddProductPage() {
     const [isWarrantyAvailable, setWarrantyAvailable] = useState(false);
     const [loading, setLoading] = useState(false)
     const [discount, setDiscount] = useState('');
+    const [warehouselocation, setlocation] = useState('');
     const [delivery, setDelivery] = useState('');
     const [warrantyDuration, setWarrantyDuration] = useState('');
     const [showErrorDialog, setShowErrorDialog] = useState(false);
@@ -72,7 +73,6 @@ function AddProductPage() {
             setProductOverview(response.data.overview)
             setProductCategory(response.data.categories)
             setProductQuantity(response.data.quantity)
-            console.log(response)
             setFreeDelivery(response.data.delivery.freeDelivery)
             setCashOnDelivery(response.data.delivery.cashOnDelivery)
             setReturnAble(response.data.returnItem.canBeReturned)

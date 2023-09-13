@@ -11,13 +11,15 @@ function ProductsPage() {
     const [productPicURL, setproductPicURL] = useState('');
     const [loading, setLoading] = useState(false)
 
+    const userdata = localStorage.getItem("userDataStorage")
+
     useEffect(() => {
         fetchProducts();
     }, []);
 
     const fetchProducts = async () => {
         try {
-            const response = await axios.get("/items/?sellerId=64e866ee7b2506d12a917e03");
+            const response = await axios.get(`/items/?sellerId=`);
             setProducts(response.data);
             setLoading(true);
         } catch (error) {
