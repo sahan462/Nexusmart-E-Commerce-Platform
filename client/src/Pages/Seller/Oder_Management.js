@@ -32,7 +32,7 @@ const PlacedOrdersPage = () => {
         try {
             const response = await axios.get("/order/received", {
                 headers: {
-                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoic2FoYW4iLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlkIjoiNjRlODY2ZWU3YjI1MDZkMTJhOTE3ZTAzIiwicm9sZSI6InNlbGxlciIsImlhdCI6MTY5Mjk5ODA3Nn0.JVR0JJIZr0jmNI-7pbptUerkgpbPgCgNBu-EhGj7wIo"
+                    'x-auth-token': userData.token
                 }
             });
             setOrders(response.data);

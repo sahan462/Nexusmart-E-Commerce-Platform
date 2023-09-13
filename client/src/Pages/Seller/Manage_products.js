@@ -5,10 +5,10 @@ import Loading from "./../../Components/Loading"
 
 function ProductsPage() {
     const [products, setProducts] = useState([]);
-    const [selectedProduct, setSelectedProduct] = useState(null);
-    const [productName, setProductName] = useState('');
-    const [productDescription, setProductDescription] = useState('');
-    const [productPicURL, setproductPicURL] = useState('');
+    // const [selectedProduct, setSelectedProduct] = useState(null);
+    // const [productName, setProductName] = useState('');
+    // const [productDescription, setProductDescription] = useState('');
+    // const [productPicURL, setproductPicURL] = useState('');
     const [loading, setLoading] = useState(false)
 
     const userdata = localStorage.getItem("userDataStorage")
@@ -53,7 +53,7 @@ function ProductsPage() {
         try {
             const response = await axios.delete(`/items/?itemId=${productId}`, {
                 headers: {
-                    'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlkIjoiNjRlODY2ZWU3YjI1MDZkMTJhOTE3ZTAzIiwicm9sZSI6InNlbGxlciIsImlhdCI6MTY5Mjk2ODk1Mn0.IjLn1o-mrcnlyStNAscP_0DybuzZx9dOia1h8eywLwo"
+                    'x-auth-token': userdata.token//"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlkIjoiNjRlODY2ZWU3YjI1MDZkMTJhOTE3ZTAzIiwicm9sZSI6InNlbGxlciIsImlhdCI6MTY5Mjk2ODk1Mn0.IjLn1o-mrcnlyStNAscP_0DybuzZx9dOia1h8eywLwo"
                     //'x-auth-token': `Bearer ${JSON.parse(localStorage.getItem("userDataStorage").token)}` // Adding the token to the Authorization header
                 },
             })
@@ -93,7 +93,7 @@ function ProductsPage() {
                                     </button>
                                 </div>
                             </div>
-                            <img className="flex object-cover w-1/3 h-48 ml-5 rounded-full" src={product.imgURL}></img>
+                            <img className="flex object-cover w-1/3 h-48 ml-5 rounded-full" src={product.imgURL} alt="Resorce is not avalable"></img>
                         </div>
                     </div>
                 ))}
