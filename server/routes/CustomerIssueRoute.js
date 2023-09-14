@@ -10,8 +10,12 @@ router.post("/", [verifySignin], customerIssueController.addIssue);
 router.get("/", customerIssueController.viewIssues);
 
 // Route to add a reply to an issue
+
+
+
 router.post("/reply/:issueId",[verifySignin, verifyAdmin], customerIssueController.addReply);
 
 router.post("/delete/:issueId",[verifySignin, verifyAdmin], customerIssueController.deleteIssue);
+
 
 module.exports = router;
