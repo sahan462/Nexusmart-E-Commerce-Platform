@@ -50,7 +50,7 @@ const addFeedback = async (req, res) => {
         const { id, starRating, comment } = req.body;
 
         const userRating = await UserRating.create({
-            userId: userId,
+            userId: id,
             starRating: starRating,
             comment: comment,
             itemId: itemId
@@ -108,7 +108,7 @@ const viewFeedbacks = async (req, res) => {
 
         if (feedback) {
 
-            const userRatings = await UserRating.find({itemId: itemId});
+            const userRatings = await UserRating.find({itemId: itemId}).populate('userId', 'name -_id');
 
             res.status(200).json({
                 available: true,
