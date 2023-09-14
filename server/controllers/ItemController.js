@@ -164,7 +164,7 @@ const changeItemProp = async (req, res) => {
             }
         }, { new: true });
         if (!item) return res.status(404).send({error: 'The Item with the given ID was not found.'});
-        res.status(200).send(item)
+        res.status(200).json({updateProduct: true});
 
     } catch (error) {
         res.status(400).send({
