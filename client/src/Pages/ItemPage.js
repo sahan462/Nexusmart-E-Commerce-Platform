@@ -14,6 +14,7 @@ import { UserContext } from "../AuthContext";
 import Loading from "../Components/Loading";
 import { Navigate } from "react-router-dom";
 import ItemColorButton from "../Components/ItemColorButton";
+import ImagePanel from "../Components/ItemPageComponents/ImagePanel";
 
 export default function ItemPage() {
   const { userData, setUserData } = useContext(UserContext);
@@ -22,6 +23,7 @@ export default function ItemPage() {
   const [selectedColorID, setselectedColorID] = useState();
   const [selectedColorName, setselectedColorName] = useState();
   const [selectedQuantity, setSelectedQuantity] = useState(1);
+  const [selectedImageURL, setselectedImageURL] = useState("");
   const [invalidToken, setInvalidToken] = useState(false);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -111,61 +113,47 @@ export default function ItemPage() {
     setselectedColorID(colorID);
     setselectedColorName(colorName);
   }
-
   const availableColors = apiData.availableColors;
   if (availableColors.length == 1) {
     setselectedColorID(availableColors[0]._id);
     setselectedColorName(availableColors[0].name);
   }
-  console.log(availableColors);
 
+  // Delivery Handling
   const isFreeDeliveryAvailable = true;
   const isCODAvailable = true;
 
+  // Image Handling
+  // const images = apiData.images;
+  // console.log(images[0].url);
+  // setselectedImageURL(apiData.images[0].url);
+  function imageHandler(url) {
+    console.log(url);
+    setselectedImageURL(url);
+  }
+  if (selectedImageURL === "") {
+    setselectedImageURL(apiData.images[0].url);
+    console.log(selectedImageURL);
+  }
+  console.log("rendered");
   return (
     <div className=" py-4 h-full">
       {/* Images, prices, seller informations here  */}
       <div className=" grid grid-cols-12 h-[calc(100vh-7rem)] gap-3">
         {/* Images here  */}
         <div className="col-span-4 h-full">
-          {/* Selected Image Here */}
-          <div className="bg-white p-2 flex items-center justify-center border border-none rounded-lg shadow-2xl">
-            <img
-              alt="item"
-              className="h-96 w-full object-cover border border-none rounded-lg"
-              src={apiData.imgURL}
-            />
-          </div>
-          {/* Other Images here */}
-          <div className="mt-5 px-2 h-24 grid grid-cols-12 gap-4">
-            <img
-              alt="item"
-              className="shadow-lg h-full w-full object-cover border-2 border-primary   rounded-lg col-span-3"
-              src={apiData.imgURL}
-            />
-            <img
-              alt="item"
-              className="shadow-lg h-full w-full object-cover border-2 border-gray-500  rounded-lg col-span-3"
-              src={apiData.imgURL}
-            />
-            <img
-              alt="item"
-              className="shadow-lg h-full w-full object-cover border-2 border-gray-500  rounded-lg col-span-3"
-              src={apiData.imgURL}
-            />
-            <img
-              alt="item"
-              className="shadow-lg h-full w-full object-cover border-2 border-gray-500  rounded-lg col-span-3"
-              src={apiData.imgURL}
-            />
-          </div>
+          <ImagePanel
+            imgData={apiData.images}
+            imageHandler={imageHandler}
+            selectedImageURL={selectedImageURL}
+          />
         </div>
         {/* Item price and relevent details here  */}
         <div className="col-span-4 h-full  px-2">
           {/* Item name category reviews here  */}
           <div className="bg-white mb-6 row-span-1 grid grid-rows-5 p-2 border border-none rounded-lg shadow-2xl">
             <div className="text-sm text-gray-500 row-span-1">
-              Main Category {">"} Sub Category
+              {apiData.categories[0]} {">"} {apiData.categories[1]}
             </div>
             <div className="text-lg font-semibold row-span-2 flex items-center">
               {apiData.title}
