@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 
 const roundToTwoDecimal = (value) => {
-    // return Math.round(value * 100) / 100;
-    return Number(value).toFixed(2)
+    if (!isNaN(value)) {
+        return Number(value).toFixed(2);
+    }
 };
 
 const ItemSchema = new mongoose.Schema({
@@ -48,7 +49,7 @@ const ItemSchema = new mongoose.Schema({
     price: {
         type: Number,
         required: true,
-        set: roundToTwoDecimal
+        get: roundToTwoDecimal
     },
     discount: {
         percentage: {
@@ -56,6 +57,7 @@ const ItemSchema = new mongoose.Schema({
         },
         newPrice: {
             type: Number,
+            get: roundToTwoDecimal
         }
     },
     noOfStars: {
@@ -144,6 +146,8 @@ const ItemSchema = new mongoose.Schema({
         required: true
     }
 });
+
+mongoose.set('toJSON', { getters: true });
 
 const ItemModel = mongoose.model('Item', ItemSchema);
 
