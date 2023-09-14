@@ -10,12 +10,9 @@ router.post("/", [verifySignin], customerIssueController.addIssue);
 router.get("/", customerIssueController.viewIssues);
 
 // Route to add a reply to an issue
-<<<<<<<<< Temporary merge branch 1
 router.post("/reply/:issueId",[verifySignin, verifyAdmin], customerIssueController.addReply);
 
 router.post("/delete/:issueId",[verifySignin, verifyAdmin], customerIssueController.deleteIssue);
-=========
 router.post("/reply/:Id", customerIssueController.addReply);
->>>>>>>>> Temporary merge branch 2
 
 module.exports = router;
