@@ -27,9 +27,15 @@ function verifyBuyer(req, res, next) {
     next()
 }
 
+function verifyAdmin(req, res, next) {
+    if (req.body.role!='admin') return res.status(400).send('Not a Admin');
+    next()
+}
+
 
 module.exports = {
     verifySignin,
     verifySeller,
-    verifyBuyer
+    verifyBuyer,
+    verifyAdmin
 };
