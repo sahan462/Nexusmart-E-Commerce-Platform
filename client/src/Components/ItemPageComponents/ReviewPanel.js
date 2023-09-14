@@ -6,6 +6,7 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
 export default function ReviewPanel(params) {
+  console.log("in review panel ", params.reviewData);
   const [selectedStars, setSelectedStars] = useState([
     false,
     false,
@@ -77,7 +78,18 @@ export default function ReviewPanel(params) {
       <div className="mx-4 px-4 py-4 my-2 bg-white shadow-2xl border border-none rounded-lg">
         <div className=" text-black font-medium pb-2">Customer Reviews</div>
         <ReviewDashboard reviewData={params.reviewData} />
-        {params.reviewData.available ? <Reviewcard /> : <ReviewNoAvailable />}
+        {params.reviewData.available ? (
+          params.reviewData.userRatings.map((rating) => (
+            <Reviewcard
+              starRating={rating.starRating}
+              date={rating.date.split("T")[0]}
+              userId={rating.userId}
+              comment={rating.comment}
+            />
+          ))
+        ) : (
+          <ReviewNoAvailable />
+        )}
       </div>
     </div>
   );
