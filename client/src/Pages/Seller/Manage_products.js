@@ -16,7 +16,12 @@ function ProductsPage() {
 
     const fetchProducts = async () => {
         try {
-            const response = await axios.get(`/items/?sellerId`);
+            const userData = JSON.parse(localStorage.getItem('userDataStorage'));
+            const response = await axios.get(`/items/getItems`, {
+                headers: {
+                    'x-auth-token': userData.token,
+                },
+            });
             setProducts(response.data);
             setLoading(true);
         } catch (error) {
@@ -73,12 +78,12 @@ function ProductsPage() {
                                 <p className="ml-3 text-gray-700">{product.overview}</p>
                                 <div className="flex w-full mt-auto">
                                     <Link to={`/addproduct?id=${product._id}`} className="text-blue-500 hover:underline">
-                                        <button className="mt-4 w-20 ml-6 px-2 py-1 font-semibold text-white bg-primary rounded hover:bg-opacity-80">
+                                        <button className="w-20 px-2 py-1 mt-4 ml-6 font-semibold text-white rounded bg-primary hover:bg-opacity-80">
                                             Edit
                                         </button>
                                     </Link>
                                     <button
-                                        className="mt-4 w-20 ml-6 px-2 py-1 font-semibold text-white bg-primary rounded hover:bg-opacity-80"
+                                        className="w-20 px-2 py-1 mt-4 ml-6 font-semibold text-white rounded bg-primary hover:bg-opacity-80"
                                         onClick={() => handleDeleteClick(product._id, product.title)}
                                     >
                                         Delete
@@ -92,18 +97,18 @@ function ProductsPage() {
             </div>
             {/* Confirmation dialog */}
             {showConfirmation && (
-                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50">
-                    <div className="bg-white p-4 rounded-lg shadow-lg">
+                <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-gray-800 bg-opacity-50">
+                    <div className="p-4 bg-white rounded-lg shadow-lg">
                         <p>Are you sure you want to delete "{deleteProductTitle}"?</p>
-                        <div className="mt-4 flex justify-end">
+                        <div className="flex justify-end mt-4">
                             <button
-                                className="px-4 py-2 mr-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                                className="px-4 py-2 mr-2 text-white bg-red-500 rounded-lg hover:bg-red-600"
                                 onClick={confirmDelete}
                             >
                                 Yes
                             </button>
                             <button
-                                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
+                                className="px-4 py-2 text-gray-700 bg-gray-300 rounded-lg hover:bg-gray-400"
                                 onClick={cancelDelete}
                             >
                                 Cancel
