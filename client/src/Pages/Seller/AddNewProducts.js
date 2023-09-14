@@ -31,30 +31,36 @@ function AddProductPage() {
     const [productPrice, setProductPrice] = useState('');
     const [productImage, setProductImage] = useState('');
     const [productOverview, setProductOverview] = useState('');
-    const [ProductCategory, setProductCategory] = useState([]);
+    const [ProductMainCategory, setProductMainCategory] = useState('');
+    const [ProductSubCategory, setProductSubCategory] = useState('');
     const [productQuantity, setProductQuantity] = useState('');
-    const [isFreeDelivery, setFreeDelivery] = useState(false);
-    const [isCashOnDelivery, setCashOnDelivery] = useState(false);
     const [isReturnAble, setReturnAble] = useState(false);
+    const [returnDuration, setReturnDuration] = useState('');
     const [isWarrantyAvailable, setWarrantyAvailable] = useState(false);
     const [loading, setLoading] = useState(false)
     const [discount, setDiscount] = useState('');
-    const [warehouselocation, setlocation] = useState('');
-    const [delivery, setDelivery] = useState('');
+    const [wherelocation, setlocation] = useState('');
+    const [deliveryDuration, setDeliveryDuration] = useState('');
+    const [isFreeDelivery, setFreeDelivery] = useState(false);
+    const [isCashOnDelivery, setCashOnDelivery] = useState(false);
+    const [deliveryCost, setDeliveryCost] = useState('');
     const [warrantyDuration, setWarrantyDuration] = useState('');
+    const [warrantyDurationCategory, setWarrantyDurationCategory] = useState('');
     const [showErrorDialog, setShowErrorDialog] = useState(false);
 
     const product = {
         title: productName,
         overview: productOverview,
         description: productDescription,
-        categories: ProductCategory,
-        price: productPrice,
-        quantity: productQuantity,
+        categories: { mainCategory: ProductMainCategory, subCategory: ProductSubCategory },
         imgURL: productImage,
-        delivery: isFreeDelivery,
-        returnItem: isReturnAble,
-        warranty: isWarrantyAvailable,
+        //TODO add images as a string
+        quantity: productQuantity,
+        price: productPrice,
+        discount: { percentage: discount },
+        warranty: { available: isWarrantyAvailable, duration: warrantyDuration, durationCategory: warrantyDurationCategory },
+        returnItem: { canBeReturned: isReturnAble, returnDays: returnDuration },
+        delivery: { available: isFreeDelivery, warehouse: wherelocation, freeDelivery: isFreeDelivery, cost: deliveryCost, cashOnDelivery: isCashOnDelivery, estimateDeliveryDutarion: deliveryDuration },
     };
 
     useEffect(() => {
@@ -71,13 +77,13 @@ function AddProductPage() {
             setProductPrice(response.data.price)
             setProductImage(response.data.imgURL)
             setProductOverview(response.data.overview)
-            setProductCategory(response.data.categories)
+            setProductMainCategory(response.data.categories)
             setProductQuantity(response.data.quantity)
             setFreeDelivery(response.data.delivery.freeDelivery)
             setCashOnDelivery(response.data.delivery.cashOnDelivery)
             setReturnAble(response.data.returnItem.canBeReturned)
             setWarrantyAvailable(response.data.warranty.available)
-            if(response.data.discount) setDiscount(response.data.discount.percentage)
+            if (response.data.discount) setDiscount(response.data.discount.percentage)
             // setDelivery(response.data.delivery.duration)
             setWarrantyDuration(response.data.warranty.duration)
             setLoading(true);
@@ -115,8 +121,12 @@ function AddProductPage() {
         setProductOverview(event.target.value);
     }
 
-    const handleProductCategory = (event) => {
-        setProductCategory(event.target.value);
+    const handleProductMainCategory = (event) => {
+        setProductMainCategory(event.target.value);
+    }
+
+    const handleProductSubCategory = (event) => {
+        setProductSubCategory(event.target.value);
     }
 
     const handleProductQuantity = (event) => {
@@ -135,6 +145,10 @@ function AddProductPage() {
         setReturnAble(!isReturnAble);
     }
 
+    const handleReturnDuration = (event) => {
+        setReturnDuration(event.target.value)
+    }
+
     const handleWarrantyChange = () => {
         setWarrantyAvailable(!isWarrantyAvailable);
     }
@@ -143,10 +157,17 @@ function AddProductPage() {
         setWarrantyDuration(event.target.value)
     }
 
-    const handleDeliveryDuration = (event) => {
-        setDelivery(event.target.value)
+    const handleWarrantyDurationCategory = (event) => {
+        setWarrantyDurationCategory(event.target.value)
     }
 
+    const handleDeliveryDuration = (event) => {
+        setDeliveryDuration(event.target.value)
+    }
+
+    const handleDeliveryCost = (event) => {
+        setDeliveryCost(event.target.value)
+    }
     const handleSetDiscount = (event) => {
         setDiscount(event.target.value)
         if (discount > 100) {
@@ -157,9 +178,10 @@ function AddProductPage() {
     const handleAddProduct = async () => {
         try {
             const userData = JSON.parse(localStorage.getItem("userDataStorage"));
+            console.log(userData.token)
             const response = await axios.post("/items/", product, {
                 headers: {
-                    'x-auth-token': userData.Auth_token
+                    'x-auth-token': userData.token
                 }
             });
             console.log(response);
@@ -196,38 +218,66 @@ function AddProductPage() {
                     onChange={handleProductDescriptionChange}
                 />
             </div>
-            <div className="mb-4">
-                <label className="block font-semibold text-gray-700">Product Category</label>
-                <select
-                    className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
-                    value={ProductCategory}
-                    onChange={handleProductCategory}
-                >
-                    <option value="">Select an option</option>
-                    {predefinedOptions.map((option, index) => (
-                        <option key={index} value={option}>
-                            {option}
-                        </option>
-                    ))}
-                </select>
+            <div className='flex flex-row'>
+                <div className="mb-4">
+                    <label className="block font-semibold text-gray-700">Product MainCategory</label>
+                    <select
+                        className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
+                        value={ProductMainCategory}
+                        onChange={handleProductMainCategory}
+                    >
+                        <option value="">Select an option</option>
+                        {predefinedOptions.map((option, index) => (
+                            <option key={index} value={option}>
+                                {option}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div className="mb-4 ml-10">
+                    <label className="block font-semibold text-gray-700">Product SubCategory</label>
+                    <select
+                        className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
+                        value={ProductSubCategory}
+                        onChange={handleProductSubCategory}
+                    >
+                        <option value="">Select an option</option>
+                        {predefinedOptions.map((option, index) => (
+                            <option key={index} value={option}>
+                                {option}
+                            </option>
+                        ))}
+                    </select>
+                </div>
             </div>
-            <div className="mb-4">
-                <label className="block font-semibold text-gray-700">Product Price</label>
-                <input
-                    type="number"
-                    className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
-                    value={productPrice}
-                    onChange={handleProductPriceChange}
-                />
-            </div>
-            <div className="mb-4">
-                <label className="block font-semibold text-gray-700">Product Quantity</label>
-                <input
-                    type="number"
-                    className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
-                    value={productQuantity}
-                    onChange={handleProductQuantity}
-                />
+            <div className='flex flex-row'>
+                <div className="mb-4">
+                    <label className="block font-semibold text-gray-700">Product Price</label>
+                    <input
+                        type="number"
+                        className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
+                        value={productPrice}
+                        onChange={handleProductPriceChange}
+                    />
+                </div>
+                <div className="mb-4 ml-10">
+                    <label className="block font-semibold text-gray-700">Discount(%)</label>
+                    <input
+                        type="number"
+                        className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
+                        value={discount}
+                        onChange={handleSetDiscount}
+                    />
+                </div>
+                <div className="mb-4 ml-10">
+                    <label className="block font-semibold text-gray-700">Product Quantity</label>
+                    <input
+                        type="number"
+                        className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
+                        value={productQuantity}
+                        onChange={handleProductQuantity}
+                    />
+                </div>
             </div>
             <div className="mb-4">
                 <label className="block font-semibold text-gray-700">Product Image. Enter url</label>
@@ -237,22 +287,13 @@ function AddProductPage() {
                     onChange={handleProductImageUpload}
                 />
             </div>
-            <div className="mb-4">
-                <label className="block font-semibold text-gray-700">Discount(%)</label>
-                <input
-                    type="number"
-                    className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
-                    value={discount}
-                    onChange={handleSetDiscount}
-                />
-            </div>
             <div className='flex gap-10'>
                 <div className="mb-4">
                     <label className="block font-semibold text-gray-700">Delivery Duration(Days): </label>
                     <input
                         type="number"
                         className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
-                        value={delivery}
+                        value={deliveryDuration}
                         onChange={handleDeliveryDuration}
                     />
                 </div>
@@ -261,24 +302,24 @@ function AddProductPage() {
                     <input
                         type="number"
                         className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
-                        value={delivery}
-                        onChange={handleDeliveryDuration}
+                        value={deliveryCost}
+                        onChange={handleDeliveryCost}
                     />
                 </div>
                 <div className="mb-4">
                     <label className="block font-semibold text-gray-700">Location </label>
                     <select
-                            className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
-                            value={ProductCategory}
-                            onChange={handleProductCategory}
-                        >
-                            <option value="">Select an option</option>
-                            {locations.map((option, index) => (
-                                <option key={index} value={option}>
-                                    {option}
-                                </option>
-                            ))}
-                        </select>
+                        className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
+                        value={ProductMainCategory}
+                        onChange={handleProductMainCategory}
+                    >
+                        <option value="">Select an option</option>
+                        {locations.map((option, index) => (
+                            <option key={index} value={option}>
+                                {option}
+                            </option>
+                        ))}
+                    </select>
                 </div>
             </div>
             <div className="flex mb-4">
@@ -331,8 +372,8 @@ function AddProductPage() {
                         />
                         <select
                             className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
-                            value={ProductCategory}
-                            onChange={handleProductCategory}
+                            value={warrantyDurationCategory}
+                            onChange={handleWarrantyDurationCategory}
                         >
                             <option value="">Select an option</option>
                             {warrantyDuratin.map((option, index) => (
@@ -350,20 +391,9 @@ function AddProductPage() {
                             type="number"
                             className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
                             value={warrantyDuration}
-                            onChange={handleWarrantyDuration}
+                            onChange={handleReturnDuration}
                         />
-                        <select
-                            className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
-                            value={ProductCategory}
-                            onChange={handleProductCategory}
-                        >
-                            <option value="">Select an option</option>
-                            {warrantyDuratin.map((option, index) => (
-                                <option key={index} value={option}>
-                                    {option}
-                                </option>
-                            ))}
-                        </select>
+                        <label className="block mt-2 font-semibold text-gray-700">Days</label>
                     </div>
                 </div>
             </div>
