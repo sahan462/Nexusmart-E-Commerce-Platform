@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 
-export default function ReviewDashboard() {
+export default function ReviewDashboard(params) {
   function getStars(noOfStars) {
     const starComponents = [];
     for (let i = 0; i < noOfStars; i++) {
@@ -46,32 +46,54 @@ export default function ReviewDashboard() {
     }
     return starComponents;
   }
-
+  console.log(">>", params.reviewData);
   return (
     <div className="my-4 bg-white shadow-2xl py-2 px-2 border border-none rounded-lg">
       <div className="grid grid-cols-6">
         <div className="col-span-3">
           <div className="text-2xl py-2">
-            <span className="text-5xl font-medium">4.8</span>/5
+            <span className="text-5xl font-medium">
+              {params.reviewData.available ? "4.5" : 0}
+            </span>
+            /5
           </div>
-          <div className="">{getMainStars(4)}</div>
-          <div className="text-gray-500 pb-2">252 Ratings</div>
+          <div className="">
+            {params.reviewData.available ? getMainStars(4) : getMainStars(0)}
+          </div>
+          <div className="text-gray-500 pb-2">
+            {params.reviewData.available ? "252" : 0} total ratings
+          </div>
         </div>
         <div className="col-span-3 flex-row justify-center">
           <div>
-            {getStars(5)} <span className="px-2 text-gray-400">10 Ratings</span>
+            {getStars(5)}{" "}
+            <span className="px-2 text-gray-400">
+              {params.reviewData.available ? "10" : 0} Ratings
+            </span>
           </div>
           <div>
-            {getStars(4)} <span className="px-2 text-gray-400">10 Ratings</span>
+            {getStars(4)}{" "}
+            <span className="px-2 text-gray-400">
+              {params.reviewData.available ? "10" : 0} Ratings
+            </span>
           </div>
           <div>
-            {getStars(3)} <span className="px-2 text-gray-400">10 Ratings</span>
+            {getStars(3)}{" "}
+            <span className="px-2 text-gray-400">
+              {params.reviewData.available ? "10" : 0} Ratings
+            </span>
           </div>
           <div>
-            {getStars(2)} <span className="px-2 text-gray-400">10 Ratings</span>
+            {getStars(2)}{" "}
+            <span className="px-2 text-gray-400">
+              {params.reviewData.available ? "10" : 0} Ratings
+            </span>
           </div>
           <div>
-            {getStars(1)} <span className="px-2 text-gray-400">10 Ratings</span>
+            {getStars(1)}{" "}
+            <span className="px-2 text-gray-400">
+              {params.reviewData.available ? "10" : 0} Ratings
+            </span>
           </div>
         </div>
       </div>

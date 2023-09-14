@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { faL, faStar } from "@fortawesome/free-solid-svg-icons";
 import { useContext } from "react";
 import { UserContext } from "../AuthContext";
 import Loading from "../Components/Loading";
@@ -25,6 +25,7 @@ export default function ItemPage() {
   const [selectedColorName, setselectedColorName] = useState();
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [selectedImageURL, setselectedImageURL] = useState("");
+  const [reviewData, setReviewData] = useState([]);
 
   const [invalidToken, setInvalidToken] = useState(false);
   const location = useLocation();
@@ -37,18 +38,44 @@ export default function ItemPage() {
         const uri = "/items?id=" + searchInput;
         const response = await axios.get(uri);
         setApiData(response.data);
-        setLoading(false);
       } catch (error) {
         console.log("API call failed:", error);
-        setLoading(false);
       }
     }
-    fetchData();
+
+    if (searchInput) {
+      setLoading(true);
+      fetchData();
+    }
   }, [searchInput]);
+
+  useEffect(() => {
+    async function fetchReviewData() {
+      if (apiData && apiData._id) {
+        try {
+          const uri = "feedback/" + apiData._id;
+          const response = await axios.get(uri);
+          setReviewData(response.data);
+          setLoading(false);
+        } catch (error) {
+          console.log("API call failed:", error);
+          setLoading(false);
+        }
+      }
+    }
+
+    if (apiData) {
+      setLoading(true);
+      fetchReviewData();
+    }
+  }, [apiData]);
 
   if (loading) {
     return <Loading />;
   }
+
+  console.log(apiData);
+  console.log(reviewData);
 
   async function addTocartHandler() {
     setLoading(true);
@@ -134,6 +161,32 @@ export default function ItemPage() {
   }
   console.log("rendered"); // TODO:: DELETE
 
+  // submit review handler
+  async function submitReviewHandler(starCount, userReview) {
+    setLoading(true);
+    const uri = "/feedback/newfeedback/" + apiData._id;
+    const token = userData.token;
+    const headers = {
+      "x-auth-token": token,
+    };
+    try {
+      await axios.post(
+        { uri },
+        {
+          starRating: starCount,
+          comment: userReview,
+        },
+        {
+          headers,
+        }
+      );
+      setLoading(false);
+    } catch (err) {
+      console.error("API Call Failed", err);
+      setLoading(false);
+    }
+  }
+
   return (
     <div className=" py-4 h-full">
       {/* Images, prices, seller informations here  */}
@@ -154,6 +207,7 @@ export default function ItemPage() {
               itemName={apiData.title}
               categories={apiData.categories}
               starComponents={starComponents}
+              brand={apiData.brand ? apiData.brand : "Unbranded"}
             />
           </div>
           {/* Item price, discount, colors, quantity here  */}
@@ -212,7 +266,10 @@ export default function ItemPage() {
       </div>
       {/* Item reviews here  */}
       <div className="bg-white shadow-2xl py-5 px-2 border border-none rounded-lg mt-4">
-        <ReviewPanel />
+        <ReviewPanel
+          submitReviewHandler={submitReviewHandler}
+          reviewData={reviewData}
+        />
       </div>
     </div>
   );

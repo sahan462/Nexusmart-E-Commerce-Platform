@@ -15,7 +15,7 @@ export default function ItemNamePanel(params) {
       </div>
       <div className="text-sm flex items-center row-span-1 text-gray-500">
         Brand:
-        <span className=" ml-2 flex items-center">{"Brand Name"}</span>
+        <span className=" ml-2 flex items-center">{params.brand}</span>
       </div>
     </>
   );

@@ -1,6 +1,5 @@
 import ItemColorButton from "../ItemColorButton";
 export default function (params) {
-  console.log(params.colorData);
   return (
     <div>
       <div className="flex items-center">
