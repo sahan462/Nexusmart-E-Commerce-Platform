@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import RevenueGraph from "./Components/RevenueGraph";
 import Trafic from "./Components/Trafic";
 import PopularProducts from "./Components/PopularProducts";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUserGear } from "@fortawesome/free-solid-svg-icons";
 
 const Dashboard = () => {
   const adminProfile = {
@@ -13,17 +15,13 @@ const Dashboard = () => {
   return (
     <div className="flex p-4">
       <div className="w-1/4 bg-gray-200 p-4 rounded-lg shadow-md">
-        <h2 className="mb-4 text-lg font-semibold">Admin Panel</h2>
+        <h2 className="mb-4 text-lg font-semibold text-center">Admin Panel</h2>
         {/* Admin Profile Section */}
-        <div className="admin-profile w-full rounded-full bg-gray-300 p-2">
-          <div className="h-20 bg-gray-800 rounded-full w-20 mx-auto">
-            <img
-              src={adminProfile.profilePicture}
-              alt="Admin Profile"
-              className="h-full w-full rounded-full object-cover"
-            />
+        <div className="admin-profile w-full rounded-full  p-2">
+          <div className="h-20 bg-gray-400 rounded-full w-20 mx-auto flex items-center justify-center">
+            <FontAwesomeIcon icon={faUserGear} className="h-12 w-12" />
           </div>
-          <p className="text-center">{adminProfile.userEmail}</p>
+          <p className="text-center mt-2">{adminProfile.userEmail}</p>
         </div>
 
         {/* Page Links */}
@@ -31,7 +29,7 @@ const Dashboard = () => {
           <li>
             <Link
               to="/dashboard/CustomerSupport"
-              className="block rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-700"
+              className="block rounded-lg bg-blue-500 px-4 py-3 text-white hover:bg-blue-700"
             >
               Customer Support
             </Link>
@@ -39,7 +37,7 @@ const Dashboard = () => {
           <li>
             <Link
               to="/dashboard/UpdateHomePage"
-              className="block rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-700"
+              className="block rounded-lg bg-blue-500 px-4 py-3 text-white hover:bg-blue-700"
             >
               Update Home Page
             </Link>
@@ -47,7 +45,7 @@ const Dashboard = () => {
           <li>
             <Link
               to="/dashboard/UserManage"
-              className="block rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-700"
+              className="block rounded-lg bg-blue-500 px-4 py-3 text-white hover:bg-blue-700"
             >
               Manage User
             </Link>
@@ -55,7 +53,7 @@ const Dashboard = () => {
           <li>
             <Link
               to="/dashboard/CreateNotification"
-              className="block rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-700"
+              className="block rounded-lg bg-blue-500 px-4 py-3 text-white hover:bg-blue-700"
             >
               Send Notification
             </Link>
