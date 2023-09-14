@@ -47,7 +47,7 @@ const addFeedback = async (req, res) => {
     try {
 
         const { itemId } = req.params;
-        const { userId, starRating, comment } = req.body;
+        const { id, starRating, comment } = req.body;
 
         const userRating = await UserRating.create({
             userId: userId,
@@ -80,7 +80,7 @@ const addFeedback = async (req, res) => {
             const newFeedback = await Feedback.create({
                 itemId: itemId,
                 averageStarRating: starRating,
-                totalRatings: starRating,
+                totalRatings: 1,
 
             });
 
@@ -129,38 +129,54 @@ const updateFeedback = async (req, res) => {
     try {
 
         const { itemId, feedbackId } = req.query;
-        const { starRating, comment } = req.body;
+        const { starRating, comment, reply } = req.body;
 
         const userRating = await UserRating.findById(feedbackId);
-        const feedback = await Feedback.findOne({itemId: itemId});
 
-        await removeSingleRateCount(feedback, userRating.starRating);
-        await storeSingleRateCount(feedback, starRating);
+        if(reply){
+            await UserRating.updateOne(
+                userRating,
+                {
+                    reply: reply ,
+                },
+                { new: true }
+            );
 
-        await UserRating.updateOne(
-            userRating,
-            {
-                starRating: starRating ,
-                comment: comment
-            },
-            { new: true }
-        );
+            const userRatings = await UserRating.find({itemId: itemId});
+            res.status(200).json({userRatings: userRatings});
+        }else {
 
-        const averageStarRating = calcAverageRating(feedback);
-        feedback.averageStarRating = averageStarRating;
-        await  feedback.save();
+            const feedback = await Feedback.findOne({itemId: itemId});
 
-        const item = await Item.findOne({ _id: itemId });
-        await Item.updateOne(
-            item,
-            {
-                noOfStars: averageStarRating
-            },
-            { new: true }
-        );
+            await removeSingleRateCount(feedback, userRating.starRating);
+            await storeSingleRateCount(feedback, starRating);
 
-        const userRatings = await UserRating.find({itemId: itemId});
-        res.status(200).json({newestFeedbackStatistics: feedback, userRatings: userRatings});
+            await UserRating.updateOne(
+                userRating,
+                {
+                    starRating: starRating,
+                    comment: comment
+                },
+                {new: true}
+            );
+
+            const averageStarRating = calcAverageRating(feedback);
+            feedback.averageStarRating = averageStarRating;
+            await feedback.save();
+
+            const item = await Item.findOne({_id: itemId});
+            await Item.updateOne(
+                item,
+                {
+                    noOfStars: averageStarRating
+                },
+                {new: true}
+            );
+
+            const userRatings = await UserRating.find({itemId: itemId});
+            res.status(200).json({newestFeedbackStatistics: feedback, userRatings: userRatings});
+        }
+
 
     } catch (error) {
         res.status(400).send({ error: error.message });
@@ -182,21 +198,34 @@ const deleteFeedback = async (req, res) => {
 
         await UserRating.deleteOne(userRating);
 
-        const averageStarRating = calcAverageRating(feedback);
-        feedback.averageStarRating = averageStarRating;
-        await  feedback.save();
+        let totalRating = feedback.totalRatings;
+        totalRating = totalRating - 1
 
-        const item = await Item.findOne({ _id: itemId });
-        await Item.updateOne(
-            item,
-            {
-                noOfStars: averageStarRating
-            },
-            { new: true }
-        );
+        if(totalRating <= 0){
 
-        const userRatings = await UserRating.find({itemId: itemId});
-        res.status(200).json({newestFeedbackStatistics: feedback, userRatings: userRatings});
+            await Feedback.deleteOne(feedback);
+            res.status(200).json({available: false});
+
+        }else{
+
+            feedback.totalRatings = totalRating;
+            const averageStarRating = calcAverageRating(feedback);
+            feedback.averageStarRating = averageStarRating;
+            await  feedback.save();
+
+            const item = await Item.findOne({ _id: itemId });
+            await Item.updateOne(
+                item,
+                {
+                    noOfStars: averageStarRating
+                },
+                { new: true }
+            );
+
+            const userRatings = await UserRating.find({itemId: itemId});
+            res.status(200).json({newestFeedbackStatistics: feedback, userRatings: userRatings});
+
+        }
 
     } catch (error) {
         res.status(400).send({ error: error.message });
