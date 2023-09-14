@@ -62,7 +62,7 @@ const addItem = async (req, res) => {
             imgURL: imgURL,
             images: images,
             quantity: quantity,
-            price: formatCurrencyInput(price).toString(),
+            price: price,
             availableColors: availableColors,
             warranty: warranty,
             returnItem: returnItem,
@@ -72,7 +72,7 @@ const addItem = async (req, res) => {
         if (discountPercentage > 0) {
             newItem.discount = {
                 percentage: discountPercentage,
-                newPrice: formatCurrencyInput(price - (price * (discountPercentage / 100))).toString(),
+                newPrice: price - (price * (discountPercentage / 100)),
             };
         }
 
