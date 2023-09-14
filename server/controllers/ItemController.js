@@ -1,10 +1,43 @@
 const Item = require('../models/ItemModel');
+
+const formatCurrencyInput = (amount) => {
+    const parsedValue = parseFloat(amount);
+    if (!isNaN(parsedValue)) {
+        return parsedValue.toFixed(2);
+    }
+    return '';
+}
+
+const getEstimatedDeliveryDate = (estimateDeliveryDuration) => {
+    const currentDatetime = new Date();
+
+    const monthNames = ["Jan", "Feb", "March", "Apr", "May", "June",
+        "July", "Aug", "Sept", "Oct", "Nov", "Dec"
+    ];
+    const minDaysToDeliver = estimateDeliveryDuration;
+    const maxDaysToDeliver = estimateDeliveryDuration + 2;
+
+    const minDeliveryDate = new Date(currentDatetime);
+    minDeliveryDate.setDate(currentDatetime.getDate() + minDaysToDeliver);
+
+    const maxDeliveryDate = new Date(currentDatetime);
+    maxDeliveryDate.setDate(currentDatetime.getDate() + maxDaysToDeliver);
+
+    const minDeliveryDay = minDeliveryDate.getDate() + " "+monthNames[minDeliveryDate.getMonth()];
+    const maxDeliveryDay = maxDeliveryDate.getDate() + " " + monthNames[maxDeliveryDate.getMonth()];
+
+    return (minDeliveryDay + " - " +maxDeliveryDay)
+
+}
+
+
 const addItem = async (req, res) => {
 
     const {
         title,
         overview,
         description,
+        brand,
         categories,
         imgURL,
         images,
@@ -19,10 +52,12 @@ const addItem = async (req, res) => {
     } = req.body;
 
     try {
+        console.log(formatCurrencyInput(price))
         const newItem = new Item({
             title: title,
             overview: overview,
             description: description,
+            brand: brand,
             categories: categories,
             imgURL: imgURL,
             images: images,
@@ -31,7 +66,6 @@ const addItem = async (req, res) => {
             availableColors: availableColors,
             warranty: warranty,
             returnItem: returnItem,
-            delivery: delivery,
             seller: id,
         });
 
@@ -42,8 +76,18 @@ const addItem = async (req, res) => {
             };
         }
 
+        newItem.delivery = {
+            available: delivery.available,
+            warehouse: delivery.warehouse,
+            freeDelivery: delivery.freeDelivery,
+            cost: formatCurrencyInput(delivery.cost).toString(),
+            cashOnDelivery: delivery.cashOnDelivery,
+            estimateDeliveryDuration: delivery.estimateDeliveryDuration,
+            estimateDeliveryDate: getEstimatedDeliveryDate(delivery.estimateDeliveryDuration)
+        }
+
         await newItem.save();
-        res.status(200).send(newItem);
+        res.status(200).json({ addItem: true, item: newItem});
     } catch (error) {
         res.status(400).send({
             error: error.message,
@@ -87,6 +131,7 @@ const changeItemProp = async (req, res) => {
         overview,
         description,
         categories,
+        brand,
         imgURL,
         images,
         quantity,
@@ -100,7 +145,6 @@ const changeItemProp = async (req, res) => {
 
     //verify the seller of the item and req seller is same
     try {
-
         const item = await Item.findByIdAndUpdate(itemId, {
             $set: {
                 title: title,
@@ -108,6 +152,7 @@ const changeItemProp = async (req, res) => {
                 description: description,
                 categories: categories,
                 imgURL: imgURL,
+                brand: brand,
                 images: images,
                 quantity: quantity,
                 price: price,
@@ -119,7 +164,7 @@ const changeItemProp = async (req, res) => {
             }
         }, { new: true });
         if (!item) return res.status(404).send({error: 'The Item with the given ID was not found.'});
-        res.status(200).send(item)
+        res.status(200).json({updateProduct: true});
 
     } catch (error) {
         res.status(400).send({
@@ -130,10 +175,8 @@ const changeItemProp = async (req, res) => {
 
 const deleteItem = async (req, res) => {
 
-    const {itemId} = req.query;
-    //const {itemId} = req.body;
-    //const itemId = req.params.itemId;
-    //verify the seller of the item and req seller is same
+    const {itemId} = req.params;
+
     try {
         const item = await Item.findByIdAndRemove(itemId);
         if (!item) return res.status(404).send({error: 'The Item with the given ID was not found.'});

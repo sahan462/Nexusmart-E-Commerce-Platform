@@ -15,6 +15,9 @@ const userRatingSchema = new mongoose.Schema({
     comment: {
         type: String,
     },
+    reply: {
+        type: String
+    },
     date: {
         type: Date,
         default: Date.now,

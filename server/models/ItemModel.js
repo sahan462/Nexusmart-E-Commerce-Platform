@@ -1,5 +1,10 @@
 const mongoose = require('mongoose');
 
+const roundToTwoDecimal = (value) => {
+    // return Math.round(value * 100) / 100;
+    return Number(value).toFixed(2)
+};
+
 const ItemSchema = new mongoose.Schema({
     title:{
         type: String,
@@ -11,12 +16,17 @@ const ItemSchema = new mongoose.Schema({
     description: {
         type: String
     },
-    categories: [
-        {
+    categories: {
+        mainCategory: {
             type: String,
-            required: true,
         },
-    ],
+        subCategory: {
+            type: String,
+        }
+    },
+    brand: {
+        type: String
+    },
     imgURL: {
         type: String,
         required: true
@@ -36,8 +46,9 @@ const ItemSchema = new mongoose.Schema({
         required: true
     },
     price: {
-      type: Number,
-      required: true
+        type: Number,
+        required: true,
+        set: roundToTwoDecimal
     },
     discount: {
         percentage: {
@@ -55,11 +66,9 @@ const ItemSchema = new mongoose.Schema({
         {
             name: {
                 type: String,
-                required: true,
             },
             hexCode: {
                 type: String,
-                required: true,
             },
         },
     ],
@@ -73,7 +82,13 @@ const ItemSchema = new mongoose.Schema({
             required: function (){
                 return this.warranty.available === true
             }
-        }
+        },
+        durationCategory:{
+            type: String,
+            required: function (){
+                return this.warranty.available === true
+            }
+        },
     },
     returnItem: {
         canBeReturned: {
@@ -92,33 +107,35 @@ const ItemSchema = new mongoose.Schema({
     delivery: {
         available: {
             type: Boolean,
+            required: true,
             default: false,
-            required: true
         },
         warehouse: {
             type: String,
+            required: true,
             default: "Colombo",
-            required: true
         },
         freeDelivery:{
             type: Boolean,
+            required: true,
             default: false,
-            required: true
         },
         cost: {
-            type: Number,
+            type: String,
             required: function (){
                 return (this.delivery.freeDelivery === false);
-            }
+            },
         },
         cashOnDelivery: {
             type: Boolean,
+            required: true,
             default: true,
-            required: true
         },
         estimateDeliveryDate: {
-            type: Date,
-            required: true
+            type: String,
+        },
+        estimateDeliveryDuration: {
+            type: Number,
         }
     },
     seller: {
