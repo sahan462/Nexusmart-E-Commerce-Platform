@@ -26,8 +26,8 @@ export default function ItemPage() {
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [selectedImageURL, setselectedImageURL] = useState("");
   const [reviewData, setReviewData] = useState([]);
-
   const [invalidToken, setInvalidToken] = useState(false);
+  const [newSubmit, setNewSubmit] = useState();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const searchInput = searchParams.get("id");
@@ -65,18 +65,18 @@ export default function ItemPage() {
     }
 
     if (apiData) {
-      setLoading(true);
       fetchReviewData();
     }
-  }, [apiData]);
+  }, [apiData, newSubmit]);
 
   if (loading) {
     return <Loading />;
   }
 
-  console.log(apiData);
-  console.log(reviewData);
+  // console.log(apiData);
+  // console.log(reviewData);
 
+  // Add to cart Handler
   async function addTocartHandler() {
     setLoading(true);
     if (userData == null) {
@@ -106,6 +106,7 @@ export default function ItemPage() {
     }
   }
 
+  // Can't add to cart unless you logged in
   if (invalidToken) {
     console.log("token invalid ");
     const clearStorage = async () => {
@@ -115,7 +116,6 @@ export default function ItemPage() {
     setUserData("");
     return <Navigate to={"/login"} />;
   }
-  console.log("item page", apiData); // TODO:: DELETE
 
   // No of review stars handling
   const noOfStars = apiData.noOfStars;
@@ -159,7 +159,6 @@ export default function ItemPage() {
     setselectedImageURL(apiData.images[0].url);
     console.log(selectedImageURL);
   }
-  console.log("rendered"); // TODO:: DELETE
 
   // submit review handler
   async function submitReviewHandler(starCount, userReview) {
@@ -170,8 +169,8 @@ export default function ItemPage() {
       "x-auth-token": token,
     };
     try {
-      await axios.post(
-        { uri },
+      const response = await axios.post(
+        uri,
         {
           starRating: starCount,
           comment: userReview,
@@ -180,13 +179,15 @@ export default function ItemPage() {
           headers,
         }
       );
-      setLoading(false);
+      console.log("response data", response.data);
+      setNewSubmit(Date.now());
     } catch (err) {
       console.error("API Call Failed", err);
-      setLoading(false);
+      setNewSubmit(Date.now()); // this should be fixed
     }
   }
 
+  // console.log("rendered", reviewData);
   return (
     <div className=" py-4 h-full">
       {/* Images, prices, seller informations here  */}
@@ -261,11 +262,11 @@ export default function ItemPage() {
         </div>
       </div>
       {/* Item description here  */}
-      <div className="bg-white shadow-2xl py-5 px-2 border border-none rounded-lg">
+      <div className="bg-white shadow-2xl py-6 px-6 border border-none rounded-lg">
         <ItemDescriptionPanel descriptionData={apiData.description} />
       </div>
       {/* Item reviews here  */}
-      <div className="bg-white shadow-2xl py-5 px-2 border border-none rounded-lg mt-4">
+      <div className="bg-white shadow-2xl py-6 px-6 border border-none rounded-lg mt-4">
         <ReviewPanel
           submitReviewHandler={submitReviewHandler}
           reviewData={reviewData}
