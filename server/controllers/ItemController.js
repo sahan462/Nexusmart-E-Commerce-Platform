@@ -96,8 +96,8 @@ const addItem = async (req, res) => {
 };
 
 const viewItems = async (req, res) => {
-    const { id, name, category, sellerId } = req.query;
-
+    const { id, name, category } = req.query;
+    const sellerId = req.body.id;
     try {
         let items;
 
