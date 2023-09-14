@@ -10,6 +10,7 @@ export default {
         category_lits: "#4f4f4f",
         addToCart: "#0e3a78",
         addToCartHover: "#0d3369",
+        a6a9ad: "#a6a9ad",
       },
       height: {
         120: "35rem",

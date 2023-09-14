@@ -40,6 +40,7 @@ const CustomerSupportPage = () => {
   };
 
   const handleReply = async (issueId) => {
+    console.log(issueReplies, issueReplies.issueId);
     try {
       setLoading(true);
       const token = userData.token;
@@ -51,21 +52,21 @@ const CustomerSupportPage = () => {
       await axios.post(
         `/issue/reply/${issueId}`,
         {
-          reply: issueReplies[issueId], // Use the specific reply for this issue
+          reply: issueReplies.issueId, // Use the specific reply for this issue
         },
         { headers }
       );
 
       // Fetch the updated list of issues after adding a reply
-      const response = await axios.get("/issue");
-      setIssues(response.data);
+      // const response = await axios.get("/issue");
+      // setIssues(response.data);
 
       // Clear the reply state for this issue
       handleReplyChange(issueId, "");
-
       setLoading(false);
     } catch (error) {
       setError("Error submitting reply. Please try again.");
+      console.error("Failed", error);
       setLoading(false);
     }
   };
@@ -82,16 +83,17 @@ const CustomerSupportPage = () => {
       await axios.post(`/issue/delete/${issueId}`, {}, { headers });
 
       // Fetch the updated list of issues after deleting one
-      const response = await axios.get("/issue");
-      setIssues(response.data);
+      // const response = await axios.get("/issue");
+      // setIssues(response.data);
 
       setLoading(false);
     } catch (error) {
       setError("Error deleting issue. Please try again.");
+      console.error("Failed ", error);
       setLoading(false);
     }
   };
-
+  console.log("issue ", issues);
   return (
     <div className="container mx-auto mt-8">
       <h2 className="text-2xl font-semibold mb-4">Customer Issues</h2>
@@ -122,8 +124,8 @@ const CustomerSupportPage = () => {
                 {issue.description}
               </td>
               <td className="border border-gray-400 px-4 py-2">
-                {issue.replie.length > 0 ? (
-                  issue.replie[0].text
+                {issue.replie.text ? (
+                  issue.replie.text
                 ) : (
                   <>
                     <input

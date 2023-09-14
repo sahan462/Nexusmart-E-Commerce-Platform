@@ -12,6 +12,7 @@ const TechnicalIssuePage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { userData } = useContext(UserContext);
+  const [issueSubmitted, setIssueSubmitted] = useState();
 
   useEffect(() => {
     // Fetch all issues from the server
@@ -27,7 +28,7 @@ const TechnicalIssuePage = () => {
     };
 
     fetchIssues();
-  }, [userData]);
+  }, [userData, issueSubmitted]);
 
   if (loading) {
     return <Loading />;
@@ -48,8 +49,8 @@ const TechnicalIssuePage = () => {
         await axios.post(
           "/issue",
           {
-            subject,
-            description,
+            subject: subject,
+            description: description,
           },
           { headers }
         );
@@ -62,13 +63,15 @@ const TechnicalIssuePage = () => {
 
       setSubject("");
       setDescription("");
+      // add here
+      setIssueSubmitted(Date.now());
       setLoading(false);
     } catch (error) {
       setError("Error submitting issue. Please try again.");
       setLoading(false);
     }
   };
-
+  console.log("rendered");
   return (
     <div className="container mx-auto mt-8">
       <h2 className="text-2xl font-semibold mb-4">Customer Issues</h2>

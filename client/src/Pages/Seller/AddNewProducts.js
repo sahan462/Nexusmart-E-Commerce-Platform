@@ -357,19 +357,19 @@ function AddProductPage() {
                     value={productImage}
                     onChange={handleProductImageUpload}
                 />
-                <label className="block font-semibold text-gray-700 mb-3">Product Sub Image. Enter url</label>
+                <label className="block mb-3 font-semibold text-gray-700">Product Sub Image. Enter url</label>
                 <textarea
-                    className="ml-3 mb-2 w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
+                    className="w-full px-3 py-2 mb-2 ml-3 border rounded focus:outline-none focus:border-primary"
                     value={subProductImages[0]}
                     onChange={(event) => handleProductSubImages(event, 0)}
                 />
                 <textarea
-                    className="ml-3 mb-2 w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
+                    className="w-full px-3 py-2 mb-2 ml-3 border rounded focus:outline-none focus:border-primary"
                     value={subProductImages[1]}
                     onChange={(event) => handleProductSubImages(event, 1)}
                 />
                 <textarea
-                    className="ml-3 mb-2 w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
+                    className="w-full px-3 py-2 mb-2 ml-3 border rounded focus:outline-none focus:border-primary"
                     value={subProductImages[2]}
                     onChange={(event) => handleProductSubImages(event, 2)}
                 />
