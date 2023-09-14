@@ -50,7 +50,7 @@ const addFeedback = async (req, res) => {
         const { id, starRating, comment } = req.body;
 
         const userRating = await UserRating.create({
-            userId: userId,
+            userId: id,
             starRating: starRating,
             comment: comment,
             itemId: itemId
