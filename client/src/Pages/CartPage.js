@@ -62,7 +62,7 @@ export default function CartPage() {
   if (loading) {
     return <Loading />;
   }
-
+  console.log("cart page", apiData);
   // Quantity Change Handler
   async function quantityHandler(op, iID, q) {
     if (op === "m" && q == 1) {
