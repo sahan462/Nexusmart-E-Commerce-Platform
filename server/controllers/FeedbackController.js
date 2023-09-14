@@ -47,7 +47,7 @@ const addFeedback = async (req, res) => {
     try {
 
         const { itemId } = req.params;
-        const { userId, starRating, comment } = req.body;
+        const { id, starRating, comment } = req.body;
 
         const userRating = await UserRating.create({
             userId: userId,
