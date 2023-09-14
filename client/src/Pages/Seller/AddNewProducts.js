@@ -9,6 +9,39 @@ const predefinedOptions = [
     "Option 3"
 ];
 
+const maincategory = [
+    "Electronic",
+    "Life Stle",
+    "Home Equipment",
+    "Foods and Beverages",
+    "Sports and Entertainment"
+];
+
+const subcategories = [
+    "Phones & Accessories",
+    "Computers & Laptops",
+    "TVs & Speakers",
+    "Cameras",
+    "Clothing & Apparel",
+    "Shoes & Accessories",
+    "Beauty & Personal Care",
+    "Jewelry & Watches",
+    "Furniture",
+    "Kitchen & Dining",
+    "Bedding & Bath",
+    "Home Improvement",
+    "Groceries",
+    "Snacks & Sweets",
+    "Beverages",
+    "Cooking Ingredients",
+    "Sports Equipment",
+    "Fitness & Exercise",
+    "Outdoor Recreation",
+    "Video Games",
+    "Movies & TV Shows",
+    "Books & Magazines",
+]
+
 const warrantyDuratin = [
     "Days",
     "Months",
@@ -30,6 +63,7 @@ function AddProductPage() {
     const [productDescription, setProductDescription] = useState('');
     const [productPrice, setProductPrice] = useState('');
     const [productImage, setProductImage] = useState('');
+    const [subProductImages, setSubProductImages] = useState(['', '', '']);
     const [productOverview, setProductOverview] = useState('');
     const [ProductMainCategory, setProductMainCategory] = useState('');
     const [ProductSubCategory, setProductSubCategory] = useState('');
@@ -117,6 +151,12 @@ function AddProductPage() {
         setProductImage(event.target.value);
     };
 
+    const handleProductSubImages = (event, index) => {
+        const updatedSubProductImages = [...subProductImages]; // Create a copy of the current state array
+        updatedSubProductImages[index] = event.target.value; // Update the value at the specified index
+        setSubProductImages(updatedSubProductImages); // Set the state with the updated array
+    }
+
     const handleProductOverview = (event) => {
         setProductOverview(event.target.value);
     }
@@ -165,6 +205,10 @@ function AddProductPage() {
         setDeliveryDuration(event.target.value)
     }
 
+    const handleDeliverylocation = (event) => {
+        setlocation(event.target.value)
+    }
+
     const handleDeliveryCost = (event) => {
         setDeliveryCost(event.target.value)
     }
@@ -185,6 +229,31 @@ function AddProductPage() {
                 }
             });
             console.log(response);
+            if(response.addItem = "true"){
+                alert("Product Added Successfully")
+            }else{
+                alert("Product Added Failed")
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleUpdateProduct = async () => {
+        try {
+            const userData = JSON.parse(localStorage.getItem("userDataStorage"));
+            console.log(userData.token)
+            const response = await axios.put(`/items/${ItemId}`, product, {
+                headers: {
+                    'x-auth-token': userData.token
+                }
+            });
+            console.log(response);
+            if(response.updateProduct = "true"){
+                alert("Product Successfully Updated")
+            }else{
+                alert("Product Update Failed")
+            }
         } catch (error) {
             console.error(error);
         }
@@ -192,7 +261,9 @@ function AddProductPage() {
 
     return (
         <div className="p-4 bg-white rounded-lg shadow-md">
-            <h2 className="mb-4 text-2xl font-bold text-center text-primary">Add Product</h2>
+            <h2 className="mb-4 text-2xl font-bold text-center text-primary">
+                {ItemId === null ? "Add Product" : "Update Product"}
+            </h2>
             <div className="mb-4">
                 <label className="block font-semibold text-gray-700">Product Name</label>
                 <input
@@ -227,7 +298,7 @@ function AddProductPage() {
                         onChange={handleProductMainCategory}
                     >
                         <option value="">Select an option</option>
-                        {predefinedOptions.map((option, index) => (
+                        {maincategory.map((option, index) => (
                             <option key={index} value={option}>
                                 {option}
                             </option>
@@ -242,7 +313,7 @@ function AddProductPage() {
                         onChange={handleProductSubCategory}
                     >
                         <option value="">Select an option</option>
-                        {predefinedOptions.map((option, index) => (
+                        {subcategories.map((option, index) => (
                             <option key={index} value={option}>
                                 {option}
                             </option>
@@ -280,11 +351,27 @@ function AddProductPage() {
                 </div>
             </div>
             <div className="mb-4">
-                <label className="block font-semibold text-gray-700">Product Image. Enter url</label>
+                <label className="block font-semibold text-gray-700">Product Main Image. Enter url</label>
                 <textarea
                     className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
                     value={productImage}
                     onChange={handleProductImageUpload}
+                />
+                <label className="block font-semibold text-gray-700 mb-3">Product Sub Image. Enter url</label>
+                <textarea
+                    className="ml-3 mb-2 w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
+                    value={subProductImages[0]}
+                    onChange={(event) => handleProductSubImages(event, 0)}
+                />
+                <textarea
+                    className="ml-3 mb-2 w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
+                    value={subProductImages[1]}
+                    onChange={(event) => handleProductSubImages(event, 1)}
+                />
+                <textarea
+                    className="ml-3 mb-2 w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
+                    value={subProductImages[2]}
+                    onChange={(event) => handleProductSubImages(event, 2)}
                 />
             </div>
             <div className='flex gap-10'>
@@ -310,8 +397,8 @@ function AddProductPage() {
                     <label className="block font-semibold text-gray-700">Location </label>
                     <select
                         className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
-                        value={ProductMainCategory}
-                        onChange={handleProductMainCategory}
+                        value={wherelocation}
+                        onChange={handleDeliverylocation}
                     >
                         <option value="">Select an option</option>
                         {locations.map((option, index) => (
@@ -399,9 +486,9 @@ function AddProductPage() {
             </div>
             <button
                 className="w-full px-4 py-2 font-semibold text-white rounded bg-primary hover:bg-primary"
-                onClick={handleAddProduct}
+                onClick={ItemId === null ? handleAddProduct : handleUpdateProduct}
             >
-                Add Product
+                {ItemId === null ? "Add Product" : "Update Product"}
             </button>
             {/* {showErrorDialog && (
                 <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">

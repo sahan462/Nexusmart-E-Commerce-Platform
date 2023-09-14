@@ -15,7 +15,7 @@ const ReviewList = () => {
 
     const fetchProducts = async () => {
         try {
-            const response = await axios.get("/items/?sellerId=64e8a0375e24fe9e2b525ff3");
+            const response = await axios.get("/items/?sellerId");
             setProducts(response.data);
             setLoading(true);
         } catch (error) {
@@ -25,8 +25,10 @@ const ReviewList = () => {
 
     const fetchFeedbackInfo = async (productId) => {
         try {
-            const response = await axios.get("/feedback/64ea17d95b7b4f5f0815acc1"); // Replace with your API endpoint for feedback info
-            setReviewsData({ ...reviewsData, [productId]: response.data });
+            const response = await axios.get(`/feedback/${productId}`);
+            if(response.available == 'true'){
+                setReviewsData({ ...reviewsData, [productId]: response.data });
+            }
         } catch (error) {
             console.error('Error fetching feedback info:', error);
         }
