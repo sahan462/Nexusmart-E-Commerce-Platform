@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Loading from "./../Components/Loading";
+import { useContext } from "react";
+import { UserContext } from "../AuthContext";
 
 const TechnicalIssuePage = () => {
   const [subject, setSubject] = useState("");
   const [description, setDescription] = useState("");
   const [issues, setIssues] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { userData } = useContext(UserContext);
 
   useEffect(() => {
     // Fetch all issues from the server
     const fetchIssues = async () => {
       try {
-        setLoading(true);
-        const response = await axios.get("/issue"); // Update with your actual API endpoint
+        const response = await axios.get("/issue");
         setIssues(response.data);
         setLoading(false);
       } catch (error) {
@@ -24,22 +27,38 @@ const TechnicalIssuePage = () => {
     };
 
     fetchIssues();
-  }, []);
+  }, [userData]);
+
+  if (loading) {
+    return <Loading />;
+  }
+  console.log(issues);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       setLoading(true);
+      const token = userData.token;
+      const headers = {
+        "x-auth-token": token,
+      };
       // Send the issue data to the server to be saved in the database
-      const response = await axios.post("/issue", {
-        // Update with your actual API endpoint
-        subject,
-        description,
-      });
+      try {
+        await axios.post(
+          "/issue",
+          {
+            subject,
+            description,
+          },
+          { headers }
+        );
+      } catch (err) {
+        console.error(err);
+      }
 
-      // Add the new issue to the issues array immediately
-      setIssues([response.data, ...issues]);
+      // // Add the new issue to the issues array immediately
+      // setIssues([response.data, ...issues]);
 
       setSubject("");
       setDescription("");
@@ -49,10 +68,6 @@ const TechnicalIssuePage = () => {
       setLoading(false);
     }
   };
-
-  const filteredIssues = issues.filter((issue) =>
-    issue.subject.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   return (
     <div className="container mx-auto mt-8">
@@ -85,10 +100,10 @@ const TechnicalIssuePage = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredIssues.map((issue) => (
+          {issues.map((issue) => (
             <tr key={issue._id}>
               <td className="border border-gray-400 px-4 py-2">
-                {issue.userId}
+                {issue.customer}
               </td>
               <td className="border border-gray-400 px-4 py-2">
                 {issue.subject}
@@ -97,7 +112,7 @@ const TechnicalIssuePage = () => {
                 {issue.description}
               </td>
               <td className="border border-gray-400 px-4 py-2">
-                {issue.reply}
+                {issue.replie.text ? issue.replie.text : ""}
               </td>
             </tr>
           ))}
