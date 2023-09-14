@@ -175,10 +175,8 @@ const changeItemProp = async (req, res) => {
 
 const deleteItem = async (req, res) => {
 
-    const {itemId} = req.query;
-    //const {itemId} = req.body;
-    //const itemId = req.params.itemId;
-    //verify the seller of the item and req seller is same
+    const {itemId} = req.params;
+
     try {
         const item = await Item.findByIdAndRemove(itemId);
         if (!item) return res.status(404).send({error: 'The Item with the given ID was not found.'});
