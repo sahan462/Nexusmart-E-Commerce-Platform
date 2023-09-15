@@ -69,8 +69,9 @@ function AddProductPage() {
         { url: '', description: '' },
       ]);
     const [productOverview, setProductOverview] = useState('');
-    const [ProductMainCategory, setProductMainCategory] = useState('');
-    const [ProductSubCategory, setProductSubCategory] = useState('');
+    // const [ProductMainCategory, setProductMainCategory] = useState('');
+    // const [ProductSubCategory, setProductSubCategory] = useState('');
+    const [productCategort, setProductCategort] = useState(["",""]);
     const [productQuantity, setProductQuantity] = useState('');
     const [isReturnAble, setReturnAble] = useState(false);
     const [returnDuration, setReturnDuration] = useState('');
@@ -90,7 +91,7 @@ function AddProductPage() {
         title: productName,
         overview: productOverview,
         description: productDescription,
-        categories: { mainCategory: ProductMainCategory, subCategory: ProductSubCategory },
+        categories: productCategort,
         imgURL: productImage,
         images: subProductImages,
         quantity: productQuantity,
@@ -115,7 +116,7 @@ function AddProductPage() {
             setProductPrice(response.data.price)
             setProductImage(response.data.imgURL)
             setProductOverview(response.data.overview)
-            setProductMainCategory(response.data.categories)
+            setProductCategort(response.data.categories)
             setProductQuantity(response.data.quantity)
             setFreeDelivery(response.data.delivery.freeDelivery)
             setCashOnDelivery(response.data.delivery.cashOnDelivery)
@@ -164,17 +165,22 @@ function AddProductPage() {
         setSubProductImages(updatedSubProductImages); // Set the state with the updated array
       };
 
+    const handleProductCategory = (event, index) => {
+        const updatedProductchatogory = [...productCategort]; // Create a copy of the current state array
+        updatedProductchatogory[index] = event.target.value
+        setProductCategort(updatedProductchatogory); // Set the state with the updated array
+    }
     const handleProductOverview = (event) => {
         setProductOverview(event.target.value);
     }
 
-    const handleProductMainCategory = (event) => {
-        setProductMainCategory(event.target.value);
-    }
+    // const handleProductMainCategory = (event) => {
+    //     setProductMainCategory(event.target.value);
+    // }
 
-    const handleProductSubCategory = (event) => {
-        setProductSubCategory(event.target.value);
-    }
+    // const handleProductSubCategory = (event) => {
+    //     setProductSubCategory(event.target.value);
+    // }
 
     const handleProductQuantity = (event) => {
         setProductQuantity(event.target.value);
@@ -302,8 +308,8 @@ function AddProductPage() {
                     <label className="block font-semibold text-gray-700">Product MainCategory</label>
                     <select
                         className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
-                        value={ProductMainCategory}
-                        onChange={handleProductMainCategory}
+                        value={productCategort[0]}
+                        onChange={(event) => handleProductCategory(event, 0)}
                     >
                         <option value="">Select an option</option>
                         {maincategory.map((option, index) => (
@@ -317,8 +323,8 @@ function AddProductPage() {
                     <label className="block font-semibold text-gray-700">Product SubCategory</label>
                     <select
                         className="w-full px-3 py-2 border rounded focus:outline-none focus:border-primary"
-                        value={ProductSubCategory}
-                        onChange={handleProductSubCategory}
+                        value={productCategort[1]}
+                        onChange={(event) => handleProductCategory(event, 1)}
                     >
                         <option value="">Select an option</option>
                         {subcategories.map((option, index) => (
