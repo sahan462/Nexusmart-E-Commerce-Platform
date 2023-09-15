@@ -5,7 +5,7 @@ const Item = require('../models/ItemModel');
 const viewOrder = async (req, res) => {
     const {id} = req.body;
     try{
-        const orders = await Order.find({sellerId: id});
+        const orders = await Order.find({sellerId: id}).populate('buyerId', 'name').populate('item', 'price');
         res.status(200).send(orders);
     } catch(error){
         res.status(200).send({error: error.message});
@@ -53,8 +53,54 @@ const purchase = async (req, res) => {
     }
 }
 
+const allOrder = async (req, res) => {
+    const {sellerid, buyerid, itemid} = req.query;
+    let query = {};
+    if (sellerid) {
+        query.sellerId = sellerid;
+    }
+    if (buyerid) {
+        query.buyerId = buyerid;
+    }
+    if (itemid) {
+        query.item = itemid;
+    }
+    try{
+        const orders = await Order.find(query).populate('buyerId', 'name').populate('item', 'price');
+        res.status(200).send(orders);
+    } catch(error){
+        res.status(200).send({error: error.message});
+    }
+}
+
+const deleteOrder = async (req, res) => {
+    const {orderid} = req.params;
+    try{
+        const orders = await Order.findByIdAndRemove(orderid);
+        res.status(200).send(orders);
+    } catch(error){
+        res.status(200).send({error: error.message});
+    }
+}
+
+const updateStatus = async (req, res) => {
+    const {orderid} = req.params;
+    const {status} = req.query;
+
+    try {
+        const order = await Order.findById(orderid);
+        order.shipstatus = status;
+        order.save();
+    } catch (error) {
+        res.status(200).send({error: error.message});
+    }
+}
+
 module.exports = {
     viewOrder,
     myOrder,
-    purchase
+    purchase,
+    allOrder,
+    deleteOrder,
+    updateStatus
 }

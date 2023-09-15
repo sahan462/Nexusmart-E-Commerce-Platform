@@ -21,7 +21,7 @@ import OrderDetailsPage from "./Pages/Seller/OrderDetailsPage";
 import Dashboard from "./Pages/Admin/Dashboard";
 import TechnicalIssuePage from "./Pages/TechnicalIssuePage";
 import CustomerSupportPage from "./Pages/Admin/CustomerSupportPage";
-
+import Checkout from "./Pages/Checkout";
 axios.defaults.baseURL = "http://localhost:5000";
 axios.defaults.withCredentials = true;
 
@@ -42,6 +42,7 @@ function App() {
           <Route path="/search" element={<ShoppingIndexPage />} />
           <Route path="/item" element={<ItemPage />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/checkout" element={<Checkout />} />
           <Route
             path="/productpage"
             element={
