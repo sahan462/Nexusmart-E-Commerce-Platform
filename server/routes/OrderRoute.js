@@ -9,6 +9,6 @@ router.get('/my', verifySignin, myOrder);
 router.get('/received', [verifySignin, verifySeller], viewOrder);
 router.get('/all', [verifySignin, verifyAdmin], allOrder);
 router.get('/delete/:orderid', [verifySignin, verifyAdmin], deleteOrder);
-router.get('/update/:orderid', [verifySignin, verifySeller], deleteOrder);
+router.get('/update/:orderid', [verifySignin, verifySeller], updateStatus);
 
 module.exports = router;
