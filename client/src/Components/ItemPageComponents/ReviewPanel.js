@@ -74,6 +74,7 @@ export default function ReviewPanel(params) {
           </button>
         </div>
       </div>
+      <hr />
       <div className=" pt-4 my-2 bg-white  border border-none rounded-lg ">
         <div className=" text-black font-medium pb-2">Customer Reviews</div>
         <ReviewDashboard reviewData={params.reviewData} />

@@ -1,5 +1,4 @@
 import Categories from "../Components/Categories";
-import HotDealsList from "../Components/HotDealsList";
 import ShoppingCard from "../Components/ShoppingCard";
 import ShoppingList from "../Components/ShoppingList";
 import Loading from "../Components/Loading";

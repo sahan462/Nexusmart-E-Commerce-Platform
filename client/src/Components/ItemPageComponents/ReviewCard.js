@@ -27,10 +27,10 @@ export default function Reviewcard(params) {
   }
 
   return (
-    <div className="my-4 bg-white shadow-2xl py-2 px-2 border border-none rounded-lg">
-      <div className="py-2 text-sm">
+    <div className="my-4 bg-white shadow-2xl py-4 px-4 border border-none rounded-lg">
+      <div className=" text-sm">
         <div className="bg-white flex justify-between items-center">
-          <div>{getStars(Math.floor(params.starRating))}</div>
+          <div className="py-1">{getStars(Math.floor(params.starRating))}</div>
           <div className="text-gray-500">
             {params.date.split("-").join("/")}
           </div>
