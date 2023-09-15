@@ -29,6 +29,7 @@ const PlacedOrdersPage = () => {
 
     const fetchProducts = async () => {
         const userData = JSON.parse(localStorage.getItem("userDataStorage"));
+        console.log(userData);
         try {
             const response = await axios.get("/order/received", {
                 headers: {

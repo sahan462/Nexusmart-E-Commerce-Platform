@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 
 export default function DeliveryPanel(params) {
+  // console.log(params.deliveryData);
   return (
     <div>
       <div className="bg-white mb-6 p-2 border border-none rounded-lg shadow-2xl">
@@ -25,10 +26,8 @@ export default function DeliveryPanel(params) {
             <div className="bg-gray-300 p-2 border border-none rounded-lg text-gray-700">
               <div className="font-medium">Free Delivery</div>
               <div>
-                <span>Estimated Delivery Duration: </span>
-                <span>
-                  Within {params.deliveryData.estimateDeliveryDuration} days
-                </span>
+                <span>Estimated Delivery Date: </span>
+                <span>{params.deliveryData.estimateDeliveryDate} </span>
               </div>
             </div>
           ) : (
@@ -38,10 +37,8 @@ export default function DeliveryPanel(params) {
                 <div className="font-medium">Rs.250</div>
               </div>
               <div>
-                <span>Estimated Delivery Duration: </span>
-                <span>
-                  Within {params.deliveryData.estimateDeliveryDuration} days
-                </span>
+                <span>Estimated Delivery Date: </span>
+                <span>{params.deliveryData.estimateDeliveryDate}</span>
               </div>
             </div>
           )}

@@ -28,6 +28,7 @@ export default function ItemPage() {
   const [reviewData, setReviewData] = useState([]);
   const [invalidToken, setInvalidToken] = useState(false);
   const [newSubmit, setNewSubmit] = useState();
+  const [redirect, setRedirect] = useState(false);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const searchInput = searchParams.get("id");
@@ -75,6 +76,7 @@ export default function ItemPage() {
 
   // console.log(apiData);
   // console.log(reviewData);
+  // console.log(userData);
 
   // Add to cart Handler
   async function addTocartHandler() {
@@ -117,6 +119,40 @@ export default function ItemPage() {
     return <Navigate to={"/login"} />;
   }
 
+  // Buy now handler
+  async function buyNowHandler() {
+    console.log("cliked");
+    setLoading(true);
+    if (userData == null) {
+      setLoading(false);
+      setInvalidToken(true);
+    } else {
+      const token = userData.token;
+      const headers = {
+        "x-auth-token": token,
+      };
+      try {
+        const uri = "/cart";
+        await axios.post(
+          uri,
+          {
+            itemId: apiData._id,
+            quantity: selectedQuantity,
+          },
+          { headers }
+        );
+        setLoading(false);
+        setRedirect(true);
+      } catch (error) {
+        console.log("API call failed:", error);
+        setLoading(false);
+        setInvalidToken(true);
+      }
+    }
+  }
+  if (redirect) {
+    return <Navigate to={"/cart"}></Navigate>;
+  }
   // No of review stars handling
   const noOfStars = apiData.noOfStars;
   const starComponents = [];
@@ -179,6 +215,26 @@ export default function ItemPage() {
           headers,
         }
       );
+      // console.log("response data", response.data);
+      setNewSubmit(Date.now());
+    } catch (err) {
+      console.error("API Call Failed", err);
+      setNewSubmit(Date.now()); // this should be fixed
+    }
+  }
+  // review delete handler
+  async function reviewDeleteHandler(feedBackID) {
+    setLoading(true);
+    const uri = `/feedback/delete/?itemId=${apiData._id}&feedbackId=${feedBackID}`;
+    console.log(uri);
+    const token = userData.token;
+    const headers = {
+      "x-auth-token": token,
+    };
+    try {
+      const response = await axios.delete(uri, {
+        headers,
+      });
       console.log("response data", response.data);
       setNewSubmit(Date.now());
     } catch (err) {
@@ -209,6 +265,11 @@ export default function ItemPage() {
               categories={apiData.categories}
               starComponents={starComponents}
               brand={apiData.brand ? apiData.brand : "Unbranded"}
+              reviewCount={
+                reviewData.newestFeedbackStatistics
+                  ? reviewData.newestFeedbackStatistics.totalRatings
+                  : "0"
+              }
             />
           </div>
           {/* Item price, discount, colors, quantity here  */}
@@ -236,8 +297,14 @@ export default function ItemPage() {
           </div>
           {/* Buy add to cart Here  */}
           <div className="bg-white mb-6  row-span-1 p-2 border border-none rounded-lg shadow-2xl grid grid-cols-6 gap-3">
-            <button className="bg-primary hover:bg-primary_hover font-semibold text-white col-span-3 h-12 border border-none rounded-lg">
-              Buy Now
+            <button
+              onClick={buyNowHandler}
+              to="/cart"
+              className="bg-primary hover:bg-primary_hover font-semibold text-white col-span-3 h-12 border border-none rounded-lg"
+            >
+              <div className="flex justify-center items-center h-full">
+                Buy Now
+              </div>
             </button>
             <button
               className="bg-addToCart hover:bg-addToCartHover font-semibold text-white col-span-3 h-12 border border-none rounded-lg"
@@ -266,10 +333,12 @@ export default function ItemPage() {
         <ItemDescriptionPanel descriptionData={apiData.description} />
       </div>
       {/* Item reviews here  */}
-      <div className="bg-white shadow-2xl py-6 px-6 border border-none rounded-lg mt-4">
+      <div className="bg-white shadow-2xl py-6 px-4 border border-none rounded-lg mt-4">
         <ReviewPanel
           submitReviewHandler={submitReviewHandler}
           reviewData={reviewData}
+          userData={userData}
+          reviewDeleteHandler={reviewDeleteHandler}
         />
       </div>
     </div>

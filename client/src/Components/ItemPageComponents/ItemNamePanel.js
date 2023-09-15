@@ -10,7 +10,7 @@ export default function ItemNamePanel(params) {
       <div className="flex items-center row-span-1">
         <span className="flex items-center ">{params.starComponents}</span>
         <span className="flex items-center ml-2 text-sm text-gray-500">
-          {"( 00 Reviews )"}
+          {params.reviewCount} Review(s)
         </span>
       </div>
       <div className="text-sm flex items-center row-span-1 text-gray-500">
