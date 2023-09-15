@@ -265,6 +265,11 @@ export default function ItemPage() {
               categories={apiData.categories}
               starComponents={starComponents}
               brand={apiData.brand ? apiData.brand : "Unbranded"}
+              reviewCount={
+                reviewData.newestFeedbackStatistics
+                  ? reviewData.newestFeedbackStatistics.totalRatings
+                  : "0"
+              }
             />
           </div>
           {/* Item price, discount, colors, quantity here  */}
