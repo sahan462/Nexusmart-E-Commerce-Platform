@@ -75,7 +75,8 @@ export default function ItemPage() {
   }
 
   // console.log(apiData);
-  console.log(reviewData);
+  // console.log(reviewData);
+  // console.log(userData);
 
   // Add to cart Handler
   async function addTocartHandler() {
@@ -214,6 +215,26 @@ export default function ItemPage() {
           headers,
         }
       );
+      // console.log("response data", response.data);
+      setNewSubmit(Date.now());
+    } catch (err) {
+      console.error("API Call Failed", err);
+      setNewSubmit(Date.now()); // this should be fixed
+    }
+  }
+  // review delete handler
+  async function reviewDeleteHandler(feedBackID) {
+    setLoading(true);
+    const uri = `/feedback/delete/?itemId=${apiData._id}&feedbackId=${feedBackID}`;
+    console.log(uri);
+    const token = userData.token;
+    const headers = {
+      "x-auth-token": token,
+    };
+    try {
+      const response = await axios.delete(uri, {
+        headers,
+      });
       console.log("response data", response.data);
       setNewSubmit(Date.now());
     } catch (err) {
@@ -311,6 +332,8 @@ export default function ItemPage() {
         <ReviewPanel
           submitReviewHandler={submitReviewHandler}
           reviewData={reviewData}
+          userData={userData}
+          reviewDeleteHandler={reviewDeleteHandler}
         />
       </div>
     </div>

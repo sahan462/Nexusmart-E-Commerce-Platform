@@ -34,6 +34,7 @@ export default function ReviewPanel(params) {
 
     setSelectedStars(updatedStars);
   }
+
   return (
     <div>
       <span className="font-medium mb-2 text-lg">Reviews</span>
@@ -85,6 +86,9 @@ export default function ReviewPanel(params) {
               date={rating.date.split("T")[0]}
               userName={rating.userId.name}
               comment={rating.comment}
+              isDelete={true}
+              reviewDeleteHandler={params.reviewDeleteHandler}
+              reviewID={rating._id}
             />
           ))
         ) : (

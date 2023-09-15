@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faStar, faUser, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 export default function Reviewcard(params) {
   // No of review stars handling
@@ -33,10 +33,20 @@ export default function Reviewcard(params) {
           <div className="py-1">{getStars(Math.floor(params.starRating))}</div>
           <div className="text-gray-500">
             {params.date.split("-").join("/")}
+            {params.isDelete && (
+              <button
+                onClick={() => params.reviewDeleteHandler(params.reviewID)}
+              >
+                <FontAwesomeIcon
+                  className="ml-2 hover:text-red-500"
+                  icon={faTrash}
+                />
+              </button>
+            )}
           </div>
         </div>
         <div className="bg-white py-1 text-gray-500">
-          <FontAwesomeIcon icon={faUser} className="mr-2 h-4 w-4" />
+          <FontAwesomeIcon icon={faUser} className="mr-2 h-4 w-4 " />
           {params.userName}
         </div>
       </div>
