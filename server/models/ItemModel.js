@@ -17,14 +17,7 @@ const ItemSchema = new mongoose.Schema({
     description: {
         type: String
     },
-    categories: {
-        mainCategory: {
-            type: String,
-        },
-        subCategory: {
-            type: String,
-        }
-    },
+    categories: [],
     brand: {
         type: String
     },
