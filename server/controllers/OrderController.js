@@ -5,7 +5,7 @@ const Item = require('../models/ItemModel');
 const viewOrder = async (req, res) => {
     const {id} = req.body;
     try{
-        const orders = await Order.find({sellerId: id});
+        const orders = await Order.find({sellerId: id}).populate('buyerId', 'name').populate('item', 'price');
         res.status(200).send(orders);
     } catch(error){
         res.status(200).send({error: error.message});
