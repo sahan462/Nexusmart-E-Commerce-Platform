@@ -74,8 +74,8 @@ export default function ItemPage() {
     return <Loading />;
   }
 
-  console.log(apiData);
-  // console.log(reviewData);
+  // console.log(apiData);
+  console.log(reviewData);
 
   // Add to cart Handler
   async function addTocartHandler() {
