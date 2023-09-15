@@ -63,7 +63,11 @@ function AddProductPage() {
     const [productDescription, setProductDescription] = useState('');
     const [productPrice, setProductPrice] = useState('');
     const [productImage, setProductImage] = useState('');
-    const [subProductImages, setSubProductImages] = useState(['', '', '']);
+    const [subProductImages, setSubProductImages] = useState([
+        { url: '', description: '' },
+        { url: '', description: '' },
+        { url: '', description: '' },
+      ]);
     const [productOverview, setProductOverview] = useState('');
     const [ProductMainCategory, setProductMainCategory] = useState('');
     const [ProductSubCategory, setProductSubCategory] = useState('');
@@ -88,7 +92,7 @@ function AddProductPage() {
         description: productDescription,
         categories: { mainCategory: ProductMainCategory, subCategory: ProductSubCategory },
         imgURL: productImage,
-        //TODO add images as a string
+        images: subProductImages,
         quantity: productQuantity,
         price: productPrice,
         discount: { percentage: discount },
@@ -153,9 +157,12 @@ function AddProductPage() {
 
     const handleProductSubImages = (event, index) => {
         const updatedSubProductImages = [...subProductImages]; // Create a copy of the current state array
-        updatedSubProductImages[index] = event.target.value; // Update the value at the specified index
+        updatedSubProductImages[index] = {
+          url: event.target.value,
+          description: 'this is a text product', // You can set the description as needed
+        }; // Update the value at the specified index with an object
         setSubProductImages(updatedSubProductImages); // Set the state with the updated array
-    }
+      };
 
     const handleProductOverview = (event) => {
         setProductOverview(event.target.value);
@@ -228,6 +235,7 @@ function AddProductPage() {
                     'x-auth-token': userData.token
                 }
             });
+            console.log(product);
             console.log(response);
             if(response.addItem = "true"){
                 alert("Product Added Successfully")
@@ -360,17 +368,17 @@ function AddProductPage() {
                 <label className="block mb-3 font-semibold text-gray-700">Product Sub Image. Enter url</label>
                 <textarea
                     className="w-full px-3 py-2 mb-2 ml-3 border rounded focus:outline-none focus:border-primary"
-                    value={subProductImages[0]}
+                    value={subProductImages[0].url}
                     onChange={(event) => handleProductSubImages(event, 0)}
                 />
                 <textarea
                     className="w-full px-3 py-2 mb-2 ml-3 border rounded focus:outline-none focus:border-primary"
-                    value={subProductImages[1]}
+                    value={subProductImages[1].url}
                     onChange={(event) => handleProductSubImages(event, 1)}
                 />
                 <textarea
                     className="w-full px-3 py-2 mb-2 ml-3 border rounded focus:outline-none focus:border-primary"
-                    value={subProductImages[2]}
+                    value={subProductImages[2].url}
                     onChange={(event) => handleProductSubImages(event, 2)}
                 />
             </div>
