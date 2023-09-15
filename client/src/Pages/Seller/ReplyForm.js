@@ -1,10 +1,19 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
-const ReplyForm = ({ reviewId }) => {
+const ReplyForm = ({ reviewId, productId }) => {
     const [reply, setReply] = useState('');
 
-    const handleReplySubmit = () => {
-        // BackEnd sent the reply
+    const handleReplySubmit = async () => {
+        try {
+            const response = await axios.put(`/feedback/update/?itemId=${productId}&feedbackId=${reviewId}`, {
+                "reply": reply
+            });
+            console.log(response);
+            setReply('');
+        } catch (error) {
+            console.error('Error sending reply:', error);
+        }
     };
 
     return (

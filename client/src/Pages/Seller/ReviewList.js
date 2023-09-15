@@ -26,9 +26,12 @@ const ReviewList = () => {
     const fetchFeedbackInfo = async (productId) => {
         try {
             const response = await axios.get(`/feedback/${productId}`);
-            if(response.available == 'true'){
+            console.log(response)
+            if (response.data.available === true) {
+                console.log(response.data);
                 setReviewsData({ ...reviewsData, [productId]: response.data });
             }
+            setLoading(true);
         } catch (error) {
             console.error('Error fetching feedback info:', error);
         }
@@ -36,8 +39,9 @@ const ReviewList = () => {
 
     const toggleProductExpansion = async (productId) => {
         if (!expandedProducts[productId]) {
-            // Fetch feedback info when expanding
-            await fetchFeedbackInfo(productId);
+            console.log("-------------------------------->>>>>>>>>>>>>>>>>>>>>>>>>>>")
+            fetchFeedbackInfo(productId);
+            setLoading(false);
         }
 
         setExpandedProducts((prevExpanded) => ({
@@ -74,8 +78,14 @@ const ReviewList = () => {
                                                     <p>Star Rating: {rating.starRating}</p>
                                                     <p>Comment: {rating.comment}</p>
                                                     <p>Date: {new Date(rating.date).toLocaleString()}</p>
-                                                    {/* Add a place to send a reply */}
-                                                    {!rating.reply && <ReplyForm reviewId={rating._id} />}
+                                                    {!rating.reply ? (
+                                                        <ReplyForm reviewId={rating._id} productId={product._id} />
+                                                    ) : (
+                                                        <div className="mt-2 ml-6 bg-gray-100 rounded">
+                                                            <p>Reply: {rating.reply}</p>
+                                                        </div>
+                                                    )}
+
                                                 </div>
                                             ))}
                                         </>
