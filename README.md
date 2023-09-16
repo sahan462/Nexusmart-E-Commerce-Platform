@@ -65,6 +65,17 @@ Follow these steps to set up and run NexusMart on your local machine:
   cd ../client
   npm start
 
+## Contributing
+If you'd like to contribute to this project, please follow these steps:
+- Fork the repository on GitHub.
+- Clone your fork locally.
+- Create a new branch with a descriptive name.
+- Make your changes and commit them with clear messages.
+- Push your branch to your fork on GitHub.
+- Create a pull request on the original repository.
+  
+## License
+This project is licensed under the MIT License. See the LICENSE file for details.
 
 
 
