@@ -1,7 +1,7 @@
 # NexusMart - Your E-commerce Destination
 Y2-MERN-project - UCSC CS - 2019/2020 - devXcrew
 
-![NexusMart Logo](link_to_your_logo.png)
+![NexusMart Logo](logowhite.png)
 
 NexusMart is an advanced e-commerce platform developed as a group project by five dedicated members from the University of Colombo School of Computing during our second year, first semester. It is designed to provide a seamless shopping experience, offering a wide range of products and features.
 
