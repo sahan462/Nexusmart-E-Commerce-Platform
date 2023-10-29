@@ -1,5 +1,5 @@
 # NexusMart - Your E-commerce Destination
-Y2-MERN-project - UCSC CS - 2019/2020 - devXcrew
+Y2-MERN-project - UCSC CS - devXcrew
 
 ![NexusMart Logo](logowhite.png)
 
